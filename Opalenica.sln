@@ -12,12 +12,6 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution 
 		.editorconfig = .editorconfig
 	EndProjectSection
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PulpitSterowania", "PulpitSterowania\PulpitSterowania.csproj", "{75F95EB1-3002-4226-8EA8-3DCE55A70856}"
-EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Logger", "Logger\Logger.csproj", "{8F4F73DD-82DE-4AFD-B169-F2C9C660B411}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ModuleBase", "ModuleBase\ModuleBase.csproj", "{17DE8062-69AD-4ED5-98B2-EF59C4ACD2A1}"
-EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
