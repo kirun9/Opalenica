@@ -10,7 +10,6 @@ public partial class OpalenicaForm : Form
     private int prevCommandPos = 0;*/
     private Timer updateTimer;
 
-    private readonly Size designSize = new Size(1366, 768);
     public static Screen actualScreen;
 
     public OpalenicaForm()

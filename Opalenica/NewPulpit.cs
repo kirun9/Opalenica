@@ -189,20 +189,16 @@ internal class NewPulpit : Control
         base.OnPaint(e);
         calculateScale();
 
-        using Bitmap bitmap = new Bitmap(designSize.Width, designSize.Height);
-        using Graphics g = Graphics.FromImage(bitmap);
-        g.InterpolationMode = InterpolationMode.HighQualityBicubic;
-        g.SmoothingMode = SmoothingMode.None;
-        g.PixelOffsetMode = PixelOffsetMode.Half;
+        e.Graphics.InterpolationMode = InterpolationMode.HighQualityBicubic;
+        e.Graphics.SmoothingMode = SmoothingMode.None;
+        e.Graphics.PixelOffsetMode = PixelOffsetMode.Half;
 
         using (SolidBrush b = new SolidBrush(Colors.Black))
         {
-            g.FillRectangle(b, 0, 0, bitmap.Width, bitmap.Height);
+            e.Graphics.FillRectangle(b, 0, 0, Width, Height);
         }
 
-        DrawPulpit(g);
-
-        e.Graphics.DrawImage(bitmap, 0, 0, Width, Height);
+        DrawPulpit(e.Graphics);
     }
 
     protected void DrawPulpit(Graphics g)
@@ -212,6 +208,7 @@ internal class NewPulpit : Control
         foreach (var tile in grid.GetTiles())
         {
             Point p = grid.CalculateGraphicTilePosition(tile.Position);
+            g.ScaleTransform(scale.horizontal, scale.vertical);
             g.TranslateTransform(p.X, p.Y);
             g.Clip = new Region(new Rectangle(p.X == 0 ? -1 : 0, p.Y == 0 ? -1 : 0, tile.Size.Width, tile.Size.Height));
             tile.PaintTile(g);
