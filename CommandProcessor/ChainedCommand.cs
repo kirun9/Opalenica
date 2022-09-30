@@ -22,7 +22,7 @@ public class ChainedCommand : Command
     {
     }
 
-    private string GetDebuggerDisplay()
+    private new string GetDebuggerDisplay()
     {
         return NextCommand is not null ? "Chained: " + Name + " -> " + NextCommand.GetDebuggerDisplay() : "Chained: " + Name;
     }

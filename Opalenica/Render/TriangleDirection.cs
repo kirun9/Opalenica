@@ -1,4 +1,4 @@
-﻿namespace Opalenica;
+﻿namespace Opalenica.Render;
 
 public enum TriangleDirection
 {

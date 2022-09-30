@@ -2,6 +2,7 @@
 
 using System.Text;
 
+[Obsolete("NOT FULLY IMPLEMENTED YET", true)]
 public class CheckSumBinaryReader : BinaryReader
 {
     public CheckSumBinaryReader(Stream input) : base(input)

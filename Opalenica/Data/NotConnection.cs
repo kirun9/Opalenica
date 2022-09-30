@@ -26,8 +26,8 @@ public class NotConnection : Connection
     public static new NotConnection GetConnection(string input, string output)
     {
         Data? i, o;
-        if ((i = Data.DataList.FirstOrDefault(e => e.Name == input, null)) is null) throw new ArgumentOutOfRangeException(nameof(input), input, "Data with provided name was not found");
-        if ((o = Data.DataList.FirstOrDefault(e => e.Name == output, null)) is null) throw new ArgumentOutOfRangeException(nameof(output), output, "Data with provided name was not found");
+        if ((i = Data.DataList.FirstOrDefault(e => e?.Name == input, null)) is null) throw new ArgumentOutOfRangeException(nameof(input), input, "Data with provided name was not found");
+        if ((o = Data.DataList.FirstOrDefault(e => e?.Name == output, null)) is null) throw new ArgumentOutOfRangeException(nameof(output), output, "Data with provided name was not found");
         return GetConnection(i, o);
     }
 

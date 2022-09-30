@@ -1,4 +1,5 @@
-﻿namespace Opalenica;
+﻿/*
+ * namespace Opalenica;
 
 class PulpitElement
 {
@@ -20,3 +21,4 @@ class PulpitElement
     public static implicit operator PulpitElement(int value) => new PulpitElement(value);
     public static implicit operator int(PulpitElement value) => value.value;
 }
+*/

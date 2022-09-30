@@ -31,9 +31,9 @@ public class AndConnection : Connection
     public static AndConnection GetConnection(string input1, string input2, string output)
     {
         Data? i1, i2, o;
-        if ((i1 = Data.DataList.FirstOrDefault(e => e.Name == input1, null)) is null) throw new ArgumentOutOfRangeException(nameof(input1), input1, "Data with provided name was not found");
-        if ((i2 = Data.DataList.FirstOrDefault(e => e.Name == input2, null)) is null) throw new ArgumentOutOfRangeException(nameof(input2), input2, "Data with provided name was not found");
-        if ((o = Data.DataList.FirstOrDefault(e => e.Name == output, null)) is null) throw new ArgumentOutOfRangeException(nameof(output), output, "Data with provided name was not found");
+        if ((i1 = Data.DataList.FirstOrDefault(e => e?.Name == input1, null)) is null) throw new ArgumentOutOfRangeException(nameof(input1), input1, "Data with provided name was not found");
+        if ((i2 = Data.DataList.FirstOrDefault(e => e?.Name == input2, null)) is null) throw new ArgumentOutOfRangeException(nameof(input2), input2, "Data with provided name was not found");
+        if ((o = Data.DataList.FirstOrDefault(e => e?.Name == output, null)) is null) throw new ArgumentOutOfRangeException(nameof(output), output, "Data with provided name was not found");
         return GetConnection(i1, i2, o);
     }
 

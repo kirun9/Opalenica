@@ -1,6 +1,9 @@
 ﻿namespace Opalenica;
 
 using CommandProcessor;
+
+using Opalenica.Render;
+
 using System.Collections.Generic;
 using System.Linq;
 
@@ -49,7 +52,7 @@ public class Signal
         Komora5 = new Data() { Direction = DataDirection.InputOutput };
     }*/
 
-    public Track Track { get; set; }
+    public Track? Track { get; set; }
 
     public string Name { get; set; } = "SignalElement";
 
@@ -130,7 +133,7 @@ public class Signal
         return new SolidBrush(SignalPulsingSignal ? pulse ? SignalActualColor : SignalSecondPulsingColor : SignalActualColor);
     }
 
-    public static Signal GetSignal(string name, TriangleDirection SignalDirection, Track track = null, SignalType type = SignalType.Pociagowy)
+    public static Signal GetSignal(string name, TriangleDirection SignalDirection, Track? track = null, SignalType type = SignalType.Pociagowy)
     {
         var signal = RegisteredSignals.FirstOrDefault(e => e?.Name == name, null);
         if (signal is not null) return signal;
@@ -236,82 +239,4 @@ public class Signal
         }
         return false;
     }
-}
-
-public enum SignalAspect
-{
-    Sr1,
-    Sr2,
-    Sr3,
-    S1,
-    S2,
-    S3,
-    S4,
-    S5,
-    S6,
-    S7,
-    S8,
-    S9,
-    S10,
-    S10a,
-    S11,
-    S11a,
-    S12,
-    S12A,
-    S13,
-    S13a,
-    Sz,
-    Sp1,
-    Sp2,
-    Sp3,
-    Sp4,
-    Od1,
-    Od2,
-    Ot1,
-    Ot2,
-    Ot3,
-    Os1,
-    Os2,
-    Os3,
-    Os4,
-    Osp1,
-    Osp2,
-    M1,
-    M2,
-    Ms1,
-    Ms2,
-    Rt1,
-    Rt2,
-    Rt3,
-    Rt4,
-    Rt5,
-    S1a,
-}
-
-public enum SignalType
-{
-    Pociagowy,
-    PociagowyManewrowy,
-    Manewrowy,
-    Czerwony,
-    CzerwonyManewrowy,
-    PociagowyPrzebiegowy,
-    TarczaOstrzegawcza,
-    Powtarzajacy
-}
-
-public enum SignalData
-{
-    Podstawowy                = 0,
-    LokalneNastawianie        = 1,
-    RejonManewrowy            = 2,
-    ZamknietyIndywidualny     = 3,
-    UszkodzonaZarowkaCzerwona = 4,
-    OchronaBoczna             = 5,
-    PoczatowyKoncowyPrzebiegu = 6,
-    ZezwalajacyManewrowy      = 7,
-    ZezwalajacyPociagowy      = 8,
-    SygnalZastepczy           = 9,
-    BrakDanych                = 10,
-    ZezwalajacyOstrzegawczy   = 7
 }

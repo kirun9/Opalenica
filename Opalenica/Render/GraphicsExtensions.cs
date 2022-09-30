@@ -1,4 +1,4 @@
-﻿namespace Opalenica;
+﻿namespace Opalenica.Render;
 
 public static class GraphicExtensions
 {
@@ -72,7 +72,8 @@ public static class GraphicExtensions
                 p6 = new Point(rect.Right, rect.Top + rect.Height / 2);
                 break;
         }
-        Pen p = pen.Clone() as Pen;
+        Pen p = (Pen) pen.Clone();
+
         p.EndCap = System.Drawing.Drawing2D.LineCap.Round;
         p.StartCap = System.Drawing.Drawing2D.LineCap.Round;
 

@@ -1,4 +1,4 @@
-﻿namespace Opalenica.Tiles;
+﻿namespace Opalenica;
 
 public enum CrossMainTrackDirection
 {

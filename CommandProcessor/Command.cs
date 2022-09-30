@@ -10,16 +10,16 @@ public class Command
     public bool IsEmpty { get; private set; } = false;
 
     public string Name { get; private set; }
-    public Func<string[], bool> Function { get; private set; }
-    public Func<CommandContext, bool> Function2 { get; private set; }
+    public Func<string[], bool>? Function { get; private set; }
+    public Func<CommandContext, bool>? Function2 { get; private set; }
 
-    public Command(string name, Func<string[], bool> function)
+    public Command(string name, Func<string[], bool>? function)
     {
         Name = name;
         Function = function;
     }
 
-    public Command(string name, Func<CommandContext, bool> function)
+    public Command(string name, Func<CommandContext, bool>? function)
     {
         Name = name;
         Function2 = function;

@@ -88,7 +88,7 @@ public class Junction
 
     public static Junction GetJunction(string name)
     {
-        var j = RegisteredJunctions.FirstOrDefault(e => e.Name == name, null);
+        var j = RegisteredJunctions.FirstOrDefault(e => e?.Name == name, null);
         if (j is not null)
             return j;
         else throw new ArgumentOutOfRangeException(nameof(name), name, "Junction with provided name does not exist");
@@ -99,7 +99,7 @@ public class Junction
     public static Junction GetJunction(string name, JunctionDirection direction, Track a, Track c) => GetJunction(name, direction, a, a, c);
     public static Junction GetJunction(string name, JunctionDirection direction, Track a, Track b, Track c)
     {
-        var junction = RegisteredJunctions.FirstOrDefault(e => e.Name == name, null);
+        var junction = RegisteredJunctions.FirstOrDefault(e => e?.Name == name, null);
         if (junction is not null) return junction;
 
         junction = new Junction()

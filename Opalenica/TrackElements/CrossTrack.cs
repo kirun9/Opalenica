@@ -14,7 +14,7 @@ public class CrossTrack
 
     public static CrossTrack GetCross(string name, Track trackA, Track trackB, CrossMainTrackDirection direction = CrossMainTrackDirection.TopLeft_BottomRight)
     {
-        var cross = RegisteredCrosses.FirstOrDefault(e => e.Name == name, null);
+        var cross = RegisteredCrosses.FirstOrDefault(e => e?.Name == name, null);
         if (cross is not null) return cross;
         cross = new CrossTrack();
         cross.Name = name;

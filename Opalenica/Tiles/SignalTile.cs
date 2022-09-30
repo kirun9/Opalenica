@@ -1,5 +1,7 @@
 ﻿namespace Opalenica.Tiles;
 
+using Opalenica.Render;
+
 using System;
 using System.Drawing;
 
@@ -25,18 +27,21 @@ public class SignalTile : Tile
 
     protected override void Paint(Graphics g)
     {
-        using Pen pen = Signal.Track.GetPenWithColor(Parent.Pulse);
-
-        switch (Direction)
+        if (Signal.Track is not null)
         {
-            case TriangleDirection.Up:
-            case TriangleDirection.Down:
-                g.DrawLine(pen, Size.Width / 2, 0, Size.Width / 2, Size.Height);
-                break;
-            case TriangleDirection.Left:
-            case TriangleDirection.Right:
-                g.DrawLine(pen, 0, Size.Height / 2, Size.Width, Size.Height / 2);
-                break;
+            using Pen pen = Signal.Track.GetPenWithColor(Parent.Pulse);
+
+            switch (Direction)
+            {
+                case TriangleDirection.Up:
+                case TriangleDirection.Down:
+                    g.DrawLine(pen, Size.Width / 2, 0, Size.Width / 2, Size.Height);
+                    break;
+                case TriangleDirection.Left:
+                case TriangleDirection.Right:
+                    g.DrawLine(pen, 0, Size.Height / 2, Size.Width, Size.Height / 2);
+                    break;
+            }
         }
 
         using SolidBrush brush = Signal.GetBrush(Parent.Pulse);

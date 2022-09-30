@@ -118,8 +118,8 @@ public class CommandTile : Tile, IDisposable
     public void Dispose()
     {
         CommandBox.Dispose();
-        CommandBox = null;
-        _control = null;
-        prevCommands = null;
+        //CommandBox = null;
+        //_control = null;
+        //prevCommands = null;
     }
 }

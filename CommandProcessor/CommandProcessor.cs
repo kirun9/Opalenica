@@ -7,8 +7,8 @@ public class CommandProcessor
     public static bool IGNORE_CASE = true;
     public static bool JOINED_COMMANDS = true;
     public static List<Command> Commands { get; private set; } = new List<Command>();
-    public static Command prevCommand;
-    public static CommandContext prevCommandContext;
+    public static Command? prevCommand;
+    public static CommandContext? prevCommandContext;
 
     public static bool BreakChainCommand()
     {
@@ -25,7 +25,8 @@ public class CommandProcessor
         string[] commands;
         if (JOINED_COMMANDS)
             commands = command.Split('|', StringSplitOptions.TrimEntries | StringSplitOptions.RemoveEmptyEntries);
-        else commands = new[] { command };
+        else
+            commands = new[] { command };
         bool result = true;
         foreach (var comm in commands)
         {
@@ -42,7 +43,8 @@ public class CommandProcessor
                         result = chained.NextCommand.Function.Invoke(commandArgs) && result;
                     else if (chained.NextCommand.Function2 is not null)
                         result = chained.NextCommand.Function2.Invoke(context) && result;
-                    else result = false;
+                    else
+                        result = false;
                     continue;
                 }
                 else
@@ -65,7 +67,8 @@ public class CommandProcessor
                         result = c.Function.Invoke(commandArgs) && result;
                     else if (c.Function2 is not null)
                         result = c.Function2.Invoke(context) && result;
-                    else result = false;
+                    else
+                        result = false;
                     break;
                 }
             }
@@ -101,7 +104,7 @@ public class CommandProcessor
         }
     }
 
-    private static Func<CommandContext, bool> ParseContextFunction(MethodInfo methodInfo)
+    private static Func<CommandContext, bool>? ParseContextFunction(MethodInfo methodInfo)
     {
         if (methodInfo.IsStatic && !methodInfo.IsConstructor && methodInfo.ReturnType == typeof(bool))
         {
@@ -112,7 +115,7 @@ public class CommandProcessor
         return null;
     }
 
-    private static Func<string[], bool> ParseFunction(MethodInfo methodInfo)
+    private static Func<string[], bool>? ParseFunction(MethodInfo methodInfo)
     {
         if (methodInfo.IsStatic && !methodInfo.IsConstructor)
         {
