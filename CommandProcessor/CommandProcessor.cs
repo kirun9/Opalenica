@@ -83,21 +83,23 @@ public class CommandProcessor
             foreach (var method in type.GetMethods())
             {
                 var attributes = method.GetCustomAttributes(typeof(RegisterCommandAttribute), false);
-                if (attributes.Length > 0)
+                foreach (var attribute in attributes)
                 {
-                    RegisterCommandAttribute commandAttribute = (RegisterCommandAttribute)attributes[0];
-                    var function = ParseFunction(method);
-                    var function2 = ParseContextFunction(method);
-                    Command command = function is not null ? new Command(commandAttribute.Name, function) : new Command(commandAttribute.Name, function2);
-                    if (commandAttribute.NeedConfirm)
+                    if (attribute is RegisterCommandAttribute rca)
                     {
-                        ChainedCommand chainedCommand = new ChainedCommand(commandAttribute.Name, (string[] _) => true);
-                        chainedCommand.NextCommand = command;
-                        RegisterCommand(chainedCommand);
-                    }
-                    else
-                    {
-                        RegisterCommand(command);
+                        var function = ParseFunction(method);
+                        var function2 = ParseContextFunction(method);
+                        Command command = function is not null ? new Command(rca.Name, function) : new Command(rca.Name, function2);
+                        if (rca.NeedConfirm)
+                        {
+                            ChainedCommand chainedCommand = new ChainedCommand(rca.Name, (string[] _) => true);
+                            chainedCommand.NextCommand = command;
+                            RegisterCommand(chainedCommand);
+                        }
+                        else
+                        {
+                            RegisterCommand(command);
+                        }
                     }
                 }
             }

@@ -2,6 +2,8 @@
 
 using CommandProcessor;
 
+using Opalenica.Render;
+
 using System.Drawing;
 using System.Windows.Forms;
 
@@ -53,11 +55,17 @@ public class ColorCheckTile : Tile
         else
         {
             using SolidBrush brush = new SolidBrush(Colors.Red);
-            g.FillRectangle(brush, new Rectangle(0, 0, Size.Width / 3, Size.Height));
+            g.FillRectangle(brush, new Rectangle(0, 0, Size.Width / 3, Size.Height / 2));
             brush.Color = Colors.Green;
-            g.FillRectangle(brush, new Rectangle(Size.Width / 3, 0, Size.Width / 3, Size.Height));
+            g.FillRectangle(brush, new Rectangle(Size.Width / 3, 0, Size.Width / 3, Size.Height / 2));
             brush.Color = Colors.Blue;
-            g.FillRectangle(brush, new Rectangle(Size.Width / 3 * 2, 0, Size.Width / 3, Size.Height));
+            g.FillRectangle(brush, new Rectangle(Size.Width / 3 * 2, 0, Size.Width / 3, Size.Height / 2));
+            brush.Color = Colors.Gray;
+            g.FillRectangle(brush, new Rectangle(0, Size.Height / 2, Size.Width / 3, Size.Height / 2));
+            brush.Color = Colors.White;
+            g.FillTriangle(brush, new Rectangle(0, Size.Height / 2, Size.Width / 3, Size.Height / 2), TriangleDirection.Right);
+            brush.Color = Parent.Pulse ? Colors.White : Colors.Gray;
+            g.FillRectangle(brush, new Rectangle(Size.Width / 3, Size.Height / 2, Size.Width / 3, Size.Height / 2));
         }
     }
 

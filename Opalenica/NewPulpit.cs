@@ -10,7 +10,7 @@ using Opalenica.Tiles;
 internal class NewPulpit : Control
 {
     private readonly Size designSize = new Size(1366, 768);
-    private (float horizontal, float vertical) scale { get; set; } = (1, 1);
+    internal static (float horizontal, float vertical) scale { get; set; } = (1, 1);
 
     private Grid grid { get; set; } = new Grid("34x19", "40x40");
 
@@ -142,6 +142,8 @@ internal class NewPulpit : Control
 
         RegisteredTiles.Add(new TrackTile(grid.CalculatePosition(28, 5), new Size(2, 1), Track.GetTrack("outB")));
         RegisteredTiles.Add(new TrackTile(grid.CalculatePosition(28, 7), new Size(2, 1), Track.GetTrack("outA")));
+
+        RegisteredTiles.Add(new InfoTile(grid.CalculatePosition(0, 13), new Size(15, 5)));
     }
 
     public void RegisterElements()

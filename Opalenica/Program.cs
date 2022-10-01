@@ -66,6 +66,7 @@ internal static class Program
         return false;
     }
 
+    [RegisterCommand("fs", false)]
     [RegisterCommand("fullscreen", false)]
     public static bool Fullscreen(string[] args)
     {

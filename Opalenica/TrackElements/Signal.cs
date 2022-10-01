@@ -56,6 +56,8 @@ public class Signal
 
     public string Name { get; set; } = "SignalElement";
 
+    public bool Selected { get; set; } = false;
+
     private SignalData data = SignalData.Podstawowy;
 
     public SignalData Data {
@@ -152,10 +154,12 @@ public class Signal
             switch(signalCommand)
             {
                 case "sz":
-                    break;
+                    signal.Selected = true;
+                    return true;
 
                 case "nsz":
-                    break;
+                    signal.Selected = true;
+                    return true;
 
                 case "ozmk":
                     if (signal.Data is SignalData.ZamknietyIndywidualny)
@@ -206,6 +210,7 @@ public class Signal
                 default:
                     return CommandProcessor.BreakChainCommand();
             }
+            signal.Selected = false;
             return true;
         });
 
@@ -230,12 +235,15 @@ public class Signal
                 {
                     case "sz":
                         signal.Data = SignalData.SygnalZastepczy;
+                        signal.Selected = false;
                         return true;
                     case "nsz":
-                        signal.Data = SignalData.SygnalZastepczy;
+                        signal.Data = SignalData.Podstawowy;
+                        signal.Selected = false;
                         return true;
                 }
             }
+            signal.Selected = false;
         }
         return false;
     }

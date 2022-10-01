@@ -1,6 +1,7 @@
 ﻿namespace Opalenica.Tiles;
 
 using System;
+using System.Diagnostics;
 using System.Drawing;
 
 using CommandProcessor;
@@ -83,18 +84,23 @@ public class CommandTile : Tile, IDisposable
 
     protected override void Paint(Graphics g)
     {
+        using (Pen p = new Pen(Colors.White, 2))
+        {
+            p.Alignment = System.Drawing.Drawing2D.PenAlignment.Inset;
+            g.DrawRectangle(p, 0, 0, Width, Height);
+        }
     }
 
     private Size CalculateSize()
     {
-        return new Size(this.Size.Width, 27);
+        return new Size(this.Size.Width - 8, 27);
     }
 
     private Point CalculatePos()
     {
         Point p = new Point();
         var preferedPos = this.Parent.CalculateGraphicTilePosition(this.Position);
-        p.X = preferedPos.X;
+        p.X = preferedPos.X + 4;
         p.Y = preferedPos.Y + ((this.Size.Height - CommandBox.Size.Height) / 2);
         return p;
     }
@@ -117,9 +123,20 @@ public class CommandTile : Tile, IDisposable
 
     public void Dispose()
     {
-        CommandBox.Dispose();
-        //CommandBox = null;
-        //_control = null;
-        //prevCommands = null;
+        Dispose(true);
+        GC.SuppressFinalize(this);
+    }
+
+    protected virtual void Dispose(bool disposing)
+    {
+        if (disposing)
+        {
+            if (CommandBox is not null)
+            {
+                CommandBox.Dispose();
+                CommandBox = null;
+            }
+            prevCommands = null;
+        }
     }
 }

@@ -38,7 +38,7 @@ public class Grid
     public Grid(string size, string tileSize)
     {
         timer = new Timer();
-        timer.Interval = 1000;
+        timer.Interval = 500; // 1Hz, wypełnienie 50/50%
         timer.Tick += (_, _) => { Pulse = !Pulse; };
         timer.Enabled = true;
 
