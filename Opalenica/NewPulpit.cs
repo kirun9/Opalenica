@@ -6,6 +6,7 @@ using System.Drawing.Drawing2D;
 
 using Opalenica.Render;
 using Opalenica.Tiles;
+using Opalenica.TrackElements;
 
 internal class NewPulpit : Control
 {
@@ -59,7 +60,6 @@ internal class NewPulpit : Control
         Track.GetTrack("outS", TrackType.BrakKontroli);
         Track.GetTrack("2", TrackType.BrakKontroli);
         Track.GetTrack("2a", TrackType.BrakKontroli);*/
-
 
         RegisteredTiles.Add(new TrackTile(grid.CalculatePosition(0, 5), Track.GetTrack("outR")));
         RegisteredTiles.Add(new TrackTile(grid.CalculatePosition(0, 7), Track.GetTrack("outS")));

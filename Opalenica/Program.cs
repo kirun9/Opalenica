@@ -2,6 +2,16 @@ namespace Opalenica;
 
 using CommandProcessor;
 
+/**
+ * Potrzeba 158 wyjœæ
+ * Mamy 96
+ *
+ * Potrzeba 55 wejœæ (ewentualnie 21)
+ * Mamy 48
+ */
+
+
+
 internal static class Program
 {
     public static bool DebugMode { get; set; } = false;
