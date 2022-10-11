@@ -118,7 +118,7 @@ internal class NewPulpit : Control
         RegisteredTiles.Add(new TrackTile(grid.CalculatePosition(25, 5), new Size(2, 1), Track.GetTrack("1b")));
         RegisteredTiles.Add(new TrackTile(grid.CalculatePosition(20, 3), new Size(6, 1), Track.GetTrack("3b")));
 
-        RegisteredTiles.Add(new TrackTile(grid.CalculatePosition(18, 10), new Size(1, 1), Track.GetTrack("6B")) { Drawing = DrawingDirection.Start_Bottom | DrawingDirection.Start_Left | DrawingDirection.End_Top | DrawingDirection.End_Right });
+        RegisteredTiles.Add(new TrackTile(grid.CalculatePosition(18, 10), new Size(1, 1), Track.GetTrack("6b")) { Drawing = DrawingDirection.Start_Bottom | DrawingDirection.Start_Left | DrawingDirection.End_Top | DrawingDirection.End_Right });
         RegisteredTiles.Add(new TrackTile(grid.CalculatePosition(21, 8), new Size(1, 1), Track.GetTrack("2b4b")) { Drawing = DrawingDirection.Start_Bottom | DrawingDirection.Start_Left | DrawingDirection.End_Top | DrawingDirection.End_Right });
         RegisteredTiles.Add(new TrackTile(grid.CalculatePosition(25, 4), new Size(1, 1), Track.GetTrack("1b3b")) { Drawing = DrawingDirection.Start_Bottom | DrawingDirection.Start_Left | DrawingDirection.End_Top | DrawingDirection.End_Right });
 
@@ -144,6 +144,9 @@ internal class NewPulpit : Control
         RegisteredTiles.Add(new TrackTile(grid.CalculatePosition(28, 7), new Size(2, 1), Track.GetTrack("outA")));
 
         RegisteredTiles.Add(new InfoTile(grid.CalculatePosition(0, 13), new Size(15, 5)));
+
+        RegisteredTiles.Add(new CurveTile(grid.CalculatePosition(11, 11), Track.GetTrack("6a"), CurveDirection.FromRightTurnRight45));
+        RegisteredTiles.Add(new CurveTile(grid.CalculatePosition(17, 11), Track.GetTrack("6b"), CurveDirection.FromLeftTurnLeft45));
     }
 
     public void RegisterElements()

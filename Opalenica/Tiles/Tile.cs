@@ -14,6 +14,8 @@ public class Tile
 
     public bool IsSelected { get; internal set; }
 
+    public bool Pulse => Parent?.Pulse ?? false;
+
     public int Position
     {
         get => _position;
