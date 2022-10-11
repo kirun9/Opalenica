@@ -22,9 +22,9 @@ public class InfoTile : Tile
 
     private void Initialize()
     {
-        InfoLines.Add(("Line 1", Colors.Red, Colors.White));
-        InfoLines.Add(("Line 2", Colors.Yellow, Colors.Yellow));
-        InfoLines.Add(("Line 3", Colors.White, Colors.White));
+        InfoLines.Add(("Sample Error", Colors.Red, Colors.White));
+        InfoLines.Add(("Sample Information", Colors.Yellow, Colors.Yellow));
+        InfoLines.Add(("Sample Help info", Colors.White, Colors.White));
         Font = new Font(base.Font.FontFamily, 12F, FontStyle.Bold, base.Font.Unit);
     }
 

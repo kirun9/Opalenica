@@ -3,7 +3,7 @@
 using System;
 using System.Drawing;
 
-public class CrossTrack
+public class CrossTrack : Element
 {
     private static List<CrossTrack> RegisteredCrosses = new List<CrossTrack>();
 

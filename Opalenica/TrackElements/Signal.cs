@@ -6,8 +6,9 @@ using Opalenica.Render;
 
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.CompilerServices;
 
-public class Signal
+public class Signal : Element
 {
     private static List<Signal> RegisteredSignals = new List<Signal>();
 
@@ -55,8 +56,6 @@ public class Signal
     public Track? Track { get; set; }
 
     public string Name { get; set; } = "SignalElement";
-
-    public bool Selected { get; set; } = false;
 
     private SignalData data = SignalData.Podstawowy;
 
@@ -149,16 +148,17 @@ public class Signal
 
         ChainedCommand chain = new ChainedCommand(signal.Name, (CommandContext context) =>
         {
+            Unselect();
             if (context.Args is null || context.Args.Length != 1) return false;
             string signalCommand = (context.GetArgAs<string>(0) ?? "").ToLower();
             switch(signalCommand)
             {
                 case "sz":
-                    signal.Selected = true;
+                    signal.Select();
                     return true;
 
                 case "nsz":
-                    signal.Selected = true;
+                    signal.Select();
                     return true;
 
                 case "ozmk":
@@ -210,11 +210,10 @@ public class Signal
                 default:
                     return CommandProcessor.BreakChainCommand();
             }
-            signal.Selected = false;
-            return true;
         });
 
         Command command = new Command(signal.Name, (context) => {
+            Unselect();
             return SetSZ(context);
         });
         chain.NextCommand = command;
@@ -235,15 +234,12 @@ public class Signal
                 {
                     case "sz":
                         signal.Data = SignalData.SygnalZastepczy;
-                        signal.Selected = false;
                         return true;
                     case "nsz":
                         signal.Data = SignalData.Podstawowy;
-                        signal.Selected = false;
                         return true;
                 }
             }
-            signal.Selected = false;
         }
         return false;
     }

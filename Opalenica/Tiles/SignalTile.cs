@@ -9,6 +9,7 @@ public class SignalTile : Tile
 {
     private Signal Signal { get; set; }
     private TriangleDirection Direction { get => Signal.SignalDirection; }
+    public override bool IsSelected => Signal.IsSelected;
 
     public SignalTile(int pos, Signal signal) : base(pos)
     {
@@ -47,11 +48,11 @@ public class SignalTile : Tile
         using SolidBrush brush = Signal.GetBrush(Parent.Pulse);
         g.FillTriangle(brush, new RectangleF(Size.Width * 0.2f, Size.Height * 0.2f, Size.Width * 0.6f, Size.Height * 0.6f), Signal.SignalDirection);
 
-        if (Signal.Selected)
+        /*if (IsSelected)
         {
             using Pen p = new Pen(Colors.Azure, 1);
             p.Alignment = System.Drawing.Drawing2D.PenAlignment.Inset;
             g.DrawRectangle(p, new Rectangle(1, 1, Width - 2, Height - 2));
-        }
+        }*/
     }
 }

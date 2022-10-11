@@ -4,7 +4,7 @@ using CommandProcessor;
 
 using Opalenica.TrackElements.Other;
 
-public class BlokadaEac
+public class BlokadaEac : Element
 {
     public static List<BlokadaEac> RegisteredEac = new List<BlokadaEac>();
 
@@ -13,8 +13,6 @@ public class BlokadaEac
     public BlokadaKierunek Kierunek { get; set; } = BlokadaKierunek.Nieznany;
 
     public EacData Data { get; set; } = EacData.StanPodstawowy;
-
-    public bool Selected { get; set; }
 
     public Color ColorA
     {
@@ -167,6 +165,7 @@ public class BlokadaEac
 
         ChainedCommand chain = new ChainedCommand(blokada.Name, (CommandContext context) =>
         {
+            Unselect();
             if (context.Args is null || context.Args.Length != 1) return false;
             string blokadaCommand = (context.GetArgAs<string>(0) ?? "").ToLower();
             switch (blokadaCommand)
@@ -181,7 +180,6 @@ public class BlokadaEac
                         blokada.Kierunek = BlokadaKierunek.Wyjazd;
                         blokada.Data = EacData.ZadanieDaniaPozwolenia;
                     }
-                    blokada.Selected = false;
                     return CommandProcessor.BreakChainCommand();
 
                 case "owbl":
@@ -190,7 +188,6 @@ public class BlokadaEac
                         blokada.Kierunek = BlokadaKierunek.Neutralny;
                         blokada.Data = EacData.StanPodstawowy;
                     }
-                    blokada.Selected = false;
                     return CommandProcessor.BreakChainCommand();
 
                 case "pzk":
@@ -199,7 +196,6 @@ public class BlokadaEac
                         blokada.Kierunek = BlokadaKierunek.Przyjazd;
                         blokada.Data = EacData.UstawionyKierunek;
                     }
-                    blokada.Selected = false;
                     return CommandProcessor.BreakChainCommand();
 
                 case "zwbl":
@@ -208,7 +204,6 @@ public class BlokadaEac
                         blokada.Data = EacData.StanPodstawowy;
                         blokada.Kierunek = BlokadaKierunek.Neutralny;
                     }
-                    blokada.Selected = false;
                     return CommandProcessor.BreakChainCommand();
 
                 case "stop":
@@ -216,17 +211,17 @@ public class BlokadaEac
                     {
                         blokada.Data = EacData.UstawionyKierunekZamkniety;
                     }
-                    blokada.Selected = false;
                     return CommandProcessor.BreakChainCommand();
 
                 case "azk":
-                    blokada.Selected = true;
+                    blokada.Select();
                     return true;
             }
             return false;
         });
 
         Command command = new Command(blokada.Name, (context) => {
+            Unselect();
             if (context is not null and ChainedCommandContext ccc && ccc.Args.Length == 0)
             {
                 if (ccc.PrevArgs.Length == 1 && (ccc.GetPrevArgAs<string>(0) ?? "").ToLower() == "azk" && blokada.Kierunek == BlokadaKierunek.Przyjazd && blokada.Data == EacData.UstawionyKierunek)

@@ -4,7 +4,7 @@ using CommandProcessor;
 using Opalenica.Tiles;
 using System.Drawing.Drawing2D;
 
-public class Track
+public class Track : Element
 {
     public VirtualData Occupied;
     public VirtualData Established;
@@ -125,6 +125,7 @@ public class Track
 
         ChainedCommand chainedcommand = new ChainedCommand(track.Name, (CommandContext context) =>
         {
+            Unselect();
             if (context.Args is null || context.Args.Length != 1) return false;
             string trackCommand = (context.GetArgAs<string>(0) ?? "").ToLower();
             var track = RegisteredTracks.FirstOrDefault(e => e.Name == context.CommandName);
@@ -141,7 +142,7 @@ public class Track
                     return true;
                 case "zlo":
                 case "zerolo":
-
+                    track.Select();
                     return true;
                 default:
                     CommandProcessor.BreakChainCommand();
@@ -151,6 +152,7 @@ public class Track
 
         Command command = new Command(track.Name, (context) =>
         {
+            Unselect();
             if (context is not null and ChainedCommandContext ccc && ccc.Args.Length == 0)
             {
                 var track = RegisteredTracks.FirstOrDefault(e => e.Name == ccc.CommandName);

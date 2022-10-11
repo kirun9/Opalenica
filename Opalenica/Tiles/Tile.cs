@@ -12,7 +12,7 @@ public class Tile
 
     public Grid Parent { get; internal set; }
 
-    public bool IsSelected { get; internal set; }
+    public virtual bool IsSelected { get; internal set; }
 
     public bool Pulse => Parent?.Pulse ?? false;
 
@@ -95,7 +95,9 @@ public class Tile
     {
         if (IsSelected)
         {
-            g.FillRectangle(Brushes.Yellow, new Rectangle(new Point(X, Y), Size));
+            using Pen p = new Pen(Colors.Azure, 1);
+            p.Alignment = System.Drawing.Drawing2D.PenAlignment.Inset;
+            g.DrawRectangle(p, new Rectangle(1, 1, Width - 2, Height - 2));
         }
     }
 

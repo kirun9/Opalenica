@@ -7,6 +7,8 @@ public class JunctionTile : Tile
 {
     public Junction Junction { get; set; }
 
+    public override bool IsSelected => Junction.IsSelected;
+
     public JunctionTile(int pos, Junction junction) : base(pos)
     {
         Junction = junction;

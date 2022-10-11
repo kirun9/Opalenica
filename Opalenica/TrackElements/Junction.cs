@@ -5,7 +5,7 @@ using Opalenica.Tiles;
 using System.Drawing;
 using System.Drawing.Drawing2D;
 
-public class Junction
+public class Junction : Element
 {
     internal static List<Junction> RegisteredJunctions = new List<Junction>();
     private JunctionSet direction = JunctionSet.AB;
@@ -114,6 +114,7 @@ public class Junction
 
         ChainedCommand chain = new ChainedCommand("zwr" + name.ToLower(), (context) =>
         {
+            Unselect();
             if (context.Args is null || context.Args.Length != 1) return false;
             string junctionCommand = (context.GetArgAs<string>(0) ?? "").ToLower();
             var junction = GetJunction(context.CommandName.Substring("zwr".Length));
@@ -151,6 +152,7 @@ public class Junction
                 case "zdsp":
                 case "zdsm":
                 case "zerolo": // TODO
+                    junction.Select();
                     return true;
 
                 default:
@@ -162,6 +164,7 @@ public class Junction
         {
             if (context is not null and ChainedCommandContext ccc && ccc.Args.Length == 0)
             {
+                Unselect();
                 return true;
             }
             return false;

@@ -9,6 +9,8 @@ public class CurveTile : Tile
     public Track Track { get; set; }
     private CurveDirection direction;
 
+    public override bool IsSelected => Track.IsSelected;
+
     public CurveDirection Direction
     {
         get

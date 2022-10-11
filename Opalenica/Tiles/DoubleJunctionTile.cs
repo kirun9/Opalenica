@@ -8,6 +8,8 @@ public class DoubleJunctionTile : Tile
     public Junction JunctionAB { get; set; }
     public Junction JunctionCD { get; set; }
 
+    public override bool IsSelected => JunctionAB.IsSelected || JunctionCD.IsSelected;
+
     public DoubleJunctionTile(int pos, Junction junctionAB, Junction junctionCD) : base(pos)
     {
         JunctionAB = junctionAB;

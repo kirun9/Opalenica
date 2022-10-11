@@ -5,6 +5,9 @@ using System.Drawing;
 public class TrackTile : Tile
 {
     public Track Track { get; set; }
+
+    public override bool IsSelected => Track.IsSelected;
+
     public DrawingDirection Drawing { get; set; } = DrawingDirection.Start_Left | DrawingDirection.End_Right;
 
     public TrackTile(Int32 pos, Track track) : base(pos)
