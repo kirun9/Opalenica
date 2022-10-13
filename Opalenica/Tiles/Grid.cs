@@ -1,6 +1,7 @@
 ﻿namespace Opalenica.Tiles;
 
 using System.Text.RegularExpressions;
+using System.Windows.Forms.Design;
 
 using Timer = System.Windows.Forms.Timer;
 
@@ -122,6 +123,11 @@ public class Grid
     {
         foreach (var tile in tileArray)
             yield return tile;
+    }
+
+    public Tile GetTileFromPoint(Point point)
+    {
+        return this[point.X / TileSize.Width, point.Y / TileSize.Height];
     }
 
     public Point CalculateGraphicTilePosition(int pos)

@@ -6,6 +6,7 @@ using System.Drawing.Drawing2D;
 
 using Opalenica.Render;
 using Opalenica.Tiles;
+using Opalenica.Tiles.Interfaces;
 using Opalenica.TrackElements;
 
 internal class NewPulpit : Control
@@ -209,7 +210,7 @@ internal class NewPulpit : Control
     protected void DrawPulpit(Graphics g)
     {
         Matrix defaultTransform = g.Transform;
-        var prevClipRegion = g.Clip;
+        Region prevClipRegion = g.Clip;
         foreach (var tile in grid.GetTiles())
         {
             Point p = grid.CalculateGraphicTilePosition(tile.Position);
@@ -222,5 +223,17 @@ internal class NewPulpit : Control
         }
         g.ResetTransform();
         g.Transform = defaultTransform;
+    }
+
+    protected override void OnMouseClick(MouseEventArgs e)
+    {
+        base.OnMouseClick(e);
+
+        Point p = new Point((int)(e.X / scale.horizontal), (int)(e.Y / scale.vertical));
+        var tile = grid.GetTileFromPoint(p);
+        if (tile is IMouseEvent mouseEvent)
+        {
+            mouseEvent.OnMouseClick(e);
+        }
     }
 }

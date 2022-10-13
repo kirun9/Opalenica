@@ -2,13 +2,14 @@
 
 using CommandProcessor;
 
+using Opalenica.Interfaces;
 using Opalenica.Render;
 
 using System.Collections.Generic;
 using System.Linq;
 using System.Runtime.CompilerServices;
 
-public class Signal : Element
+public class Signal : Element, IHasOwnData<SignalData>
 {
     private static List<Signal> RegisteredSignals = new List<Signal>();
 
@@ -71,7 +72,7 @@ public class Signal : Element
 
     private bool Stop = false;
 
-    public Color SignalSecondPulsingColor
+    /*public Color SignalSecondPulsingColor
     {
         get
         {
@@ -90,48 +91,48 @@ public class Signal : Element
                 _ => false
             };
         }
-    }
+    }*/
 
-    public Color SignalActualColor
+    public Color GetColor(SignalData data, bool pulse = false)
     {
-        get
+        switch (Type)
         {
-            switch (Type)
-            {
-                case SignalType.TarczaOstrzegawcza:
-                case SignalType.Powtarzajacy:
-                    return Data switch
-                    {
-                        SignalData.ZezwalajacyOstrzegawczy => Colors.Gray,
-                        SignalData.ZezwalajacyPociagowy => Colors.Green,
-                        SignalData.BrakDanych => Colors.White,
-                        _ => Colors.White
-                    };
-                default:
+            case SignalType.TarczaOstrzegawcza:
+            case SignalType.Powtarzajacy:
+                return Data switch
                 {
-                    return Data switch
-                    {
-                        SignalData.Podstawowy => Colors.Gray,
-                        SignalData.LokalneNastawianie => Colors.Cyan,
-                        SignalData.RejonManewrowy => Colors.LightCyan,
-                        SignalData.ZamknietyIndywidualny => Colors.Pink,
-                        SignalData.UszkodzonaZarowkaCzerwona => Colors.DarkRed, //Miganie
-                        SignalData.OchronaBoczna => Colors.DarkRed,
-                        SignalData.PoczatowyKoncowyPrzebiegu => Colors.Red,
-                        SignalData.ZezwalajacyManewrowy => Colors.Yellow,
-                        SignalData.ZezwalajacyPociagowy => Colors.Green,
-                        SignalData.SygnalZastepczy => Colors.White, //Miganie
-                        SignalData.BrakDanych => Colors.White,
-                        _ => Colors.White
-                    };
-                }
+                    SignalData.ZezwalajacyOstrzegawczy => Colors.Gray,
+                    SignalData.ZezwalajacyPociagowy => Colors.Green,
+                    SignalData.BrakDanych => Colors.White,
+                    _ => Colors.White
+                };
+            default:
+            {
+                return data switch
+                {
+                    SignalData.Podstawowy => Colors.Gray,
+                    SignalData.LokalneNastawianie => Colors.Cyan,
+                    SignalData.RejonManewrowy => Colors.LightCyan,
+                    SignalData.ZamknietyIndywidualny => Colors.Pink,
+                    SignalData.UszkodzonaZarowkaCzerwona when !pulse => Colors.DarkRed,
+                    SignalData.UszkodzonaZarowkaCzerwona when pulse => Colors.Gray,
+                    SignalData.OchronaBoczna => Colors.DarkRed,
+                    SignalData.PoczatowyKoncowyPrzebiegu => Colors.Red,
+                    SignalData.ZezwalajacyManewrowy => Colors.Yellow,
+                    SignalData.ZezwalajacyPociagowy => Colors.Green,
+                    SignalData.SygnalZastepczy when pulse=> Colors.White,
+                    SignalData.SygnalZastepczy when !pulse=> Colors.Gray,
+                    SignalData.BrakDanych => Colors.White,
+                    _ => Colors.White
+                };
             }
         }
     }
 
     public SolidBrush GetBrush(bool pulse)
     {
-        return new SolidBrush(SignalPulsingSignal ? pulse ? SignalActualColor : SignalSecondPulsingColor : SignalActualColor);
+        return new SolidBrush(GetColor(Data, pulse));
+        //return new SolidBrush(SignalPulsingSignal ? pulse ? SignalActualColor : SignalSecondPulsingColor : SignalActualColor);
     }
 
     public static Signal GetSignal(string name, TriangleDirection SignalDirection, Track? track = null, SignalType type = SignalType.Pociagowy)

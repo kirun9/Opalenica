@@ -1,10 +1,12 @@
 ﻿namespace Opalenica;
 
 using CommandProcessor;
+
+using Opalenica.Interfaces;
 using Opalenica.Tiles;
 using System.Drawing.Drawing2D;
 
-public class Track : Element
+public class Track : Element, IHasOwnData<TrackData>
 {
     public VirtualData Occupied;
     public VirtualData Established;
@@ -18,26 +20,26 @@ public class Track : Element
     public float[] CompoundArray => Type is TrackType.KontrolaZamkniety or TrackType.BrakKontroliZamkniety? new float[] { 0f, 1f / 5f, 4f / 5f, 1f } : new float[] { 0, 1 };
     public float[] DashPattern => Type is TrackType.BrakKontroli ? new float[] { 1f, 2f, 1f } : Type is TrackType.BrakKontroliZamkniety ? new float[] { 1f, 2f, 1f } : new float[] { 1 };
 
-    public Color SecondPulsingColor
-    {
-        get
-        {
-            return GetColor(Data, true);
-        }
-    }
+    //public Color SecondPulsingColor
+    //{
+    //    get
+    //    {
+    //        return GetColor(Data, true);
+    //    }
+    //}
 
-    public bool PulsingSignal
-    {
-        get
-        {
-            return Data switch
-            {
-                TrackData.PotwierdzenieZerowania => true,
-                TrackData.UszkodzenieKontroli => true,
-                _ => false
-            };
-        }
-    }
+    //public bool PulsingSignal
+    //{
+    //    get
+    //    {
+    //        return Data switch
+    //        {
+    //            TrackData.PotwierdzenieZerowania => true,
+    //            TrackData.UszkodzenieKontroli => true,
+    //            _ => false
+    //        };
+    //    }
+    //}
 
     public Color ActualColor
     {
@@ -47,20 +49,11 @@ public class Track : Element
         }
     }
 
-    public Pen GetPenWithColor(bool pulse)
-    {
-        return new Pen(GetColor(this.Data, PulsingSignal && pulse))
-        {
-            DashStyle = DashStyle.Custom,
-            Width = Width,
-            CompoundArray = CompoundArray,
-            DashPattern = DashPattern
-        };
-    }
+    public Pen GetPenWithColor(bool pulse) => GetPenWithColor(pulse, this.Data);
 
     public Pen GetPenWithColor(bool pulse, TrackData data)
     {
-        return new Pen(GetColor(data, PulsingSignal && pulse))
+        return new Pen(GetColor(data, pulse))
         {
             DashStyle = DashStyle.Custom,
             Width = Width,
@@ -69,16 +62,9 @@ public class Track : Element
         };
     }
 
-    public static Color GetColor(TrackData data, bool pulse = false)
+    public Color GetColor(TrackData data, bool pulse = false)
     {
-        return pulse ?
-            data switch
-            {
-                TrackData.PotwierdzenieZerowania => Colors.Gray,
-                TrackData.UszkodzenieKontroli => Colors.Red,
-                _ => Colors.None,
-            } :
-                data switch
+        return data switch
             {
                 TrackData.StanPodstawowy => Colors.Gray,
                 TrackData.RejonManewrowy => Colors.LightCyan,
@@ -87,8 +73,10 @@ public class Track : Element
                 TrackData.ZwalnianyCzasowo => Colors.Pink,
                 TrackData.Zajety => Colors.Red,
                 TrackData.PierwszyPrzejazd => Colors.DarkRed,
-                TrackData.PotwierdzenieZerowania => Colors.Red, //Migający
-                TrackData.UszkodzenieKontroli => Colors.White, // Migający
+                TrackData.PotwierdzenieZerowania when !pulse=> Colors.Red, //Migający
+                TrackData.PotwierdzenieZerowania when pulse=> Colors.Gray, //Migający
+                TrackData.UszkodzenieKontroli when !pulse=> Colors.White, // Migający
+                TrackData.UszkodzenieKontroli when pulse=> Colors.Red, // Migający
                 TrackData.BrakDanych => Colors.White,
                 _ => Colors.None
             };

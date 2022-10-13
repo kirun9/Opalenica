@@ -14,6 +14,8 @@ public class Tile
 
     public virtual bool IsSelected { get; internal set; }
 
+    public virtual Color SelectedColor => Colors.Azure;
+
     public bool Pulse => Parent?.Pulse ?? false;
 
     public int Position
@@ -87,15 +89,15 @@ public class Tile
 
     internal void PaintTile(Graphics g)
     {
-        PrePaint(g);
         Paint(g);
+        PostPaint(g);
     }
 
-    private void PrePaint(Graphics g)
+    private void PostPaint(Graphics g)
     {
         if (IsSelected)
         {
-            using Pen p = new Pen(Colors.Azure, 1);
+            using Pen p = new Pen(SelectedColor, 1);
             p.Alignment = System.Drawing.Drawing2D.PenAlignment.Inset;
             g.DrawRectangle(p, new Rectangle(1, 1, Width - 2, Height - 2));
         }

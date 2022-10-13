@@ -1,4 +1,4 @@
-﻿namespace Opalenica;
+﻿/*namespace Opalenica;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -47,3 +47,4 @@ internal struct Location
 
     public static implicit operator Rectangle(Location val) => new Rectangle(val.TopLeft, (Size) val.BottomRight);
 }
+*/

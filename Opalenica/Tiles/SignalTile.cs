@@ -1,11 +1,14 @@
 ﻿namespace Opalenica.Tiles;
 
+using CommandProcessor;
+
 using Opalenica.Render;
+using Opalenica.Tiles.Interfaces;
 
 using System;
 using System.Drawing;
 
-public class SignalTile : Tile
+public class SignalTile : Tile, IMouseEvent
 {
     private Signal Signal { get; set; }
     private TriangleDirection Direction { get => Signal.SignalDirection; }
@@ -54,5 +57,20 @@ public class SignalTile : Tile
             p.Alignment = System.Drawing.Drawing2D.PenAlignment.Inset;
             g.DrawRectangle(p, new Rectangle(1, 1, Width - 2, Height - 2));
         }*/
+    }
+
+    void IMouseEvent.OnMouseClick(MouseEventArgs e)
+    {
+        if (e.Button == MouseButtons.Left && e.Clicks == 1)
+        {
+            if (Signal.IsSelected)
+            {
+                CommandProcessor.ExecuteCommand($"{Signal.Name}");
+            }
+            else
+            {
+                CommandProcessor.ExecuteCommand($"{Signal.Name} sz");
+            }
+        }
     }
 }

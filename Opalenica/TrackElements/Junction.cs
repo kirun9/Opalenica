@@ -1,11 +1,13 @@
 ﻿namespace Opalenica;
 
 using CommandProcessor;
+
+using Opalenica.Interfaces;
 using Opalenica.Tiles;
 using System.Drawing;
 using System.Drawing.Drawing2D;
 
-public class Junction : Element
+public class Junction : Element, IHasOwnData<JunctionDataZ>
 {
     internal static List<Junction> RegisteredJunctions = new List<Junction>();
     private JunctionSet direction = JunctionSet.AB;
@@ -36,49 +38,27 @@ public class Junction : Element
 
     public JunctionDirection DrawDirection { get; internal set; }
 
-    public Color SecondPulsingColor
+    public Color GetColor(JunctionDataZ data, bool pulse = false)
     {
-        get
+        return data switch
         {
-            return Colors.Gray;
-        }
-    }
-
-    public bool PulsingSignal
-    {
-        get
-        {
-            return Data switch
-            {
-                JunctionDataZ.Rozprucie => true,
-                JunctionDataZ.NieoczekiwanyBrakKontroli => true,
-                _ => false
-            };
-        }
-    }
-
-    public Color ActualColor
-    {
-        get
-        {
-            return Data switch
-            {
-                JunctionDataZ.BrakDanych => Colors.White,
-                JunctionDataZ.Rozprucie => Colors.Red,   // Migający
-                JunctionDataZ.NieoczekiwanyBrakKontroli => Colors.White, // Migający
-                JunctionDataZ.BrakKontroli => Colors.Black, // (Niewidoczny)
-                JunctionDataZ.Zajety => Colors.Red,
-                JunctionDataZ.ZwalnianyCzasowo => Colors.Pink,
-                JunctionDataZ.PrzebiegPociagowy => Colors.Green,
-                JunctionDataZ.PrzebiegManewrowy => Colors.Yellow,
-                JunctionDataZ.OchronaPrzebiegu => Colors.Yellow,
-                JunctionDataZ.OchronaBoczna => Colors.Yellow,
-                JunctionDataZ.StopPolozenie => Colors.Pink,
-                JunctionDataZ.RejonManewrowy => Colors.LightCyan,
-                JunctionDataZ.StanPodstawowy => Colors.Gray,
-                _ => Colors.None
-            };
-        }
+            JunctionDataZ.BrakDanych                            => Colors.White,
+            JunctionDataZ.Rozprucie when !pulse                 => Colors.Red,
+            JunctionDataZ.Rozprucie when pulse                  => Colors.Gray,
+            JunctionDataZ.NieoczekiwanyBrakKontroli when !pulse => Colors.White,
+            JunctionDataZ.NieoczekiwanyBrakKontroli when pulse  => Colors.Gray,
+            JunctionDataZ.BrakKontroli                          => Colors.Black, // (Niewidoczny)
+            JunctionDataZ.Zajety                                => Colors.Red,
+            JunctionDataZ.ZwalnianyCzasowo                      => Colors.Pink,
+            JunctionDataZ.PrzebiegPociagowy                     => Colors.Green,
+            JunctionDataZ.PrzebiegManewrowy                     => Colors.Yellow,
+            JunctionDataZ.OchronaPrzebiegu                      => Colors.Yellow,
+            JunctionDataZ.OchronaBoczna                         => Colors.Yellow,
+            JunctionDataZ.StopPolozenie                         => Colors.Pink,
+            JunctionDataZ.RejonManewrowy                        => Colors.LightCyan,
+            JunctionDataZ.StanPodstawowy                        => Colors.Gray,
+            _ => Colors.None
+        };
     }
 
     public float Width => 4;
@@ -187,7 +167,7 @@ public class Junction : Element
 
     public Pen GetPenWithColor(bool pulse)
     {
-        return new Pen(PulsingSignal ? pulse ? ActualColor : SecondPulsingColor : ActualColor)
+        return new Pen(GetColor(Data, pulse))
         {
             DashStyle = DashStyle.Custom,
             Width = 2,
