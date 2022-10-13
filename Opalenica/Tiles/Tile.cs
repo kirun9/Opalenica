@@ -12,6 +12,8 @@ public class Tile
 
     public Grid Parent { get; internal set; }
 
+    internal Tile ParentTile { get; set; }
+
     public virtual bool IsSelected { get; internal set; }
 
     public virtual Color SelectedColor => Colors.Azure;

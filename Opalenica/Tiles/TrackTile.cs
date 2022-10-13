@@ -1,8 +1,11 @@
 ﻿namespace Opalenica.Tiles;
 
-using System.Drawing;
+using Opalenica.Tiles.Interfaces;
 
-public class TrackTile : Tile
+using System.Drawing;
+using System.Windows.Forms;
+
+public class TrackTile : Tile, IMouseEvent, IHasMenuStrip
 {
     public Track Track { get; set; }
 
@@ -55,6 +58,28 @@ public class TrackTile : Tile
         });
 
         g.DrawLine(pen, startPoint, endPoint);
+    }
+
+    void IMouseEvent.OnMouseClick(MouseEventArgs e)
+    {
+        if (IsSelected)
+        {
+            Track.Unselect();
+        }
+        else
+        {
+            Track.Select();
+        }
+    }
+
+    public ContextMenuStrip GetMenuStrip()
+    {
+        ContextMenuStrip strip = new ContextMenuStrip();
+        ToolStripMenuItem item = new ToolStripMenuItem("Test Item 1");
+        ToolStripMenuItem item2 = new ToolStripMenuItem("Test Item 2");
+        strip.Items.Add(item);
+        strip.Items.Add(item2);
+        return strip;
     }
 }
 

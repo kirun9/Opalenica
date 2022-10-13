@@ -1,15 +1,17 @@
 ﻿namespace Opalenica.Tiles;
 
+using Opalenica.Tiles.Interfaces;
+
 using System.ComponentModel;
 using System.Linq.Expressions;
 using System.Runtime.CompilerServices;
 
-public class CurveTile : Tile
+public class TrackCurveTile : TrackTile
 {
-    public Track Track { get; set; }
+    //public Track Track { get; set; }
     private CurveDirection direction;
 
-    public override bool IsSelected => Track.IsSelected;
+    //public override bool IsSelected => Track.IsSelected;
 
     public CurveDirection Direction
     {
@@ -26,21 +28,18 @@ public class CurveTile : Tile
         }
     }
 
-    public CurveTile(int pos, Track track, CurveDirection direction = CurveDirection.FromLeftTurnLeft45) : base(pos)
+    public TrackCurveTile(int pos, Track track, CurveDirection direction = CurveDirection.FromLeftTurnLeft45) : base(pos, track)
     {
-        Track = track;
         Direction = direction;
     }
 
-    public CurveTile(int position, Size sizeOnGrid, Track track, CurveDirection direction = CurveDirection.FromLeftTurnLeft45) : base(position, sizeOnGrid)
+    public TrackCurveTile(int position, Size sizeOnGrid, Track track, CurveDirection direction = CurveDirection.FromLeftTurnLeft45) : base(position, sizeOnGrid, track)
     {
-        Track = track;
         Direction = direction;
     }
 
-    public CurveTile(Grid parent, int position, Size sizeOnGrid, Track track, CurveDirection direction = CurveDirection.FromLeftTurnLeft45) : base(parent, position, sizeOnGrid)
+    public TrackCurveTile(Grid parent, int position, Size sizeOnGrid, Track track, CurveDirection direction = CurveDirection.FromLeftTurnLeft45) : base(parent, position, sizeOnGrid, track)
     {
-        Track = track;
         Direction = direction;
     }
 
@@ -84,6 +83,18 @@ public class CurveTile : Tile
         g.DrawLine(pen, ps.p1, Center());
         g.DrawLine(pen, Center(), ps.p3);
     }
+
+    /*void IMouseEvent.OnMouseClick(MouseEventArgs e)
+    {
+        if (IsSelected)
+        {
+            Track.Unselect();
+        }
+        else
+        {
+            Track.Select();
+        }
+    }*/
 }
 
 [Flags]

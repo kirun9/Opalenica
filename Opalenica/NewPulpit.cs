@@ -3,6 +3,7 @@
 using System.ComponentModel;
 using System.Diagnostics;
 using System.Drawing.Drawing2D;
+using System.Windows.Forms;
 
 using Opalenica.Render;
 using Opalenica.Tiles;
@@ -146,8 +147,8 @@ internal class NewPulpit : Control
 
         RegisteredTiles.Add(new InfoTile(grid.CalculatePosition(0, 13), new Size(15, 5)));
 
-        RegisteredTiles.Add(new CurveTile(grid.CalculatePosition(11, 11), Track.GetTrack("6a"), CurveDirection.FromRightTurnRight45));
-        RegisteredTiles.Add(new CurveTile(grid.CalculatePosition(17, 11), Track.GetTrack("6b"), CurveDirection.FromLeftTurnLeft45));
+        RegisteredTiles.Add(new TrackCurveTile(grid.CalculatePosition(11, 11), Track.GetTrack("6a"), CurveDirection.FromRightTurnRight45));
+        RegisteredTiles.Add(new TrackCurveTile(grid.CalculatePosition(17, 11), Track.GetTrack("6b"), CurveDirection.FromLeftTurnLeft45));
     }
 
     public void RegisterElements()
@@ -209,8 +210,8 @@ internal class NewPulpit : Control
 
     protected void DrawPulpit(Graphics g)
     {
-        Matrix defaultTransform = g.Transform;
-        Region prevClipRegion = g.Clip;
+        var defaultTransform = g.Transform;
+        var prevClipRegion = g.Clip;
         foreach (var tile in grid.GetTiles())
         {
             Point p = grid.CalculateGraphicTilePosition(tile.Position);
@@ -227,13 +228,53 @@ internal class NewPulpit : Control
 
     protected override void OnMouseClick(MouseEventArgs e)
     {
+        void ShowContextMenu(ContextMenuStrip menu)
+        {
+            /* if debugmode
+                 * add debug items
+                 * */
+            menu.Show(this, e.Location);
+        }
+
         base.OnMouseClick(e);
 
         Point p = new Point((int)(e.X / scale.horizontal), (int)(e.Y / scale.vertical));
         var tile = grid.GetTileFromPoint(p);
-        if (tile is IMouseEvent mouseEvent)
+        if (e.Button == MouseButtons.Right)
         {
-            mouseEvent.OnMouseClick(e);
+            if (tile.IsOccupied)
+            {
+                if (tile.ParentTile is not null and IHasMenuStrip pMenuStrip)
+                {
+                    ShowContextMenu(pMenuStrip.GetMenuStrip());
+                }
+            }
+            else
+            {
+                if (tile is IHasMenuStrip menuStrip)
+                {
+                    ShowContextMenu(menuStrip.GetMenuStrip());
+                    return;
+                }
+            }
+        }
+
+        if (e.Button is MouseButtons.Left or MouseButtons.Middle)
+        {
+            if (tile.IsOccupied)
+            {
+                if (tile.ParentTile is not null and IMouseEvent pMouseEvent)
+                {
+                    pMouseEvent.OnMouseClick(e);
+                }
+            }
+            else
+            {
+                if (tile is IMouseEvent mouseEvent)
+                {
+                    mouseEvent.OnMouseClick(e);
+                }
+            }
         }
     }
 }

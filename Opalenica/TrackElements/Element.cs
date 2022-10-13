@@ -1,6 +1,6 @@
 ﻿namespace Opalenica;
 
-public abstract class Element
+public class Element
 {
     private readonly Guid internalGuid = Guid.NewGuid();
 

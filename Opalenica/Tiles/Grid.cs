@@ -88,6 +88,7 @@ public class Grid
                 }
                 Tile t = new Tile(CalculatePosition(tile.X + x, tile.Y + y)) { IsOccupied = true };
                 t.Parent = this;
+                t.ParentTile = tile;
                 tileArray[t.Position] = t;
                 t.TileAdded(EventArgs.Empty);
             }
