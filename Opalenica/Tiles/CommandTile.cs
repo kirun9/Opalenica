@@ -93,7 +93,7 @@ public class CommandTile : Tile, IDisposable
 
     private Size CalculateSize()
     {
-        return new Size(this.Size.Width - 8, 27);
+        return new Size((int) ((this.Size.Width * Pulpit.Scale.Horizontal) - 8), (int) (27 * Pulpit.Scale.Vertical));
     }
 
     private Point CalculatePos()

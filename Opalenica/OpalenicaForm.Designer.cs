@@ -29,7 +29,7 @@ partial class OpalenicaForm
     private void InitializeComponent()
     {
             this.ExitButton = new System.Windows.Forms.Button();
-            this.pulpit1 = new Opalenica.NewPulpit(this, "pulpit1");
+            this.pulpit1 = new Opalenica.Pulpit(this, "pulpit1");
             this.SuspendLayout();
             // 
             // ExitButton
@@ -51,7 +51,7 @@ partial class OpalenicaForm
             // 
             // pulpit1
             // 
-            this.pulpit1.Dock = DockStyle.Fill;
+            this.pulpit1.Dock = System.Windows.Forms.DockStyle.Fill;
             this.pulpit1.Location = new System.Drawing.Point(0, 0);
             this.pulpit1.Name = "pulpit1";
             this.pulpit1.Size = new System.Drawing.Size(1366, 768);
@@ -75,10 +75,11 @@ partial class OpalenicaForm
             this.Text = "Opalenica";
             this.Load += new System.EventHandler(this.OpalenicaForm_Load);
             this.ResumeLayout(false);
+            this.PerformLayout();
 
     }
 
 	#endregion
     private Button ExitButton;
-    private NewPulpit pulpit1;
+    private Pulpit pulpit1;
 }

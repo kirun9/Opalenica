@@ -28,10 +28,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Compile Remove="Pulpit.cs" />
-  </ItemGroup>
-
-  <ItemGroup>
     <EmbeddedResource Remove="Pulpit.resx" />
   </ItemGroup>
 

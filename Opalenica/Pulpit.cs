@@ -1,16 +1,30 @@
 ﻿namespace Opalenica;
 
-using System;
+using System.ComponentModel;
 using System.Diagnostics;
-using System.Drawing;
 using System.Drawing.Drawing2D;
+using System.Windows.Forms;
+
+using Opalenica.Render;
+using Opalenica.Tiles;
+using Opalenica.Tiles.Interfaces;
+using Opalenica.TrackElements;
 
 internal class Pulpit : Control
 {
     private readonly Size designSize = new Size(1366, 768);
-    private (float horizontal, float vertical) scale = (1, 1);
-    private List<PulpitElement> pulpit = new List<PulpitElement>();
-    public static List<Data> Data = new List<Data>();
+    public static (float Horizontal, float Vertical) Scale { get; private set; } = (1, 1);
+    private bool DesignerMode { get; } = false;
+
+    private Grid grid { get; set; } = new Grid("34x19", "40x40");
+
+    [Category("Appearance")]
+    [Browsable(true)]
+    public new Padding Padding { get; set; } = new Padding(3, 3, 3, 3);
+
+    public List<Tile> RegisteredTiles = new List<Tile>();
+
+    private bool blockLeftClick = false;
 
 #if DEBUG
     private Stopwatch watch;
@@ -20,10 +34,152 @@ internal class Pulpit : Control
     {
 #if DEBUG
         watch = new Stopwatch();
-        watch.Stop();
+        watch.Start();
 #endif
+        DesignerMode = LicenseManager.UsageMode == LicenseUsageMode.Designtime;
+        grid.Padding = Padding;
         this.DoubleBuffered = true;
         RegisterElements();
+        //tileSize = new Size((designSize.Width - Padding.Vertical) / 38, (designSize.Height - Padding.Horizontal) / 38);
+    }
+
+    public Pulpit(Control parent, String text) : base(parent, text)
+    {
+        Parent = parent;
+        Text = text;
+
+#if DEBUG
+        watch = new Stopwatch();
+        watch.Start();
+#endif
+        DesignerMode = LicenseManager.UsageMode == LicenseUsageMode.Designtime;
+        grid.Padding = Padding;
+        this.DoubleBuffered = true;
+        RegisterElements();
+    }
+
+    public void RegisterTiles()
+    {
+        /*Track.GetTrack("outR", TrackType.BrakKontroliZamkniety);
+        Track.GetTrack("1", TrackType.BrakKontroliZamkniety);
+        Track.GetTrack("1a", TrackType.BrakKontroliZamkniety);
+
+        Track.GetTrack("outS", TrackType.BrakKontroli);
+        Track.GetTrack("2", TrackType.BrakKontroli);
+        Track.GetTrack("2a", TrackType.BrakKontroli);*/
+
+        RegisteredTiles.Add(new TrackTile(grid.CalculatePosition(0, 5), Track.GetTrack("outR")));
+        RegisteredTiles.Add(new TrackTile(grid.CalculatePosition(0, 7), Track.GetTrack("outS")));
+
+        RegisteredTiles.Add(new SignalTile(grid.CalculatePosition(1, 5), Signal.GetSignal("R", TriangleDirection.Right, Track.GetTrack("1a"))));
+        RegisteredTiles.Add(new SignalTile(grid.CalculatePosition(1, 7), Signal.GetSignal("S", TriangleDirection.Right, Track.GetTrack("2a"))));
+
+        RegisteredTiles.Add(new TrackTile(grid.CalculatePosition(3, 3), new Size(3, 1), Track.GetTrack("3a")));
+        RegisteredTiles.Add(new TrackTile(grid.CalculatePosition(2, 5), new Size(2, 1), Track.GetTrack("1a")));
+        RegisteredTiles.Add(new TrackTile(grid.CalculatePosition(6, 5), new Size(1, 1), Track.GetTrack("1a")));
+        RegisteredTiles.Add(new TrackTile(grid.CalculatePosition(3, 7), new Size(4, 1), Track.GetTrack("2a")));
+        RegisteredTiles.Add(new TrackTile(grid.CalculatePosition(8, 7), new Size(1, 1), Track.GetTrack("2a")));
+        RegisteredTiles.Add(new TrackTile(grid.CalculatePosition(3, 9), new Size(6, 1), Track.GetTrack("4a")));
+        RegisteredTiles.Add(new TrackTile(grid.CalculatePosition(10, 9), new Size(1, 1), Track.GetTrack("4a")));
+        RegisteredTiles.Add(new TrackTile(grid.CalculatePosition(11, 11), new Size(1, 1), Track.GetTrack("6a")));
+
+        RegisteredTiles.Add(new TrackTile(grid.CalculatePosition(3, 6), new Size(1, 1), Track.GetTrack("2a1a")) { Drawing = DrawingDirection.Start_Bottom | DrawingDirection.Start_Left | DrawingDirection.End_Top | DrawingDirection.End_Right });
+        RegisteredTiles.Add(new TrackTile(grid.CalculatePosition(5, 4), new Size(1, 1), Track.GetTrack("1a3a")) { Drawing = DrawingDirection.Start_Bottom | DrawingDirection.Start_Left | DrawingDirection.End_Top | DrawingDirection.End_Right });
+        RegisteredTiles.Add(new TrackTile(grid.CalculatePosition(6, 6), new Size(1, 1), Track.GetTrack("1a2a")) { Drawing = DrawingDirection.Start_Top | DrawingDirection.Start_Left | DrawingDirection.End_Bottom | DrawingDirection.End_Right });
+        RegisteredTiles.Add(new TrackTile(grid.CalculatePosition(8, 8), new Size(1, 1), Track.GetTrack("2a4a")) { Drawing = DrawingDirection.Start_Top | DrawingDirection.Start_Left | DrawingDirection.End_Bottom | DrawingDirection.End_Right });
+        RegisteredTiles.Add(new TrackTile(grid.CalculatePosition(10, 10), new Size(1, 1), Track.GetTrack("6a")) { Drawing = DrawingDirection.Start_Top | DrawingDirection.Start_Left | DrawingDirection.End_Bottom | DrawingDirection.End_Right });
+
+        RegisteredTiles.Add(new SignalTile(grid.CalculatePosition(7, 3), Signal.GetSignal("P", TriangleDirection.Left, Track.GetTrack("3"))));
+        RegisteredTiles.Add(new SignalTile(grid.CalculatePosition(7, 5), Signal.GetSignal("O", TriangleDirection.Left, Track.GetTrack("1"))));
+        RegisteredTiles.Add(new SignalTile(grid.CalculatePosition(9, 7), Signal.GetSignal("N", TriangleDirection.Left, Track.GetTrack("2"))));
+        RegisteredTiles.Add(new SignalTile(grid.CalculatePosition(11, 9), Signal.GetSignal("M", TriangleDirection.Left, Track.GetTrack("4"))));
+        RegisteredTiles.Add(new SignalTile(grid.CalculatePosition(12, 11), Signal.GetSignal("L", TriangleDirection.Left, Track.GetTrack("6"))));
+
+        RegisteredTiles.Add(new TrackTile(grid.CalculatePosition(8, 3), new Size(11, 1), Track.GetTrack("3")));
+        RegisteredTiles.Add(new TrackTile(grid.CalculatePosition(8, 5), new Size(11, 1), Track.GetTrack("1")));
+        RegisteredTiles.Add(new TrackTile(grid.CalculatePosition(10, 7), new Size(8, 1), Track.GetTrack("2")));
+        RegisteredTiles.Add(new TrackTile(grid.CalculatePosition(12, 9), new Size(5, 1), Track.GetTrack("4")));
+        RegisteredTiles.Add(new TrackTile(grid.CalculatePosition(13, 11), new Size(3, 1), Track.GetTrack("6")));
+
+        RegisteredTiles.Add(new JunctionTile(grid.CalculatePosition(2, 7), Junction.GetJunction("15", JunctionDirection.JunctionL_Right, Track.GetTrack("2a"), Track.GetTrack("2a1a"))));
+        RegisteredTiles.Add(new DoubleJunctionTile(grid.CalculatePosition(4, 5), Junction.GetJunction("14ab", JunctionDirection.JunctionL_Left, Track.GetTrack("1a"), Track.GetTrack("1a3a")), Junction.GetJunction("14cd", Track.GetTrack("1a"), Track.GetTrack("2a1a"))));
+        RegisteredTiles.Add(new JunctionTile(grid.CalculatePosition(6, 3), Junction.GetJunction("13", JunctionDirection.JunctionL_Left, Track.GetTrack("3a"), Track.GetTrack("1a3a"))));
+        RegisteredTiles.Add(new JunctionTile(grid.CalculatePosition(5, 5), Junction.GetJunction("12", JunctionDirection.JunctionR_Right, Track.GetTrack("1a"), Track.GetTrack("1a2a"))));
+        RegisteredTiles.Add(new DoubleJunctionTile(grid.CalculatePosition(7, 7), Junction.GetJunction("11ab", JunctionDirection.JunctionR_Left, Track.GetTrack("2a"), Track.GetTrack("1a2a")), Junction.GetJunction("11cd", Track.GetTrack("2a"), Track.GetTrack("2a4a"))));
+        RegisteredTiles.Add(new DoubleJunctionTile(grid.CalculatePosition(9, 9), Junction.GetJunction("10ab", JunctionDirection.JunctionR_Left, Track.GetTrack("4a"), Track.GetTrack("2a4a")), Junction.GetJunction("10cd", Track.GetTrack("4a"), Track.GetTrack("4a6a"))));
+
+        RegisteredTiles.Add(new SignalTile(grid.CalculatePosition(16, 11), Signal.GetSignal("H", TriangleDirection.Right, Track.GetTrack("6"))));
+        RegisteredTiles.Add(new SignalTile(grid.CalculatePosition(17, 9), Signal.GetSignal("G", TriangleDirection.Right, Track.GetTrack("4"))));
+        RegisteredTiles.Add(new SignalTile(grid.CalculatePosition(18, 7), Signal.GetSignal("F", TriangleDirection.Right, Track.GetTrack("2"))));
+        RegisteredTiles.Add(new SignalTile(grid.CalculatePosition(19, 5), Signal.GetSignal("E", TriangleDirection.Right, Track.GetTrack("1"))));
+        RegisteredTiles.Add(new SignalTile(grid.CalculatePosition(19, 3), Signal.GetSignal("D", TriangleDirection.Right, Track.GetTrack("3"))));
+
+        RegisteredTiles.Add(new TrackTile(grid.CalculatePosition(17, 11), new Size(1, 1), Track.GetTrack("6b")));
+        RegisteredTiles.Add(new TrackTile(grid.CalculatePosition(18, 9), new Size(1, 1), Track.GetTrack("4b")));
+        RegisteredTiles.Add(new TrackTile(grid.CalculatePosition(20, 9), new Size(1, 1), Track.GetTrack("4b")));
+        RegisteredTiles.Add(new TrackTile(grid.CalculatePosition(19, 7), new Size(3, 1), Track.GetTrack("2b")));
+        RegisteredTiles.Add(new TrackTile(grid.CalculatePosition(23, 7), new Size(1, 1), Track.GetTrack("2b")));
+        RegisteredTiles.Add(new TrackTile(grid.CalculatePosition(25, 7), new Size(2, 1), Track.GetTrack("2b")));
+        RegisteredTiles.Add(new TrackTile(grid.CalculatePosition(20, 5), new Size(2, 1), Track.GetTrack("1b")));
+        RegisteredTiles.Add(new TrackTile(grid.CalculatePosition(23, 5), new Size(1, 1), Track.GetTrack("1b")));
+        RegisteredTiles.Add(new TrackTile(grid.CalculatePosition(25, 5), new Size(2, 1), Track.GetTrack("1b")));
+        RegisteredTiles.Add(new TrackTile(grid.CalculatePosition(20, 3), new Size(6, 1), Track.GetTrack("3b")));
+
+        RegisteredTiles.Add(new TrackTile(grid.CalculatePosition(18, 10), new Size(1, 1), Track.GetTrack("6b")) { Drawing = DrawingDirection.Start_Bottom | DrawingDirection.Start_Left | DrawingDirection.End_Top | DrawingDirection.End_Right });
+        RegisteredTiles.Add(new TrackTile(grid.CalculatePosition(21, 8), new Size(1, 1), Track.GetTrack("2b4b")) { Drawing = DrawingDirection.Start_Bottom | DrawingDirection.Start_Left | DrawingDirection.End_Top | DrawingDirection.End_Right });
+        RegisteredTiles.Add(new TrackTile(grid.CalculatePosition(25, 4), new Size(1, 1), Track.GetTrack("1b3b")) { Drawing = DrawingDirection.Start_Bottom | DrawingDirection.Start_Left | DrawingDirection.End_Top | DrawingDirection.End_Right });
+
+        RegisteredTiles.Add(new JunctionTile(grid.CalculatePosition(19, 9), Junction.GetJunction("4", JunctionDirection.JunctionL_Left, Track.GetTrack("4b"), Track.GetTrack("6b"))));
+        RegisteredTiles.Add(new JunctionTile(grid.CalculatePosition(22, 5), Junction.GetJunction("5", JunctionDirection.JunctionR_Right, Track.GetTrack("1b"), Track.GetTrack("3b1b"))));
+        RegisteredTiles.Add(new JunctionTile(grid.CalculatePosition(24, 7), Junction.GetJunction("6", JunctionDirection.JunctionR_Left, Track.GetTrack("2b"), Track.GetTrack("1b2b"))));
+        RegisteredTiles.Add(new JunctionTile(grid.CalculatePosition(26, 3), Junction.GetJunction("1", JunctionDirection.JunctionL_Left, Track.GetTrack("3b"), Track.GetTrack("1b3b"))));
+        RegisteredTiles.Add(new DoubleJunctionTile(grid.CalculatePosition(22, 7), Junction.GetJunction("3ab", JunctionDirection.JunctionL_Left, Track.GetTrack("2b"), Track.GetTrack("2b4b")), Junction.GetJunction("3cd", Track.GetTrack("2b"), Track.GetTrack("2b1b"))));
+        RegisteredTiles.Add(new DoubleJunctionTile(grid.CalculatePosition(24, 5), Junction.GetJunction("2ab", JunctionDirection.JunctionL_Left, Track.GetTrack("1b"), Track.GetTrack("1b2b")), Junction.GetJunction("2cd", Track.GetTrack("1b"), Track.GetTrack("1b3b"))));
+
+        RegisteredTiles.Add(new CrossTrackTile(grid.CalculatePosition(23, 6), CrossTrack.GetCross("K1", Track.GetTrack("2b1b"), Track.GetTrack("1b2b"))));
+
+        RegisteredTiles.Add(new SignalTile(grid.CalculatePosition(27, 3), Signal.GetSignal("C", TriangleDirection.Left, Track.GetTrack("1b"))));
+        RegisteredTiles.Add(new SignalTile(grid.CalculatePosition(27, 5), Signal.GetSignal("B", TriangleDirection.Left, Track.GetTrack("1b"))));
+        RegisteredTiles.Add(new SignalTile(grid.CalculatePosition(27, 7), Signal.GetSignal("A", TriangleDirection.Left, Track.GetTrack("2b"))));
+
+        RegisteredTiles.Add(new TrackTile(grid.CalculatePosition(28, 3), new Size(2, 1), Track.GetTrack("outC")));
+        RegisteredTiles.Add(new TrackTile(grid.CalculatePosition(31, 3), new Size(2, 1), Track.GetTrack("it102")));
+        RegisteredTiles.Add(new TrackTile(grid.CalculatePosition(31, 2), new Size(2, 1), Track.GetTrack("it103")));
+        RegisteredTiles.Add(new TrackTile(grid.CalculatePosition(31, 1), new Size(2, 1), Track.GetTrack("it104")));
+
+        RegisteredTiles.Add(new TrackTile(grid.CalculatePosition(28, 5), new Size(2, 1), Track.GetTrack("outB")));
+        RegisteredTiles.Add(new TrackTile(grid.CalculatePosition(28, 7), new Size(2, 1), Track.GetTrack("outA")));
+
+        RegisteredTiles.Add(new InfoTile(grid.CalculatePosition(0, 13), new Size(15, 5)));
+
+        RegisteredTiles.Add(new TrackCurveTile(grid.CalculatePosition(11, 11), Track.GetTrack("6a"), CurveDirection.FromRightTurnRight45));
+        RegisteredTiles.Add(new TrackCurveTile(grid.CalculatePosition(17, 11), Track.GetTrack("6b"), CurveDirection.FromLeftTurnLeft45));
+    }
+
+    public void RegisterElements()
+    {
+        RegisterTiles();
+
+        for (int i = 0; i < grid.Capacity; i++)
+        {
+            if (i == grid.CalculatePosition(1, 0))
+            {
+                grid.AddTile(new ColorCheckTile(i, new Size(3, 2)));
+            }
+            else if (i == grid.CalculatePosition(0, 18))
+            {
+                grid.AddTile(new CommandTile(i, new Size(9, 1), this.Parent));
+            }
+            else
+            {
+                grid.AddTile(new Tile(i));
+            }
+        }
+
+        foreach (var tile in RegisteredTiles)
+        {
+            grid.AddTile(tile);
+        }
     }
 
     protected override void OnSizeChanged(EventArgs e)
@@ -34,7 +190,7 @@ internal class Pulpit : Control
 
     private void calculateScale()
     {
-        scale = ((float) Width / designSize.Width, (float) Height / designSize.Height);
+        Scale = ((float)Width / designSize.Width, (float)Height / designSize.Height);
     }
 
     protected override void OnPaint(PaintEventArgs e)
@@ -43,213 +199,90 @@ internal class Pulpit : Control
         watch.Restart();
 #endif
         base.OnPaint(e);
-        calculateScale();
 
-        using Bitmap bitmap = new Bitmap(designSize.Width, designSize.Height);
-        using Graphics g = Graphics.FromImage(bitmap);
-        g.InterpolationMode = InterpolationMode.HighQualityBicubic;
-        g.SmoothingMode = SmoothingMode.None;
-        g.PixelOffsetMode = PixelOffsetMode.Half;
-
-        using (SolidBrush b = new SolidBrush(Colors.Black))
+        if (DesignerMode)
         {
-            g.FillRectangle(b, 0, 0, bitmap.Width, bitmap.Height);
-            b.Color = Color.FromArgb(255, 0, 0);
-            g.FillRectangle(b, 10, 10, 30, 50);
-            b.Color = Color.FromArgb(0, 255, 0);
-            g.FillRectangle(b, 40, 10, 30, 50);
-            b.Color = Color.FromArgb(0, 0, 255);
-            g.FillRectangle(b, 70, 10, 30, 50);
+            Point center = new Point(Width / 2, Height / 2);
+            string s = $"Dimensions: {Width}x{Height}\nScale: {Scale.Horizontal}x{Scale.Vertical}";
+            e.Graphics.FillRectangle(Brushes.Black, 0, 0, Width, Height);
+            e.Graphics.DrawRectangle(Pens.White, 0, 0, Width, Height);
+            SizeF size = e.Graphics.MeasureString(s, Font);
+            e.Graphics.DrawString(s, Font, Brushes.White, center.X - size.Width / 2, center.Y - size.Height / 2);
+            return;
         }
-        DrawPulpit(g);
-        DrawDebugOverlay(g);
-
-        e.Graphics.DrawImage(bitmap, 0, 0, Width, Height);
-
-#if DEBUG
-        watch.Stop();
-        using Brush textBrush = new SolidBrush(Colors.White);
-        using Font f = new Font(Font.FontFamily, 8f, FontStyle.Bold);
-        string s = $"DEBUG MODE\n\nDraw Time {watch.Elapsed:s\\.fff} s\n" +
-            $"Scale: {scale.horizontal} x {scale.vertical}\n" +
-            $"Design resolution: {designSize.Width} x {designSize.Height}\n" +
-            $"Display: {OpalenicaForm.actualScreen.DeviceName} - {Width} x {Height}\n" +
-            $"Displaying in window: {Parent switch { Form form => !(form.WindowState == FormWindowState.Maximized), _ => "unknown" }}";
-        var sizef = e.Graphics.MeasureString(s, f);
-        e.Graphics.FillRectangle(Brushes.DimGray, 5, Height - (sizef.Height + 15), sizef.Width + 10, sizef.Height + 10);
-        e.Graphics.DrawString(s, f, textBrush, 10, Height - (sizef.Height + 10));
-#endif
-    }
-
-    protected void DrawDebugOverlay(Graphics g)
-    {
-        using Pen pen = new Pen(Color.Pink);
-        for (int x = 5; x < Size.Width; x += 30)
+        else
         {
-            for (int y = 10; y < Size.Height; y += 20)
+            calculateScale();
+
+            e.Graphics.InterpolationMode = InterpolationMode.HighQualityBicubic;
+            e.Graphics.SmoothingMode = SmoothingMode.None;
+            e.Graphics.PixelOffsetMode = PixelOffsetMode.Half;
+
+            using (SolidBrush b = new SolidBrush(Colors.Black))
             {
-                g.DrawRectangle(pen, x, y, 30, 20);
+                e.Graphics.FillRectangle(b, 0, 0, Width, Height);
             }
+
+            DrawPulpit(e.Graphics);
         }
-    }
-
-    /**
-     *  Przyjąłem 10 pixeli w górę, przy 3 pixelach w bok dla skosów (coś około 73 stopni)
-     *  później pewnie zmienię ten skos
-     *  zobaczę jak będzie to wyglądać w ostatecznej wersji
-     *  :)
-     */
-    protected void RegisterElements()
-    {
-        pulpit.Clear();
-
-        /*pulpit.AddElement(new Semafor() { Name = "R", Location = new Location(145, 200), Type = SemaforType.Pociagowy, Direction = TriangleDirection.Right });
-        pulpit.AddElement(new Semafor() { Name = "S", Location = new Location(145, 300), Type = SemaforType.Pociagowy, Direction = TriangleDirection.Right });
-
-        pulpit.AddElement(new Semafor() { Name = "P", Location = new Location(295, 100), Type = SemaforType.PociagowyManewrowy, Direction = TriangleDirection.Left });
-        pulpit.AddElement(new Semafor() { Name = "O", Location = new Location(295, 200), Type = SemaforType.PociagowyManewrowy, Direction = TriangleDirection.Left });
-        pulpit.AddElement(new Semafor() { Name = "N", Location = new Location(325, 300), Type = SemaforType.PociagowyManewrowy, Direction = TriangleDirection.Left });
-        pulpit.AddElement(new Semafor() { Name = "M", Location = new Location(355, 400), Type = SemaforType.PociagowyManewrowy, Direction = TriangleDirection.Left });
-        pulpit.AddElement(new Semafor() { Name = "L", Location = new Location(385, 500), Type = SemaforType.PociagowyManewrowy, Direction = TriangleDirection.Left });
-
-        pulpit.AddElement(new Semafor() { Name = "D", Location = new Location(965, 100), Type = SemaforType.PociagowyManewrowy, Direction = TriangleDirection.Right });
-        pulpit.AddElement(new Semafor() { Name = "E", Location = new Location(915, 200), Type = SemaforType.PociagowyManewrowy, Direction = TriangleDirection.Right });
-        pulpit.AddElement(new Semafor() { Name = "F", Location = new Location(915, 300), Type = SemaforType.PociagowyManewrowy, Direction = TriangleDirection.Right });
-        pulpit.AddElement(new Semafor() { Name = "G", Location = new Location(845, 400), Type = SemaforType.PociagowyManewrowy, Direction = TriangleDirection.Right });
-        pulpit.AddElement(new Semafor() { Name = "H", Location = new Location(815, 500), Type = SemaforType.PociagowyManewrowy, Direction = TriangleDirection.Right });
-
-        pulpit.AddElement(new Semafor() { Name = "A", Location = new Location(1065, 100), Type = SemaforType.Pociagowy, Direction = TriangleDirection.Left });
-        pulpit.AddElement(new Semafor() { Name = "B", Location = new Location(1035, 200), Type = SemaforType.Pociagowy, Direction = TriangleDirection.Left });
-        pulpit.AddElement(new Semafor() { Name = "C", Location = new Location(1035, 300), Type = SemaforType.Pociagowy, Direction = TriangleDirection.Left });
-
-        /*pulpit.AddElement(new Track() { Name = "outR"     , Location = new Location(30 , 200, 130, 200) });
-        pulpit.AddElement(new Track() { Name = "R-14ab"   , Location = new Location(160, 200, 230, 200) });
-        pulpit.AddElement(new Track() { Name = "outS"     , Location = new Location(30 , 300, 130, 300) });
-        pulpit.AddElement(new Track() { Name = "S-15"     , Location = new Location(160, 300, 200, 300) });
-        pulpit.AddElement(new Track() { Name = "15-14ab"  , Location = new Location(200, 300, 230, 200) });
-        pulpit.AddElement(new Track() { Name = "14cd-13"  , Location = new Location(230, 200, 260, 100) });
-        pulpit.AddElement(new Track() { Name = "13-P"     , Location = new Location(260, 100, 280, 100) });
-        pulpit.AddElement(new Track() { Name = "13-End"   , Location = new Location(260, 100, 200, 100) });
-        pulpit.AddElement(new Track() { Name = "14cd-12"  , Location = new Location(230, 200, 260, 200) });
-        pulpit.AddElement(new Track() { Name = "12-O"     , Location = new Location(260, 200, 280, 200) });
-        pulpit.AddElement(new Track() { Name = "12-11ab"  , Location = new Location(260, 200, 290, 300) });
-        pulpit.AddElement(new Track() { Name = "15-11ab"  , Location = new Location(200, 300, 290, 300) });
-        pulpit.AddElement(new Track() { Name = "11cd-N"   , Location = new Location(290, 300, 310, 300) });
-        pulpit.AddElement(new Track() { Name = "11cd-10ab", Location = new Location(290, 300, 320, 400) });
-        pulpit.AddElement(new Track() { Name = "10cd-M"   , Location = new Location(320, 400, 340, 400) });
-        pulpit.AddElement(new Track() { Name = "10ab-End" , Location = new Location(320, 400, 200, 400) });
-        pulpit.AddElement(new Track() { Name = "10cd-L"   , Location = new Location(320, 400, 350, 500) });
-        pulpit.AddElement(new Track() { Name = "10cd-L"   , Location = new Location(350, 500, 370, 500) });
-
-        pulpit.AddElement(new Track() { Name = "Tr3"      , Location = new Location(310, 100, 950, 100) });
-        pulpit.AddElement(new Track() { Name = "Tr1"      , Location = new Location(310, 200, 900, 200) });
-        pulpit.AddElement(new Track() { Name = "Tr2"      , Location = new Location(340, 300, 900, 300) });
-        pulpit.AddElement(new Track() { Name = "Tr4"      , Location = new Location(370, 400, 830, 400) });
-        pulpit.AddElement(new Track() { Name = "Tr6"      , Location = new Location(400, 500, 800, 500) });
-
-        pulpit.AddElement(new Track() { Name = "H-4"      , Location = new Location(830, 500, 850, 500) });
-        pulpit.AddElement(new Track() { Name = "H-4"      , Location = new Location(850, 500, 880, 400) });
-        pulpit.AddElement(new Track() { Name = "G-4"      , Location = new Location(860, 400, 880, 400) });
-        pulpit.AddElement(new Track() { Name = "4-3ab"    , Location = new Location(880, 400, 920, 400) });
-        pulpit.AddElement(new Track() { Name = "4-3ab"    , Location = new Location(920, 400, 950, 300) });
-        pulpit.AddElement(new Track() { Name = "F-3ab"    , Location = new Location(930, 300, 950, 300) });
-        pulpit.AddElement(new Track() { Name = "3cd-2ab"  , Location = new Location(950, 300, 980, 200) });
-        pulpit.AddElement(new Track() { Name = "E-7"      , Location = new Location(930, 200, 950, 200) });
-        pulpit.AddElement(new Track() { Name = "7-2ab"    , Location = new Location(950, 200, 980, 200) });
-        pulpit.AddElement(new Track() { Name = "7-6"      , Location = new Location(950, 200, 980, 300) });
-        pulpit.AddElement(new Track() { Name = "3cd-6"    , Location = new Location(950, 300, 980, 300) });
-        pulpit.AddElement(new Track() { Name = "2cd-1"    , Location = new Location(980, 200, 1010, 100) });
-        pulpit.AddElement(new Track() { Name = "D-1"      , Location = new Location(980, 100, 1010, 100) });
-        pulpit.AddElement(new Track() { Name = "2cd-B"    , Location = new Location(980, 200, 1020, 200) });
-        pulpit.AddElement(new Track() { Name = "6-C"      , Location = new Location(980, 300, 1020, 300) });
-        pulpit.AddElement(new Track() { Name = "1-A"      , Location = new Location(1010, 100, 1050, 100) });
-
-        pulpit.AddElement(new Track() { Name = "outB"     , Location = new Location(1050, 200, 1150, 200) });
-        pulpit.AddElement(new Track() { Name = "outC"     , Location = new Location(1050, 300, 1150, 300) });
-
-        pulpit.AddElement(new Track() { Name = "outA"     , Location = new Location(1080, 100, 1095 , 100) });
-        pulpit.AddElement(new Track() { Name = "it10"     , Location = new Location(1100, 100, 1180, 100) });
-        pulpit.AddElement(new Track() { Name = "it20"     , Location = new Location(1100, 70 , 1180, 70) });
-        pulpit.AddElement(new Track() { Name = "it30"     , Location = new Location(1100, 40 , 1180, 40) });*/
     }
 
     protected void DrawPulpit(Graphics g)
     {
-#if DEBUG
-        RegisterElements();
-#endif
-        using Pen pen = new Pen(Colors.White, 3);
-        using SolidBrush brush = new SolidBrush(Colors.White);
-
-        foreach (var element in pulpit)
+        var defaultTransform = g.Transform;
+        var prevClipRegion = g.Clip;
+        foreach (var tile in grid.GetTiles())
         {
-            if (element.Location.IsEmpty())
-                continue;
-
-            /*if (element is Semafor semafor)
-            {
-                brush.Color = GetColor(semafor);
-                pen.Color = GetColor(semafor);
-                if (semafor.Type == SemaforType.Pociagowy)
-                    g.FillTriangle(brush, semafor.Location, semafor.Direction);
-                else if (semafor.Type == SemaforType.Manewrowy)
-                    g.DrawOpenTriangle(pen, semafor.Location, semafor.Direction);
-                else if (semafor.Type == SemaforType.PociagowyManewrowy)
-                {
-                    RectangleF rect = semafor.Direction switch
-                    {
-                        TriangleDirection.Left => new RectangleF(semafor.Location.X, semafor.Location.Y, semafor.Location.Size.Width / 2, semafor.Location.Size.Height),
-                        TriangleDirection.Up => new RectangleF(semafor.Location.X, semafor.Location.Y, semafor.Location.Size.Width, semafor.Location.Size.Height / 2),
-                        TriangleDirection.Right => new RectangleF(semafor.Location.X + semafor.Location.Size.Width / 2, semafor.Location.Y, semafor.Location.Size.Width / 2, semafor.Location.Size.Height),
-                        TriangleDirection.Down => new RectangleF(semafor.Location.X, semafor.Location.Y + semafor.Location.Size.Height / 2, semafor.Location.Size.Width, semafor.Location.Size.Height / 2),
-                        _ => throw new ArgumentException("Invalid direction")
-                    };
-                    g.FillTriangle(brush, rect, semafor.Direction);
-                    rect = semafor.Direction switch
-                    {
-                        TriangleDirection.Left => new RectangleF(rect.X + rect.Width, rect.Y, rect.Width, rect.Height),
-                        TriangleDirection.Up => new RectangleF(rect.X, rect.Y + rect.Height, rect.Width, rect.Height),
-                        TriangleDirection.Right => new RectangleF(rect.X - rect.Width, rect.Y, rect.Width, rect.Height),
-                        TriangleDirection.Down => new RectangleF(rect.X, rect.Y - rect.Height, rect.Width, rect.Height),
-                        _ => throw new ArgumentException("Invalid direction")
-                    };
-                    g.DrawOpenTriangle(pen, rect, semafor.Direction);
-                }
-            }*/
-            /*if (element is Track track)
-            {
-                pen.Color = GetColor(track);
-                g.DrawLine(pen, track.Location.TopLeft, track.Location.BottomRight);
-            }*/
+            Point p = grid.CalculateGraphicTilePosition(tile.Position);
+            g.ScaleTransform(Scale.Horizontal, Scale.Vertical);
+            g.TranslateTransform(p.X, p.Y);
+            g.Clip = new Region(new Rectangle(p.X == 0 ? -1 : 0, p.Y == 0 ? -1 : 0, tile.Size.Width, tile.Size.Height));
+            tile.PaintTile(g);
+            g.Clip = prevClipRegion;
+            g.ResetTransform();
         }
+        g.ResetTransform();
+        g.Transform = defaultTransform;
     }
 
-    private Color GetColor(PulpitElement element)
+    protected override void OnMouseClick(MouseEventArgs e)
     {
-        return element switch
+        void ShowContextMenu(ContextMenuStrip menu)
         {
-            /*Track track => (int) track switch
+            /* if debugmode
+                 * add debug items
+                 * */
+            blockLeftClick = true;
+            menu.Show(this, e.Location);
+        }
+
+        base.OnMouseClick(e);
+
+        Point p = new Point((int)(e.X / Scale.Horizontal), (int)(e.Y / Scale.Vertical));
+        var tile = grid.GetTileFromPoint(p);
+
+        if (e.Button is MouseButtons.Left or MouseButtons.Middle)
+        {
+            if (blockLeftClick)
             {
-                -2 => Colors.Red,
-                -1 => Colors.Blue,
-                _ => track.ActualColor
-            },*/
-            /*Semafor sem => (int) sem switch
+                //if (toolStripClosed)
+                    blockLeftClick = false;
+                return;
+            }
+            if ((tile.IsOccupied ? tile.ParentTile ?? tile : tile) is IMouseEvent pMouseEvent)
             {
-                -1 => Colors.Blue,
-                _ => sem.ActualColor
-            },
-            _ => Colors.Blue*/
-        };
+                pMouseEvent.OnMouseClick(e);
+            }
+        }
+
+        if (e.Button == MouseButtons.Right)
+        {
+            if ((tile.IsOccupied ? tile.ParentTile ?? tile : tile) is IHasMenuStrip pMenuStrip)
+            {
+                ShowContextMenu(pMenuStrip.GetMenuStrip());
+                return;
+            }
+        }
+
     }
-
-    /*private bool CheckTrack(Track track)
-    {
-        return track == Track.it102;
-    }*/
-
-    /*private bool CheckSem(Semafor sem)
-    {
-        return sem == Semafor.A;
-    }*/
 }
