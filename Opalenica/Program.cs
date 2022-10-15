@@ -17,16 +17,19 @@ internal static class Program
     public static bool DebugMode { get; set; } = false;
     public static int CommandHistoryLength = 100;
     private static OpalenicaForm form;
+    internal static string startupCommands = "";
 
     /// <summary>
     ///  The main entry point for the application.
     /// </summary>
     [STAThread]
-    static void Main()
+    static void Main(string[] args)
     {
         // To customize application configuration such as set high DPI settings or default font,
         // see https://aka.ms/applicationconfiguration.
         CommandProcessor.RegisterCommands(typeof(Program).Assembly);
+
+        startupCommands = string.Join(" ", args);
 
         Func<bool> closeAppFunc = () =>
         {

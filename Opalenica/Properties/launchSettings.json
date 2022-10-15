@@ -1,0 +1,19 @@
+{
+  "profiles": {
+    "Opalenica": {
+      "commandName": "Project"
+    },
+    "Opalenica Debug": {
+      "commandName": "Project",
+      "commandLineArgs": "debugmode"
+    },
+    "Opalenica Fullscreen": {
+      "commandName": "Project",
+      "commandLineArgs": "debugmode|fullscreen|debugmode"
+    },
+    "Opalenica Fullscreen Debug": {
+      "commandName": "Project",
+      "commandLineArgs": "debugmode|fullscreen"
+    }
+  }
+}

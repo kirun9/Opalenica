@@ -18,8 +18,14 @@ public partial class OpalenicaForm : Form
         updateTimer = new Timer() { Interval = 100, Enabled = true };
         updateTimer.Tick += new EventHandler(UpdateTimer_Tick);
 #if DEBUG
-        CommandProcessor.ExecuteCommand("debugmode");
+        //CommandProcessor.ExecuteCommand("debugmode");
 #endif
+    }
+
+    protected override void OnLoad(EventArgs e)
+    {
+        base.OnLoad(e);
+        CommandProcessor.ExecuteCommand(Program.startupCommands);
     }
 
     private void UpdateTimer_Tick(Object? sender, EventArgs e)
