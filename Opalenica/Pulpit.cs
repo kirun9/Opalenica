@@ -193,6 +193,28 @@ internal class Pulpit : Control
         Scale = ((float)Width / designSize.Width, (float)Height / designSize.Height);
     }
 
+    private void DesignerPaint(Graphics g)
+    {
+        Point center = new Point(Width / 2, Height / 2);
+        string s = $"Dimensions: {Width}x{Height}\nScale: {Scale.Horizontal}x{Scale.Vertical}";
+        g.FillRectangle(Brushes.Black, 0, 0, Width, Height);
+        using Pen pen = new Pen(Colors.White, 5);
+        pen.Alignment = PenAlignment.Inset;
+        g.DrawRectangle(pen, 0, 0, Width, Height);
+
+        using var cap = new AdjustableArrowCap(5, 5);
+        pen.Alignment = PenAlignment.Center;
+        pen.CustomEndCap = cap;
+        pen.CustomStartCap = cap;
+
+        g.DrawLine(pen, Width * 0.05f, Height * 0.05f, Width * 0.95f, Height * 0.95f);
+        g.DrawLine(pen, Width * 0.05f, Height * 0.95f, Width * 0.95f, Height * 0.05f);
+
+        SizeF size = g.MeasureString(s, Font);
+        g.FillRectangle(Brushes.Black, center.X - size.Width / 2, center.Y - size.Height / 2, size.Width, size.Height);
+        g.DrawString(s, Font, Brushes.White, center.X - size.Width / 2, center.Y - size.Height / 2);
+    }
+
     protected override void OnPaint(PaintEventArgs e)
     {
 #if DEBUG
@@ -200,31 +222,23 @@ internal class Pulpit : Control
 #endif
         base.OnPaint(e);
 
-        if (DesignerMode)
+        if (DesignerMode || DesignMode)
         {
-            Point center = new Point(Width / 2, Height / 2);
-            string s = $"Dimensions: {Width}x{Height}\nScale: {Scale.Horizontal}x{Scale.Vertical}";
-            e.Graphics.FillRectangle(Brushes.Black, 0, 0, Width, Height);
-            e.Graphics.DrawRectangle(Pens.White, 0, 0, Width, Height);
-            SizeF size = e.Graphics.MeasureString(s, Font);
-            e.Graphics.DrawString(s, Font, Brushes.White, center.X - size.Width / 2, center.Y - size.Height / 2);
+            DesignerPaint(e.Graphics);
             return;
         }
-        else
+        calculateScale();
+
+        e.Graphics.InterpolationMode = InterpolationMode.HighQualityBicubic;
+        e.Graphics.SmoothingMode = SmoothingMode.None;
+        e.Graphics.PixelOffsetMode = PixelOffsetMode.Half;
+
+        using (SolidBrush b = new SolidBrush(Colors.Black))
         {
-            calculateScale();
-
-            e.Graphics.InterpolationMode = InterpolationMode.HighQualityBicubic;
-            e.Graphics.SmoothingMode = SmoothingMode.None;
-            e.Graphics.PixelOffsetMode = PixelOffsetMode.Half;
-
-            using (SolidBrush b = new SolidBrush(Colors.Black))
-            {
-                e.Graphics.FillRectangle(b, 0, 0, Width, Height);
-            }
-
-            DrawPulpit(e.Graphics);
+            e.Graphics.FillRectangle(b, 0, 0, Width, Height);
         }
+
+        DrawPulpit(e.Graphics);
     }
 
     protected void DrawPulpit(Graphics g)
