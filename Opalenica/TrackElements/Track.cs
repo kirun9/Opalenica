@@ -4,9 +4,11 @@ using CommandProcessor;
 
 using Opalenica.Interfaces;
 using Opalenica.Tiles;
+using Opalenica.Tiles.Interfaces;
+
 using System.Drawing.Drawing2D;
 
-public class Track : Element, IHasOwnData<TrackData>
+public class Track : Element, IHasOwnData<TrackData>, IHasMenuStrip
 {
     public VirtualData Occupied;
     public VirtualData Established;
@@ -19,27 +21,6 @@ public class Track : Element, IHasOwnData<TrackData>
     public float Width => Type is TrackType.KontrolaZamkniety or TrackType.BrakKontroliZamkniety? 4 : 4;
     public float[] CompoundArray => Type is TrackType.KontrolaZamkniety or TrackType.BrakKontroliZamkniety? new float[] { 0f, 1f / 5f, 4f / 5f, 1f } : new float[] { 0, 1 };
     public float[] DashPattern => Type is TrackType.BrakKontroli ? new float[] { 1f, 2f, 1f } : Type is TrackType.BrakKontroliZamkniety ? new float[] { 1f, 2f, 1f } : new float[] { 1 };
-
-    //public Color SecondPulsingColor
-    //{
-    //    get
-    //    {
-    //        return GetColor(Data, true);
-    //    }
-    //}
-
-    //public bool PulsingSignal
-    //{
-    //    get
-    //    {
-    //        return Data switch
-    //        {
-    //            TrackData.PotwierdzenieZerowania => true,
-    //            TrackData.UszkodzenieKontroli => true,
-    //            _ => false
-    //        };
-    //    }
-    //}
 
     public Color ActualColor
     {
@@ -153,5 +134,16 @@ public class Track : Element, IHasOwnData<TrackData>
         chainedcommand.NextCommand = command;
         CommandProcessor.RegisterCommand(chainedcommand);
         return track;
+    }
+
+    public ContextMenuStrip GetMenuStrip()
+    {
+        var zamkniety = Type is TrackType.BrakKontroliZamkniety or TrackType.KontrolaZamkniety;
+
+        ContextMenuStrip strip = new ContextMenuStrip();
+        ToolStripMenuItem item = new ToolStripMenuItem(zamkniety ? "Odwołaj Zamknięcie (ozmk)" : "Zamknij (zmk)");
+        item.Click += (_, _) => CommandProcessor.ExecuteCommand($"{Name} {(zamkniety ? "ozmk" : "zmk")}");
+        strip.Items.Add(item);
+        return strip;
     }
 }

@@ -5,10 +5,10 @@ using System.Diagnostics;
 using System.Drawing.Drawing2D;
 using System.Windows.Forms;
 
+using Opalenica.Interfaces;
 using Opalenica.Render;
 using Opalenica.Tiles;
 using Opalenica.Tiles.Interfaces;
-using Opalenica.TrackElements;
 
 internal class Pulpit : Control
 {
@@ -279,8 +279,7 @@ internal class Pulpit : Control
         {
             if (blockLeftClick)
             {
-                //if (toolStripClosed)
-                    blockLeftClick = false;
+                blockLeftClick = false;
                 return;
             }
             if ((tile.IsOccupied ? tile.ParentTile ?? tile : tile) is IMouseEvent pMouseEvent)

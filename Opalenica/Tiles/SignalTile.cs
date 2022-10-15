@@ -2,13 +2,14 @@
 
 using CommandProcessor;
 
+using Opalenica.Interfaces;
 using Opalenica.Render;
 using Opalenica.Tiles.Interfaces;
 
 using System;
 using System.Drawing;
 
-public class SignalTile : Tile, IMouseEvent
+public class SignalTile : Tile, IMouseEvent, IHasMenuStrip
 {
     private Signal Signal { get; set; }
     private TriangleDirection Direction { get => Signal.SignalDirection; }
@@ -72,5 +73,10 @@ public class SignalTile : Tile, IMouseEvent
                 CommandProcessor.ExecuteCommand($"{Signal.Name} sz");
             }
         }
+    }
+
+    public ContextMenuStrip GetMenuStrip()
+    {
+        return Signal.GetMenuStrip();
     }
 }

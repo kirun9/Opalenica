@@ -1,4 +1,4 @@
-﻿namespace Opalenica.Tiles.Interfaces;
+﻿namespace Opalenica.Interfaces;
 
 public interface IHasMenuStrip
 {

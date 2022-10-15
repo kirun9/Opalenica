@@ -9,7 +9,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Runtime.CompilerServices;
 
-public class Signal : Element, IHasOwnData<SignalData>
+public class Signal : Element, IHasOwnData<SignalData>, IHasMenuStrip
 {
     private static List<Signal> RegisteredSignals = new List<Signal>();
 
@@ -71,27 +71,6 @@ public class Signal : Element, IHasOwnData<SignalData>
     public TriangleDirection SignalDirection { get; set; } = TriangleDirection.Left;
 
     private bool Stop = false;
-
-    /*public Color SignalSecondPulsingColor
-    {
-        get
-        {
-            return Colors.Gray;
-        }
-    }
-
-    public bool SignalPulsingSignal
-    {
-        get
-        {
-            return Data switch
-            {
-                SignalData.UszkodzonaZarowkaCzerwona => true,
-                SignalData.SygnalZastepczy => true,
-                _ => false
-            };
-        }
-    }*/
 
     public Color GetColor(SignalData data, bool pulse = false)
     {
@@ -243,5 +222,24 @@ public class Signal : Element, IHasOwnData<SignalData>
             }
         }
         return false;
+    }
+
+    public ContextMenuStrip GetMenuStrip()
+    {
+        ContextMenuStrip strip = new ContextMenuStrip();
+        if (Track is not null)
+        {
+            ToolStripMenuItem trackItem = new ToolStripMenuItem($"Tor {Track.Name}");
+            trackItem.DropDownItems.AddRange(Track.GetMenuStrip().Items);
+            strip.Items.Add(trackItem);
+        }
+        var zamkniety = Data is SignalData.ZamknietyIndywidualny;
+        ToolStripMenuItem zmk = new ToolStripMenuItem(zamkniety ? "Odwołaj Zamknięcie (ozmk)" : "Zamknij (zmk)");
+        zmk.Click += (_, _) => CommandProcessor.ExecuteCommand($"{Name} {(zamkniety ? "ozmk" : "zmk")}");
+        ToolStripMenuItem stoj = new ToolStripMenuItem("Stój");
+        stoj.Click += (_, _) => CommandProcessor.ExecuteCommand($"{Name} stoj");
+        strip.Items.Add(zmk);
+        strip.Items.Add(stoj);
+        return strip;
     }
 }

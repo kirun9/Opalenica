@@ -1,5 +1,6 @@
 ﻿namespace Opalenica.Tiles;
 
+using Opalenica.Interfaces;
 using Opalenica.Tiles.Interfaces;
 
 using System.Drawing;
@@ -74,12 +75,7 @@ public class TrackTile : Tile, IMouseEvent, IHasMenuStrip
 
     public ContextMenuStrip GetMenuStrip()
     {
-        ContextMenuStrip strip = new ContextMenuStrip();
-        ToolStripMenuItem item = new ToolStripMenuItem("Test Item 1");
-        ToolStripMenuItem item2 = new ToolStripMenuItem("Test Item 2");
-        strip.Items.Add(item);
-        strip.Items.Add(item2);
-        return strip;
+        return Track.GetMenuStrip();
     }
 }
 
