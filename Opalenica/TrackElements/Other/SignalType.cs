@@ -1,7 +1,6 @@
 ﻿namespace Opalenica;
 
-public enum SignalType
-{
+public enum SignalType {
     Pociagowy,
     PociagowyManewrowy,
     Manewrowy,

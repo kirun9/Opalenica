@@ -2,8 +2,7 @@
 
 using System.Drawing;
 
-public class Tile
-{
+public class Tile {
     protected static int _elementID { get; private set; } = 0;
     private int _position;
 
@@ -20,18 +19,14 @@ public class Tile
 
     public bool Pulse => Parent?.Pulse ?? false;
 
-    public int Position
-    {
+    public int Position {
         get => _position;
-        set
-        {
-            if (Parent != null)
-            {
+        set {
+            if (Parent != null) {
                 Parent.RemoveTile(this);
             }
             _position = value;
-            if (Parent != null)
-            {
+            if (Parent != null) {
                 Parent.AddTile(this);
             }
         }
@@ -61,54 +56,44 @@ public class Tile
 
     public Font Font { get; set; } = SystemFonts.DefaultFont;
 
-    private Tile()
-    {
+    private Tile() {
         _elementID++;
     }
 
-    public Tile(Grid parent, int position, Size sizeOnGrid) : base()
-    {
+    public Tile(Grid parent, int position, Size sizeOnGrid) : base() {
         Parent = parent;
         Position = position;
         SizeOnGrid = sizeOnGrid;
     }
 
-    public Tile(int pos) : base()
-    {
+    public Tile(int pos) : base() {
         Position = pos;
     }
 
-    public Tile(int position, Size sizeOnGrid) : base()
-    {
+    public Tile(int position, Size sizeOnGrid) : base() {
         Position = position;
         SizeOnGrid = sizeOnGrid;
     }
 
-    public void SetPosition(int x, int y)
-    {
+    public void SetPosition(int x, int y) {
         Position = Parent.CalculatePosition(x, y);
     }
 
-    internal void PaintTile(Graphics g)
-    {
+    internal void PaintTile(Graphics g) {
         Paint(g);
         PostPaint(g);
     }
 
-    private void PostPaint(Graphics g)
-    {
-        if (IsSelected)
-        {
+    private void PostPaint(Graphics g) {
+        if (IsSelected) {
             using Pen p = new Pen(SelectedColor, 1);
             p.Alignment = System.Drawing.Drawing2D.PenAlignment.Inset;
             g.DrawRectangle(p, new Rectangle(1, 1, Width - 2, Height - 2));
         }
     }
 
-    protected virtual void Paint(Graphics g)
-    {
-        if (Parent.DebugMode && !IsOccupied)
-        {
+    protected virtual void Paint(Graphics g) {
+        if (Parent.DebugMode && !IsOccupied) {
             using Font font = new Font(Font.FontFamily, 6, Font.Style, Font.Unit, Font.GdiCharSet, Font.GdiVerticalFont);
             g.DrawRectangle(Pens.Red, 0, 0, Size.Width, Size.Height);
             string s = $"{X}x{Y}";
@@ -119,24 +104,20 @@ public class Tile
         }
     }
 
-    internal void TileAdded(EventArgs args)
-    {
+    internal void TileAdded(EventArgs args) {
         OnTileAdded(args);
     }
 
 
-    internal void TileRemoved(EventArgs args)
-    {
+    internal void TileRemoved(EventArgs args) {
         OnTileRemoved(args);
     }
 
-    protected virtual void OnTileAdded(EventArgs args)
-    {
+    protected virtual void OnTileAdded(EventArgs args) {
         OnTileAdd?.Invoke(this, args);
     }
 
-    protected virtual void OnTileRemoved(EventArgs args)
-    {
+    protected virtual void OnTileRemoved(EventArgs args) {
         OnTileRemove?.Invoke(this, args);
     }
 }

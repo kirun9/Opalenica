@@ -1,7 +1,6 @@
 ﻿namespace Opalenica;
 
-public enum JunctionDirection
-{
+public enum JunctionDirection {
     JunctionL_Right,
     JunctionR_Right,
     JunctionL_Left,

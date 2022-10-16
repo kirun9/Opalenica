@@ -1,7 +1,6 @@
 ﻿namespace Opalenica;
 
-public enum JunctionSet
-{
+public enum JunctionSet {
     // +-----------+
     // |        C  |
     // |      /    |

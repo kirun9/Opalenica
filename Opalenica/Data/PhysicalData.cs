@@ -2,13 +2,11 @@
 
 using System.Text.RegularExpressions;
 
-public class PhysicalData : Data
-{
+public class PhysicalData : Data {
     internal static string DataRegex = @"[0-9a-fA-F][0-9a-mA-M]";
     private PhysicalData() { }
 
-    public static PhysicalData GetData(string position, DataDirection direction = DataDirection.None)
-    {
+    public static PhysicalData GetData(string position, DataDirection direction = DataDirection.None) {
         if (!Regex.IsMatch(position, DataRegex)) throw new ArgumentException(DataRegex);
         var data = DataList.FirstOrDefault(e => e?.Name == position && e?.GetType() == typeof(PhysicalData), null);
         if (data is not null and PhysicalData pdata) return pdata;

@@ -12,8 +12,7 @@ using CommandProcessor;
 
 
 
-internal static class Program
-{
+internal static class Program {
     public static bool DebugMode { get; set; } = false;
     public static int CommandHistoryLength = 100;
     private static OpalenicaForm form;
@@ -23,25 +22,21 @@ internal static class Program
     ///  The main entry point for the application.
     /// </summary>
     [STAThread]
-    static void Main(string[] args)
-    {
+    static void Main(string[] args) {
         // To customize application configuration such as set high DPI settings or default font,
         // see https://aka.ms/applicationconfiguration.
         CommandProcessor.RegisterCommands(typeof(Program).Assembly);
 
         startupCommands = string.Join(" ", args);
 
-        Func<bool> closeAppFunc = () =>
-        {
+        Func<bool> closeAppFunc = () => {
             Application.Exit();
             Environment.Exit(0);
             return CommandProcessor.BreakChainCommand();
         };
 
-        Func<bool> exitFunc = () =>
-        {
-            if (DebugMode)
-            {
+        Func<bool> exitFunc = () => {
+            if (DebugMode) {
                 closeAppFunc.Invoke();
             }
             return true;
@@ -61,17 +56,13 @@ internal static class Program
     }
 
     [RegisterCommand("debugmode", false)]
-    public static bool DebugModeCommand(string[] args)
-    {
-        if (args.Length == 0)
-        {
+    public static bool DebugModeCommand(string[] args) {
+        if (args.Length == 0) {
             Program.DebugMode = !Program.DebugMode;
             return true;
         }
-        else
-        {
-            if (Boolean.TryParse(args[0], out bool value))
-            {
+        else {
+            if (Boolean.TryParse(args[0], out bool value)) {
                 Program.DebugMode = value;
                 return true;
             }
@@ -81,18 +72,14 @@ internal static class Program
 
     [RegisterCommand("fs", false)]
     [RegisterCommand("fullscreen", false)]
-    public static bool Fullscreen(string[] args)
-    {
+    public static bool Fullscreen(string[] args) {
         if (!Program.DebugMode) return true;
-        if (args.Length == 0)
-        {
+        if (args.Length == 0) {
             form.WindowState = form.WindowState == FormWindowState.Normal ? FormWindowState.Maximized : FormWindowState.Normal;
             return true;
         }
-        else
-        {
-            if (Boolean.TryParse(args[0], out bool value))
-            {
+        else {
+            if (Boolean.TryParse(args[0], out bool value)) {
                 form.WindowState = value ? FormWindowState.Maximized : FormWindowState.Normal;
                 return true;
             }

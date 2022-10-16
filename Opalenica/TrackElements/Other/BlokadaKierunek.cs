@@ -1,7 +1,6 @@
 ﻿namespace Opalenica;
 
-public enum BlokadaKierunek
-{
+public enum BlokadaKierunek {
     Neutralny = 0,
     Nieznany = 0,
     Przyjazd = 1,

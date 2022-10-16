@@ -28,26 +28,8 @@ partial class OpalenicaForm
     /// </summary>
     private void InitializeComponent()
     {
-            this.ExitButton = new System.Windows.Forms.Button();
             this.pulpit1 = new Opalenica.Pulpit(this, "pulpit1");
             this.SuspendLayout();
-            // 
-            // ExitButton
-            // 
-            this.ExitButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.ExitButton.FlatAppearance.BorderSize = 0;
-            this.ExitButton.FlatAppearance.MouseDownBackColor = System.Drawing.Color.DimGray;
-            this.ExitButton.FlatAppearance.MouseOverBackColor = System.Drawing.Color.DimGray;
-            this.ExitButton.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.ExitButton.Font = new System.Drawing.Font("Segoe UI", 13F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
-            this.ExitButton.ForeColor = System.Drawing.Color.Red;
-            this.ExitButton.Location = new System.Drawing.Point(1336, 0);
-            this.ExitButton.Name = "ExitButton";
-            this.ExitButton.Size = new System.Drawing.Size(30, 30);
-            this.ExitButton.TabIndex = 0;
-            this.ExitButton.Text = "X";
-            this.ExitButton.UseVisualStyleBackColor = true;
-            this.ExitButton.Click += new System.EventHandler(this.button1_Click);
             // 
             // pulpit1
             // 
@@ -65,10 +47,9 @@ partial class OpalenicaForm
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.Black;
             this.ClientSize = new System.Drawing.Size(1366, 768);
-            this.Controls.Add(this.ExitButton);
             this.Controls.Add(this.pulpit1);
             this.DoubleBuffered = true;
-            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.None;
+            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
             this.Location = new System.Drawing.Point(16, 0);
             this.Name = "OpalenicaForm";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
@@ -80,6 +61,5 @@ partial class OpalenicaForm
     }
 
 	#endregion
-    private Button ExitButton;
     private Pulpit pulpit1;
 }

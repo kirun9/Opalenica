@@ -1,7 +1,6 @@
 ﻿namespace Opalenica;
 
-public enum TrackData
-{
+public enum TrackData {
     StanPodstawowy = 0,
     RejonManewrowy = 1,
     PrzebiegManewrowy = 2,

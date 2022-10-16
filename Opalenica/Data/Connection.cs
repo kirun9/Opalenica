@@ -1,11 +1,9 @@
 ﻿namespace Opalenica;
 
 using System.Diagnostics;
-using System.Runtime.CompilerServices;
 
 [DebuggerDisplay($"{{{nameof(GetDebuggerDisplay)}(),nq}}")]
-public class Connection
-{
+public class Connection {
     internal static List<Connection> Connections { get; } = new List<Connection>();
 
     public string Name { get; internal set; }
@@ -15,16 +13,14 @@ public class Connection
 
     public Connection[] Outputs { get; internal set; } // TODO
 
-    public static Connection GetConnection(Data input, Data output)
-    {
+    public static Connection GetConnection(Data input, Data output) {
         if (input.Direction.HasFlag(DataDirection.Input)) throw new ArgumentException($"Input data must have set Input direction flag");
         if (output.Direction.HasFlag(DataDirection.Output)) throw new ArgumentException($"Output data must have set Output direction flag");
         if (input.Name == output.Name) throw new ArgumentException("Cannot get/create connection between the same data");
         string name = $"{input.Name}->{output.Name}";
         var conn = Connections.FirstOrDefault(e => e?.Name == name, null);
         if (conn is not null) return conn;
-        conn = new Connection()
-        {
+        conn = new Connection() {
             Input = input,
             Output = output,
             Name = name
@@ -34,21 +30,18 @@ public class Connection
         return conn;
     }
 
-    public static Connection GetConnection(string input, string output)
-    {
+    public static Connection GetConnection(string input, string output) {
         Data? i, o;
         if ((i = Data.DataList.FirstOrDefault(e => e?.Name == input, null)) is null) throw new ArgumentOutOfRangeException(nameof(input), input, "Data with provided name was not found");
         if ((o = Data.DataList.FirstOrDefault(e => e?.Name == output, null)) is null) throw new ArgumentOutOfRangeException(nameof(output), output, "Data with provided name was not found");
         return GetConnection(i, o);
     }
 
-    public virtual void UpdateOutput(object? _, EventArgs __)
-    {
+    public virtual void UpdateOutput(object? _, EventArgs __) {
         Output.Value = Input.Value;
     }
 
-    public virtual string GetDebuggerDisplay()
-    {
+    public virtual string GetDebuggerDisplay() {
         return $"{Input.Name} ({Input.Value}) -> {Output.Name} ({Output.Value})";
     }
 }

@@ -1,7 +1,6 @@
 ﻿namespace Opalenica;
 
-public enum SignalAspect
-{
+public enum SignalAspect {
     Sr1,
     Sr2,
     Sr3,

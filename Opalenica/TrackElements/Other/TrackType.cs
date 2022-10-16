@@ -1,7 +1,6 @@
 ﻿namespace Opalenica;
 
-public enum TrackType
-{
+public enum TrackType {
     Kontrola,
     KontrolaZamkniety,
     BrakKontroli,

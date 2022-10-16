@@ -1,7 +1,6 @@
 ﻿namespace CommandProcessor;
 
-public class CommandResult
-{
+public class CommandResult {
     public static readonly CommandResult Empty = new CommandResult() { IsEmpty = true };
 
     public bool IsEmpty { get; private set; } = false;

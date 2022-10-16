@@ -2,23 +2,20 @@
 
 using System.Reflection;
 
-public class CommandProcessor
-{
+public class CommandProcessor {
     public static bool IGNORE_CASE = true;
     public static bool JOINED_COMMANDS = true;
     public static List<Command> Commands { get; private set; } = new List<Command>();
     public static Command? prevCommand;
     public static CommandContext? prevCommandContext;
 
-    public static bool BreakChainCommand()
-    {
+    public static bool BreakChainCommand() {
         prevCommand = null;
         prevCommandContext = null;
         return true;
     }
 
-    public static bool ExecuteCommand(string command)
-    {
+    public static bool ExecuteCommand(string command) {
         if (command.Equals(string.Empty) || command.Equals("")) return false;
         if (IGNORE_CASE)
             command = command.ToLower();
@@ -28,14 +25,11 @@ public class CommandProcessor
         else
             commands = new[] { command };
         bool result = true;
-        foreach (var comm in commands)
-        {
+        foreach (var comm in commands) {
             string commandName = comm.Split(' ', StringSplitOptions.TrimEntries | StringSplitOptions.RemoveEmptyEntries).First();
             string[] commandArgs = comm.Split(' ', StringSplitOptions.TrimEntries | StringSplitOptions.RemoveEmptyEntries).Skip(1).ToArray();
-            if (prevCommand is not null and ChainedCommand chained)
-            {
-                if (chained.NextCommand is not null && (chained.NextCommand.Name.Equals(commandName) || chained.NextCommand.Name.ToLower().Equals(commandName.ToLower()) && IGNORE_CASE ))
-                {
+            if (prevCommand is not null and ChainedCommand chained) {
+                if (chained.NextCommand is not null && (chained.NextCommand.Name.Equals(commandName) || chained.NextCommand.Name.ToLower().Equals(commandName.ToLower()) && IGNORE_CASE)) {
                     prevCommand = chained.NextCommand;
                     ChainedCommandContext context = new ChainedCommandContext(chained.NextCommand.Name, commandArgs, prevCommandContext);
                     prevCommandContext = context;
@@ -47,19 +41,15 @@ public class CommandProcessor
                         result = false;
                     continue;
                 }
-                else
-                {
+                else {
                     prevCommand = null;
                     prevCommandContext = null;
                 }
             }
-            foreach (var c in Commands)
-            {
-                if (c.Name.Equals(commandName) || (c.Name.ToLower().Equals(commandName.ToLower()) && IGNORE_CASE))
-                {
+            foreach (var c in Commands) {
+                if (c.Name.Equals(commandName) || (c.Name.ToLower().Equals(commandName.ToLower()) && IGNORE_CASE)) {
                     CommandContext context = new CommandContext(c.Name, commandArgs);
-                    if (c is ChainedCommand chainedCommand)
-                    {
+                    if (c is ChainedCommand chainedCommand) {
                         prevCommand = c;
                         prevCommandContext = context;
                     }
@@ -76,28 +66,21 @@ public class CommandProcessor
         return result;
     }
 
-    public static void RegisterCommands(Assembly assembly)
-    {
-        foreach (var type in assembly.GetTypes())
-        {
-            foreach (var method in type.GetMethods())
-            {
+    public static void RegisterCommands(Assembly assembly) {
+        foreach (var type in assembly.GetTypes()) {
+            foreach (var method in type.GetMethods()) {
                 var attributes = method.GetCustomAttributes(typeof(RegisterCommandAttribute), false);
-                foreach (var attribute in attributes)
-                {
-                    if (attribute is RegisterCommandAttribute rca)
-                    {
+                foreach (var attribute in attributes) {
+                    if (attribute is RegisterCommandAttribute rca) {
                         var function = ParseFunction(method);
                         var function2 = ParseContextFunction(method);
                         Command command = function is not null ? new Command(rca.Name, function) : new Command(rca.Name, function2);
-                        if (rca.NeedConfirm)
-                        {
+                        if (rca.NeedConfirm) {
                             ChainedCommand chainedCommand = new ChainedCommand(rca.Name, (string[] _) => true);
                             chainedCommand.NextCommand = command;
                             RegisterCommand(chainedCommand);
                         }
-                        else
-                        {
+                        else {
                             RegisterCommand(command);
                         }
                     }
@@ -106,33 +89,25 @@ public class CommandProcessor
         }
     }
 
-    private static Func<CommandContext, bool>? ParseContextFunction(MethodInfo methodInfo)
-    {
-        if (methodInfo.IsStatic && !methodInfo.IsConstructor && methodInfo.ReturnType == typeof(bool))
-        {
+    private static Func<CommandContext, bool>? ParseContextFunction(MethodInfo methodInfo) {
+        if (methodInfo.IsStatic && !methodInfo.IsConstructor && methodInfo.ReturnType == typeof(bool)) {
             var parameters = methodInfo.GetParameters();
             if (parameters.Length == 1 && parameters[0].ParameterType == typeof(CommandContext))
-                return (Func<CommandContext, bool>)Delegate.CreateDelegate(typeof(Func<CommandContext, bool>), methodInfo);
+                return (Func<CommandContext, bool>) Delegate.CreateDelegate(typeof(Func<CommandContext, bool>), methodInfo);
         }
         return null;
     }
 
-    private static Func<string[], bool>? ParseFunction(MethodInfo methodInfo)
-    {
-        if (methodInfo.IsStatic && !methodInfo.IsConstructor)
-        {
-            if (methodInfo.ReturnType == typeof(bool))
-            {
+    private static Func<string[], bool>? ParseFunction(MethodInfo methodInfo) {
+        if (methodInfo.IsStatic && !methodInfo.IsConstructor) {
+            if (methodInfo.ReturnType == typeof(bool)) {
                 var parameters = methodInfo.GetParameters();
-                if (parameters.Length == 1 && parameters[0].ParameterType == typeof(string[]))
-                {
-                    return (Func<string[], bool>)Delegate.CreateDelegate(typeof(Func<string[], bool>), methodInfo);
+                if (parameters.Length == 1 && parameters[0].ParameterType == typeof(string[])) {
+                    return (Func<string[], bool>) Delegate.CreateDelegate(typeof(Func<string[], bool>), methodInfo);
                 }
-                else if (parameters.Length == 0)
-                {
-                    return _ =>
-                    {
-                        return ((Func<bool>)Delegate.CreateDelegate(typeof(Func<bool>), methodInfo)).Invoke();
+                else if (parameters.Length == 0) {
+                    return _ => {
+                        return ((Func<bool>) Delegate.CreateDelegate(typeof(Func<bool>), methodInfo)).Invoke();
                     };
                 }
             }
@@ -140,8 +115,7 @@ public class CommandProcessor
         return null;
     }
 
-    public static void RegisterCommand(Command command)
-    {
+    public static void RegisterCommand(Command command) {
         Commands.Add(command);
     }
 }

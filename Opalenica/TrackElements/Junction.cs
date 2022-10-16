@@ -3,12 +3,10 @@
 using CommandProcessor;
 
 using Opalenica.Interfaces;
-using Opalenica.Tiles;
 using System.Drawing;
 using System.Drawing.Drawing2D;
 
-public class Junction : Element, IHasOwnData<JunctionDataZ>
-{
+public class Junction : Element, IHasOwnData<JunctionDataZ> {
     internal static List<Junction> RegisteredJunctions = new List<Junction>();
     private JunctionSet direction = JunctionSet.AB;
     public string Name { get; set; } = "JunctionElement";
@@ -21,14 +19,11 @@ public class Junction : Element, IHasOwnData<JunctionDataZ>
 
     public JunctionSet MainDirection = JunctionSet.AB;
 
-    public JunctionSet Direction
-    {
-        get
-        {
+    public JunctionSet Direction {
+        get {
             return direction;
         }
-        set
-        {
+        set {
             if (value is JunctionSet.AB or JunctionSet.AC)
                 direction = value;
             else
@@ -38,25 +33,23 @@ public class Junction : Element, IHasOwnData<JunctionDataZ>
 
     public JunctionDirection DrawDirection { get; internal set; }
 
-    public Color GetColor(JunctionDataZ data, bool pulse = false)
-    {
-        return data switch
-        {
-            JunctionDataZ.BrakDanych                            => Colors.White,
-            JunctionDataZ.Rozprucie when !pulse                 => Colors.Red,
-            JunctionDataZ.Rozprucie when pulse                  => Colors.Gray,
+    public Color GetColor(JunctionDataZ data, bool pulse = false) {
+        return data switch {
+            JunctionDataZ.BrakDanych => Colors.White,
+            JunctionDataZ.Rozprucie when !pulse => Colors.Red,
+            JunctionDataZ.Rozprucie when pulse => Colors.Gray,
             JunctionDataZ.NieoczekiwanyBrakKontroli when !pulse => Colors.White,
-            JunctionDataZ.NieoczekiwanyBrakKontroli when pulse  => Colors.Gray,
-            JunctionDataZ.BrakKontroli                          => Colors.Black, // (Niewidoczny)
-            JunctionDataZ.Zajety                                => Colors.Red,
-            JunctionDataZ.ZwalnianyCzasowo                      => Colors.Pink,
-            JunctionDataZ.PrzebiegPociagowy                     => Colors.Green,
-            JunctionDataZ.PrzebiegManewrowy                     => Colors.Yellow,
-            JunctionDataZ.OchronaPrzebiegu                      => Colors.Yellow,
-            JunctionDataZ.OchronaBoczna                         => Colors.Yellow,
-            JunctionDataZ.StopPolozenie                         => Colors.Pink,
-            JunctionDataZ.RejonManewrowy                        => Colors.LightCyan,
-            JunctionDataZ.StanPodstawowy                        => Colors.Gray,
+            JunctionDataZ.NieoczekiwanyBrakKontroli when pulse => Colors.Gray,
+            JunctionDataZ.BrakKontroli => Colors.Black, // (Niewidoczny)
+            JunctionDataZ.Zajety => Colors.Red,
+            JunctionDataZ.ZwalnianyCzasowo => Colors.Pink,
+            JunctionDataZ.PrzebiegPociagowy => Colors.Green,
+            JunctionDataZ.PrzebiegManewrowy => Colors.Yellow,
+            JunctionDataZ.OchronaPrzebiegu => Colors.Yellow,
+            JunctionDataZ.OchronaBoczna => Colors.Yellow,
+            JunctionDataZ.StopPolozenie => Colors.Pink,
+            JunctionDataZ.RejonManewrowy => Colors.LightCyan,
+            JunctionDataZ.StanPodstawowy => Colors.Gray,
             _ => Colors.None
         };
     }
@@ -66,8 +59,7 @@ public class Junction : Element, IHasOwnData<JunctionDataZ>
     public float[] DashPattern => new float[] { 1f };
 
 
-    public static Junction GetJunction(string name)
-    {
+    public static Junction GetJunction(string name) {
         var j = RegisteredJunctions.FirstOrDefault(e => e?.Name == name, null);
         if (j is not null)
             return j;
@@ -77,13 +69,11 @@ public class Junction : Element, IHasOwnData<JunctionDataZ>
     public static Junction GetJunction(string name, Track a, Track c) => GetJunction(name, a, a, c);
     public static Junction GetJunction(string name, Track a, Track b, Track c) => GetJunction(name, JunctionDirection.JunctionL_Right, a, b, c);
     public static Junction GetJunction(string name, JunctionDirection direction, Track a, Track c) => GetJunction(name, direction, a, a, c);
-    public static Junction GetJunction(string name, JunctionDirection direction, Track a, Track b, Track c)
-    {
+    public static Junction GetJunction(string name, JunctionDirection direction, Track a, Track b, Track c) {
         var junction = RegisteredJunctions.FirstOrDefault(e => e?.Name == name, null);
         if (junction is not null) return junction;
 
-        junction = new Junction()
-        {
+        junction = new Junction() {
             Name = name,
             A = a,
             B = b,
@@ -92,15 +82,13 @@ public class Junction : Element, IHasOwnData<JunctionDataZ>
         };
         RegisteredJunctions.Add(junction);
 
-        ChainedCommand chain = new ChainedCommand("zwr" + name.ToLower(), (context) =>
-        {
+        ChainedCommand chain = new ChainedCommand("zwr" + name.ToLower(), (context) => {
             Unselect();
             if (context.Args is null || context.Args.Length != 1) return false;
             string junctionCommand = (context.GetArgAs<string>(0) ?? "").ToLower();
             var junction = GetJunction(context.CommandName.Substring("zwr".Length));
             if (junction is null) return false;
-            switch (junctionCommand)
-            {
+            switch (junctionCommand) {
                 case "+":
                 case "plus":
                     junction.ThrowJunction(true, junction.GetMainDirection());
@@ -140,10 +128,8 @@ public class Junction : Element, IHasOwnData<JunctionDataZ>
             }
         });
 
-        Command command = new Command(junction.Name, (context) =>
-        {
-            if (context is not null and ChainedCommandContext ccc && ccc.Args.Length == 0)
-            {
+        Command command = new Command(junction.Name, (context) => {
+            if (context is not null and ChainedCommandContext ccc && ccc.Args.Length == 0) {
                 Unselect();
                 return true;
             }
@@ -155,20 +141,16 @@ public class Junction : Element, IHasOwnData<JunctionDataZ>
         return junction;
     }
 
-    public JunctionSet GetMainDirection()
-    {
+    public JunctionSet GetMainDirection() {
         return MainDirection;
     }
 
-    public void ThrowJunction(bool toMain, JunctionSet mainDirection)
-    {
+    public void ThrowJunction(bool toMain, JunctionSet mainDirection) {
         Direction = toMain ? mainDirection : MainDirection is JunctionSet.AB ? JunctionSet.AC : JunctionSet.AB;
     }
 
-    public Pen GetPenWithColor(bool pulse)
-    {
-        return new Pen(GetColor(Data, pulse))
-        {
+    public Pen GetPenWithColor(bool pulse) {
+        return new Pen(GetColor(Data, pulse)) {
             DashStyle = DashStyle.Custom,
             Width = 2,
             CompoundArray = CompoundArray,

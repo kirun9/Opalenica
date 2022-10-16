@@ -1,17 +1,14 @@
 ﻿namespace Opalenica;
 
-public class Data
-{
+public class Data {
     public event EventHandler<DataChangedEventArgs> DataChanged;
 
     internal static List<Data> DataList { get; } = new List<Data>();
 
     private bool _value;
-    public bool Value
-    {
+    public bool Value {
         get => _value;
-        set
-        {
+        set {
             var prevVal = _value;
             _value = value;
             DataChanged?.Invoke(this, new DataChangedEventArgs(this, prevVal));

@@ -3,13 +3,10 @@
 using CommandProcessor;
 
 using Opalenica.Interfaces;
-using Opalenica.Tiles;
-using Opalenica.Tiles.Interfaces;
 
 using System.Drawing.Drawing2D;
 
-public class Track : Element, IHasOwnData<TrackData>, IHasMenuStrip
-{
+public class Track : Element, IHasOwnData<TrackData>, IHasMenuStrip {
     public VirtualData Occupied;
     public VirtualData Established;
 
@@ -18,24 +15,20 @@ public class Track : Element, IHasOwnData<TrackData>, IHasMenuStrip
     public TrackData Data { get; set; } = TrackData.StanPodstawowy;
     public TrackType Type { get; set; }
 
-    public float Width => Type is TrackType.KontrolaZamkniety or TrackType.BrakKontroliZamkniety? 4 : 4;
-    public float[] CompoundArray => Type is TrackType.KontrolaZamkniety or TrackType.BrakKontroliZamkniety? new float[] { 0f, 1f / 5f, 4f / 5f, 1f } : new float[] { 0, 1 };
+    public float Width => Type is TrackType.KontrolaZamkniety or TrackType.BrakKontroliZamkniety ? 4 : 4;
+    public float[] CompoundArray => Type is TrackType.KontrolaZamkniety or TrackType.BrakKontroliZamkniety ? new float[] { 0f, 1f / 5f, 4f / 5f, 1f } : new float[] { 0, 1 };
     public float[] DashPattern => Type is TrackType.BrakKontroli ? new float[] { 1f, 2f, 1f } : Type is TrackType.BrakKontroliZamkniety ? new float[] { 1f, 2f, 1f } : new float[] { 1 };
 
-    public Color ActualColor
-    {
-        get
-        {
+    public Color ActualColor {
+        get {
             return GetColor(Data);
         }
     }
 
     public Pen GetPenWithColor(bool pulse) => GetPenWithColor(pulse, this.Data);
 
-    public Pen GetPenWithColor(bool pulse, TrackData data)
-    {
-        return new Pen(GetColor(data, pulse))
-        {
+    public Pen GetPenWithColor(bool pulse, TrackData data) {
+        return new Pen(GetColor(data, pulse)) {
             DashStyle = DashStyle.Custom,
             Width = Width,
             CompoundArray = CompoundArray,
@@ -43,30 +36,26 @@ public class Track : Element, IHasOwnData<TrackData>, IHasMenuStrip
         };
     }
 
-    public Color GetColor(TrackData data, bool pulse = false)
-    {
-        return data switch
-            {
-                TrackData.StanPodstawowy => Colors.Gray,
-                TrackData.RejonManewrowy => Colors.LightCyan,
-                TrackData.OchronaPrzebiegu => Colors.Yellow,
-                TrackData.PrzebiegManewrowy => Colors.Yellow,
-                TrackData.ZwalnianyCzasowo => Colors.Pink,
-                TrackData.Zajety => Colors.Red,
-                TrackData.PierwszyPrzejazd => Colors.DarkRed,
-                TrackData.PotwierdzenieZerowania when !pulse=> Colors.Red, //Migający
-                TrackData.PotwierdzenieZerowania when pulse=> Colors.Gray, //Migający
-                TrackData.UszkodzenieKontroli when !pulse=> Colors.White, // Migający
-                TrackData.UszkodzenieKontroli when pulse=> Colors.Red, // Migający
-                TrackData.BrakDanych => Colors.White,
-                _ => Colors.None
-            };
+    public Color GetColor(TrackData data, bool pulse = false) {
+        return data switch {
+            TrackData.StanPodstawowy => Colors.Gray,
+            TrackData.RejonManewrowy => Colors.LightCyan,
+            TrackData.OchronaPrzebiegu => Colors.Yellow,
+            TrackData.PrzebiegManewrowy => Colors.Yellow,
+            TrackData.ZwalnianyCzasowo => Colors.Pink,
+            TrackData.Zajety => Colors.Red,
+            TrackData.PierwszyPrzejazd => Colors.DarkRed,
+            TrackData.PotwierdzenieZerowania when !pulse => Colors.Red, //Migający
+            TrackData.PotwierdzenieZerowania when pulse => Colors.Gray, //Migający
+            TrackData.UszkodzenieKontroli when !pulse => Colors.White, // Migający
+            TrackData.UszkodzenieKontroli when pulse => Colors.Red, // Migający
+            TrackData.BrakDanych => Colors.White,
+            _ => Colors.None
+        };
     }
 
-    public Pen GetPen()
-    {
-        return new Pen(Colors.None)
-        {
+    public Pen GetPen() {
+        return new Pen(Colors.None) {
             DashStyle = DashStyle.Custom,
             Width = Width,
             CompoundArray = CompoundArray,
@@ -74,14 +63,12 @@ public class Track : Element, IHasOwnData<TrackData>, IHasMenuStrip
         };
     }
 
-    public void TrackOccupied(object? _, DataChangedEventArgs e)
-    {
+    public void TrackOccupied(object? _, DataChangedEventArgs e) {
         if (!e.DataChanged) return;
         if (Occupied) Data = TrackData.Zajety;
     }
 
-    public static Track GetTrack(string name, TrackType type = TrackType.Kontrola)
-    {
+    public static Track GetTrack(string name, TrackType type = TrackType.Kontrola) {
         var track = RegisteredTracks.FirstOrDefault(e => e?.Name == name, null);
         if (track is not null) return track;
         track = new Track();
@@ -92,15 +79,13 @@ public class Track : Element, IHasOwnData<TrackData>, IHasMenuStrip
         track.Occupied.DataChanged += track.TrackOccupied;
         RegisteredTracks.Add(track);
 
-        ChainedCommand chainedcommand = new ChainedCommand(track.Name, (CommandContext context) =>
-        {
+        ChainedCommand chainedcommand = new ChainedCommand(track.Name, (CommandContext context) => {
             Unselect();
             if (context.Args is null || context.Args.Length != 1) return false;
             string trackCommand = (context.GetArgAs<string>(0) ?? "").ToLower();
             var track = RegisteredTracks.FirstOrDefault(e => e.Name == context.CommandName);
             if (track is null) return false;
-            switch (trackCommand)
-            {
+            switch (trackCommand) {
                 case "zmk":
                     track.Type = (track.Type is TrackType.Kontrola or TrackType.KontrolaZamkniety) ? TrackType.KontrolaZamkniety : TrackType.BrakKontroliZamkniety;
                     CommandProcessor.BreakChainCommand();
@@ -119,11 +104,9 @@ public class Track : Element, IHasOwnData<TrackData>, IHasMenuStrip
             }
         });
 
-        Command command = new Command(track.Name, (context) =>
-        {
+        Command command = new Command(track.Name, (context) => {
             Unselect();
-            if (context is not null and ChainedCommandContext ccc && ccc.Args.Length == 0)
-            {
+            if (context is not null and ChainedCommandContext ccc && ccc.Args.Length == 0) {
                 var track = RegisteredTracks.FirstOrDefault(e => e.Name == ccc.CommandName);
                 if (track is null) return false;
                 track.Data = TrackData.PierwszyPrzejazd;
@@ -136,8 +119,7 @@ public class Track : Element, IHasOwnData<TrackData>, IHasMenuStrip
         return track;
     }
 
-    public ContextMenuStrip GetMenuStrip()
-    {
+    public ContextMenuStrip GetMenuStrip() {
         var zamkniety = Type is TrackType.BrakKontroliZamkniety or TrackType.KontrolaZamkniety;
 
         ContextMenuStrip strip = new ContextMenuStrip();

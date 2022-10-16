@@ -7,10 +7,8 @@ using Opalenica.Render;
 
 using System.Collections.Generic;
 using System.Linq;
-using System.Runtime.CompilerServices;
 
-public class Signal : Element, IHasOwnData<SignalData>, IHasMenuStrip
-{
+public class Signal : Element, IHasOwnData<SignalData>, IHasMenuStrip {
     private static List<Signal> RegisteredSignals = new List<Signal>();
 
     public Data Komora1;
@@ -62,8 +60,7 @@ public class Signal : Element, IHasOwnData<SignalData>, IHasMenuStrip
 
     public SignalData Data {
         get => data;
-        set
-        {
+        set {
             data = value;
         }
     }
@@ -72,50 +69,43 @@ public class Signal : Element, IHasOwnData<SignalData>, IHasMenuStrip
 
     private bool Stop = false;
 
-    public Color GetColor(SignalData data, bool pulse = false)
-    {
-        switch (Type)
-        {
+    public Color GetColor(SignalData data, bool pulse = false) {
+        switch (Type) {
             case SignalType.TarczaOstrzegawcza:
             case SignalType.Powtarzajacy:
-                return Data switch
-                {
+                return Data switch {
                     SignalData.ZezwalajacyOstrzegawczy => Colors.Gray,
                     SignalData.ZezwalajacyPociagowy => Colors.Green,
                     SignalData.BrakDanych => Colors.White,
                     _ => Colors.White
                 };
-            default:
-            {
-                return data switch
-                {
-                    SignalData.Podstawowy => Colors.Gray,
-                    SignalData.LokalneNastawianie => Colors.Cyan,
-                    SignalData.RejonManewrowy => Colors.LightCyan,
-                    SignalData.ZamknietyIndywidualny => Colors.Pink,
-                    SignalData.UszkodzonaZarowkaCzerwona when !pulse => Colors.DarkRed,
-                    SignalData.UszkodzonaZarowkaCzerwona when pulse => Colors.Gray,
-                    SignalData.OchronaBoczna => Colors.DarkRed,
-                    SignalData.PoczatowyKoncowyPrzebiegu => Colors.Red,
-                    SignalData.ZezwalajacyManewrowy => Colors.Yellow,
-                    SignalData.ZezwalajacyPociagowy => Colors.Green,
-                    SignalData.SygnalZastepczy when pulse=> Colors.White,
-                    SignalData.SygnalZastepczy when !pulse=> Colors.Gray,
-                    SignalData.BrakDanych => Colors.White,
-                    _ => Colors.White
-                };
-            }
+            default: {
+                    return data switch {
+                        SignalData.Podstawowy => Colors.Gray,
+                        SignalData.LokalneNastawianie => Colors.Cyan,
+                        SignalData.RejonManewrowy => Colors.LightCyan,
+                        SignalData.ZamknietyIndywidualny => Colors.Pink,
+                        SignalData.UszkodzonaZarowkaCzerwona when !pulse => Colors.DarkRed,
+                        SignalData.UszkodzonaZarowkaCzerwona when pulse => Colors.Gray,
+                        SignalData.OchronaBoczna => Colors.DarkRed,
+                        SignalData.PoczatowyKoncowyPrzebiegu => Colors.Red,
+                        SignalData.ZezwalajacyManewrowy => Colors.Yellow,
+                        SignalData.ZezwalajacyPociagowy => Colors.Green,
+                        SignalData.SygnalZastepczy when pulse => Colors.White,
+                        SignalData.SygnalZastepczy when !pulse => Colors.Gray,
+                        SignalData.BrakDanych => Colors.White,
+                        _ => Colors.White
+                    };
+                }
         }
     }
 
-    public SolidBrush GetBrush(bool pulse)
-    {
+    public SolidBrush GetBrush(bool pulse) {
         return new SolidBrush(GetColor(Data, pulse));
         //return new SolidBrush(SignalPulsingSignal ? pulse ? SignalActualColor : SignalSecondPulsingColor : SignalActualColor);
     }
 
-    public static Signal GetSignal(string name, TriangleDirection SignalDirection, Track? track = null, SignalType type = SignalType.Pociagowy)
-    {
+    public static Signal GetSignal(string name, TriangleDirection SignalDirection, Track? track = null, SignalType type = SignalType.Pociagowy) {
         var signal = RegisteredSignals.FirstOrDefault(e => e?.Name == name, null);
         if (signal is not null) return signal;
 
@@ -126,13 +116,11 @@ public class Signal : Element, IHasOwnData<SignalData>, IHasMenuStrip
         signal.Track = track;
         RegisteredSignals.Add(signal);
 
-        ChainedCommand chain = new ChainedCommand(signal.Name, (CommandContext context) =>
-        {
+        ChainedCommand chain = new ChainedCommand(signal.Name, (CommandContext context) => {
             Unselect();
             if (context.Args is null || context.Args.Length != 1) return false;
             string signalCommand = (context.GetArgAs<string>(0) ?? "").ToLower();
-            switch(signalCommand)
-            {
+            switch (signalCommand) {
                 case "sz":
                     signal.Select();
                     return true;
@@ -177,15 +165,15 @@ public class Signal : Element, IHasOwnData<SignalData>, IHasMenuStrip
                         signal.Data = SignalData.Podstawowy;
                     return CommandProcessor.BreakChainCommand();
                 case "poc":
-                    /**
-                     * TODO:
-                     * Utwierdzenie przebiegu :)
-                     */
+                /**
+                 * TODO:
+                 * Utwierdzenie przebiegu :)
+                 */
                 case "man":
-                    /**
-                     * TODO:
-                     * Utwierdzenie przebiegu :)
-                     */
+                /**
+                 * TODO:
+                 * Utwierdzenie przebiegu :)
+                 */
 
                 default:
                     return CommandProcessor.BreakChainCommand();
@@ -201,17 +189,13 @@ public class Signal : Element, IHasOwnData<SignalData>, IHasMenuStrip
         return signal;
     }
 
-    private static bool SetSZ(CommandContext context)
-    {
-        if (context is not null and ChainedCommandContext ccc && ccc.Args.Length == 0)
-        {
+    private static bool SetSZ(CommandContext context) {
+        if (context is not null and ChainedCommandContext ccc && ccc.Args.Length == 0) {
             var signal = RegisteredSignals.FirstOrDefault(e => e.Name == ccc.CommandName);
             if (signal is null) return false;
-            if (ccc.PrevArgs is not null && ccc.PrevArgs.Length == 1)
-            {
+            if (ccc.PrevArgs is not null && ccc.PrevArgs.Length == 1) {
                 var s = ccc.GetPrevArgAs<string>(0);
-                switch (s)
-                {
+                switch (s) {
                     case "sz":
                         signal.Data = SignalData.SygnalZastepczy;
                         return true;
@@ -224,11 +208,9 @@ public class Signal : Element, IHasOwnData<SignalData>, IHasMenuStrip
         return false;
     }
 
-    public ContextMenuStrip GetMenuStrip()
-    {
+    public ContextMenuStrip GetMenuStrip() {
         ContextMenuStrip strip = new ContextMenuStrip();
-        if (Track is not null)
-        {
+        if (Track is not null) {
             ToolStripMenuItem trackItem = new ToolStripMenuItem($"Tor {Track.Name}");
             trackItem.DropDownItems.AddRange(Track.GetMenuStrip().Items);
             strip.Items.Add(trackItem);
