@@ -50,4 +50,10 @@
     <Folder Include="Properties\" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Reference Include="Renderers">
+      <HintPath>libs\Renderers.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+
 </Project>

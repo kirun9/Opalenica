@@ -364,3 +364,4 @@ FodyWeavers.xsd
 
 #HTML Files
 *.html
+/Opalenica/Render/NewToolStripRenderer.cs

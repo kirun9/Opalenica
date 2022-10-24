@@ -30,6 +30,7 @@ internal class Pulpit : Control
     private Stopwatch watch;
 #endif
 
+    [Obsolete("use second contructor", true)]
     public Pulpit() : base()
     {
 #if DEBUG
@@ -140,9 +141,9 @@ internal class Pulpit : Control
 
         RegisteredTiles.Add(new SignalTile(grid.CalculatePosition(27, 3), Signal.GetSignal("C", TriangleDirection.Left, Track.GetTrack("1b"))));
         RegisteredTiles.Add(new SignalTile(grid.CalculatePosition(27, 5), Signal.GetSignal("B", TriangleDirection.Left, Track.GetTrack("1b"))));
-        RegisteredTiles.Add(new SignalTile(grid.CalculatePosition(27, 7), Signal.GetSignal("A", TriangleDirection.Left, Track.GetTrack("2b"))));
+        RegisteredTiles.Add(new SignalTile(grid.CalculatePosition(27, 7), Signal.GetSignal("A", TriangleDirection.Left, Track.GetTrack("2b"), SignalType.Czerwony)));
 
-        RegisteredTiles.Add(new TrackTile(grid.CalculatePosition(28, 3), new Size(2, 1), Track.GetTrack("outC")));
+        RegisteredTiles.Add(new TrackTile(grid.CalculatePosition(28, 3), new Size(1, 1), Track.GetTrack("outC")));
         RegisteredTiles.Add(new TrackTile(grid.CalculatePosition(31, 3), new Size(2, 1), Track.GetTrack("it102")));
         RegisteredTiles.Add(new TrackTile(grid.CalculatePosition(31, 2), new Size(2, 1), Track.GetTrack("it103")));
         RegisteredTiles.Add(new TrackTile(grid.CalculatePosition(31, 1), new Size(2, 1), Track.GetTrack("it104")));
@@ -154,6 +155,8 @@ internal class Pulpit : Control
 
         RegisteredTiles.Add(new TrackCurveTile(grid.CalculatePosition(11, 11), Track.GetTrack("6a"), CurveDirection.FromRightTurnRight45));
         RegisteredTiles.Add(new TrackCurveTile(grid.CalculatePosition(17, 11), Track.GetTrack("6b"), CurveDirection.FromLeftTurnLeft45));
+
+        RegisteredTiles.Add(new EacTile(grid.CalculatePosition(29, 3), new Size(2, 1), BlokadaEac.GetEac("Track3")));
     }
 
     public void RegisterElements()
@@ -245,6 +248,7 @@ internal class Pulpit : Control
     {
         var defaultTransform = g.Transform;
         var prevClipRegion = g.Clip;
+
         foreach (var tile in grid.GetTiles())
         {
             Point p = grid.CalculateGraphicTilePosition(tile.Position);
@@ -263,10 +267,14 @@ internal class Pulpit : Control
     {
         void ShowContextMenu(ContextMenuStrip menu)
         {
+            /// TODO:
             /* if debugmode
                  * add debug items
                  * */
             blockLeftClick = true;
+
+            menu.Renderer = new VisualStudioRenderers.VS2019DarkBlueRenderer();
+
             menu.Show(this, e.Location);
         }
 
@@ -296,6 +304,5 @@ internal class Pulpit : Control
                 return;
             }
         }
-
     }
 }

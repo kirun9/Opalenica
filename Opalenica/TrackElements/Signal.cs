@@ -81,28 +81,28 @@ public class Signal : Element, IHasOwnData<SignalData>, IHasMenuStrip
                 return Data switch
                 {
                     SignalData.ZezwalajacyOstrzegawczy => Colors.Gray,
-                    SignalData.ZezwalajacyPociagowy => Colors.Green,
-                    SignalData.BrakDanych => Colors.White,
-                    _ => Colors.White
+                    SignalData.ZezwalajacyPociagowy    => Colors.Green,
+                    SignalData.BrakDanych              => Colors.White,
+                    _                                  => Colors.White
                 };
             default:
             {
                 return data switch
                 {
-                    SignalData.Podstawowy => Colors.Gray,
-                    SignalData.LokalneNastawianie => Colors.Cyan,
-                    SignalData.RejonManewrowy => Colors.LightCyan,
-                    SignalData.ZamknietyIndywidualny => Colors.Pink,
+                    SignalData.Podstawowy                            => Colors.Gray,
+                    SignalData.LokalneNastawianie                    => Colors.Cyan,
+                    SignalData.RejonManewrowy                        => Colors.LightCyan,
+                    SignalData.ZamknietyIndywidualny                 => Colors.Pink,
                     SignalData.UszkodzonaZarowkaCzerwona when !pulse => Colors.DarkRed,
-                    SignalData.UszkodzonaZarowkaCzerwona when pulse => Colors.Gray,
-                    SignalData.OchronaBoczna => Colors.DarkRed,
-                    SignalData.PoczatowyKoncowyPrzebiegu => Colors.Red,
-                    SignalData.ZezwalajacyManewrowy => Colors.Yellow,
-                    SignalData.ZezwalajacyPociagowy => Colors.Green,
-                    SignalData.SygnalZastepczy when pulse=> Colors.White,
-                    SignalData.SygnalZastepczy when !pulse=> Colors.Gray,
-                    SignalData.BrakDanych => Colors.White,
-                    _ => Colors.White
+                    SignalData.UszkodzonaZarowkaCzerwona when pulse  => Colors.Gray,
+                    SignalData.OchronaBoczna                         => Colors.DarkRed,
+                    SignalData.PoczatowyKoncowyPrzebiegu             => Colors.Red,
+                    SignalData.ZezwalajacyManewrowy                  => Colors.Yellow,
+                    SignalData.ZezwalajacyPociagowy                  => Colors.Green,
+                    SignalData.SygnalZastepczy when pulse            => Colors.White,
+                    SignalData.SygnalZastepczy when !pulse           => Colors.Gray,
+                    SignalData.BrakDanych                            => Colors.White,
+                    _                                                => Colors.White
                 };
             }
         }
@@ -227,6 +227,11 @@ public class Signal : Element, IHasOwnData<SignalData>, IHasMenuStrip
     public ContextMenuStrip GetMenuStrip()
     {
         ContextMenuStrip strip = new ContextMenuStrip();
+
+        ToolStripMenuItem title = new ToolStripMenuItem($"Semafor {Name}");
+        title.Enabled = false;
+        strip.Items.Add(title);
+
         if (Track is not null)
         {
             ToolStripMenuItem trackItem = new ToolStripMenuItem($"Tor {Track.Name}");
@@ -238,8 +243,17 @@ public class Signal : Element, IHasOwnData<SignalData>, IHasMenuStrip
         zmk.Click += (_, _) => CommandProcessor.ExecuteCommand($"{Name} {(zamkniety ? "ozmk" : "zmk")}");
         ToolStripMenuItem stoj = new ToolStripMenuItem("Stój");
         stoj.Click += (_, _) => CommandProcessor.ExecuteCommand($"{Name} stoj");
+        ToolStripMenuItem sz = new ToolStripMenuItem("Zastępczy");
+        sz.Click += (_, _) =>
+        {
+            if (IsSelected)
+                CommandProcessor.ExecuteCommand(Name);
+            else
+                CommandProcessor.ExecuteCommand($"{Name} sz");
+        };
         strip.Items.Add(zmk);
         strip.Items.Add(stoj);
+        strip.Items.Add(sz);
         return strip;
     }
 }

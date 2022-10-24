@@ -48,16 +48,16 @@ public class SignalTile : Tile, IMouseEvent, IHasMenuStrip
                     break;
             }
         }
-
-        using SolidBrush brush = Signal.GetBrush(Parent.Pulse);
-        g.FillTriangle(brush, new RectangleF(Size.Width * 0.2f, Size.Height * 0.2f, Size.Width * 0.6f, Size.Height * 0.6f), Signal.SignalDirection);
-
-        /*if (IsSelected)
+        if (Signal.Type is SignalType.Pociagowy)
         {
-            using Pen p = new Pen(Colors.Azure, 1);
-            p.Alignment = System.Drawing.Drawing2D.PenAlignment.Inset;
-            g.DrawRectangle(p, new Rectangle(1, 1, Width - 2, Height - 2));
-        }*/
+            using SolidBrush brush = Signal.GetBrush(Parent.Pulse);
+            g.FillTriangle(brush, new RectangleF(Size.Width * 0.2f, Size.Height * 0.2f, Size.Width * 0.6f, Size.Height * 0.6f), Signal.SignalDirection);
+        }
+        else if (Signal.Type is SignalType.Czerwony)
+        {
+            using SolidBrush brush = Signal.GetBrush(Parent.Pulse);
+            g.FillRectangle(brush, new RectangleF(Size.Width * 0.4f, Size.Height * 0.2F, Size.Width * 0.2f, Size.Height * 0.6f));
+        }
     }
 
     void IMouseEvent.OnMouseClick(MouseEventArgs e)
