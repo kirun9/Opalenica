@@ -10,7 +10,7 @@ using Opalenica.Render;
 using Opalenica.Tiles;
 using Opalenica.Tiles.Interfaces;
 
-internal class Pulpit : Control
+internal partial class Pulpit : Control
 {
     private readonly Size designSize = new Size(1366, 768);
     public static (float Horizontal, float Vertical) Scale { get; private set; } = (1, 1);
@@ -25,6 +25,8 @@ internal class Pulpit : Control
     public List<Tile> RegisteredTiles = new List<Tile>();
 
     private bool blockLeftClick = false;
+
+    private DebugMoveTile debugMoveTile;
 
 #if DEBUG
     private Stopwatch watch;
@@ -41,6 +43,7 @@ internal class Pulpit : Control
         grid.Padding = Padding;
         this.DoubleBuffered = true;
         RegisterElements();
+
         //tileSize = new Size((designSize.Width - Padding.Vertical) / 38, (designSize.Height - Padding.Horizontal) / 38);
     }
 
@@ -157,6 +160,8 @@ internal class Pulpit : Control
         RegisteredTiles.Add(new TrackCurveTile(grid.CalculatePosition(17, 11), Track.GetTrack("6b"), CurveDirection.FromLeftTurnLeft45));
 
         RegisteredTiles.Add(new EacTile(grid.CalculatePosition(29, 3), new Size(2, 1), BlokadaEac.GetEac("Track3")));
+
+        RegisteredTiles.Add(debugMoveTile = new DebugMoveTile(grid.CalculatePosition(4, 0), new Size(32 - 4, 1)));
     }
 
     public void RegisterElements()
@@ -183,6 +188,8 @@ internal class Pulpit : Control
         {
             grid.AddTile(tile);
         }
+
+        this.movableRectangle = debugMoveTile.GetRectangle();
     }
 
     protected override void OnSizeChanged(EventArgs e)
