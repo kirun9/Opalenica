@@ -36,7 +36,7 @@ partial class OpalenicaForm
             this.pulpit1.Dock = System.Windows.Forms.DockStyle.Fill;
             this.pulpit1.Location = new System.Drawing.Point(0, 0);
             this.pulpit1.Name = "pulpit1";
-            this.pulpit1.Size = new System.Drawing.Size(1366, 768);
+            this.pulpit1.Size = new System.Drawing.Size(1748, 836);
             this.pulpit1.TabIndex = 1;
             this.pulpit1.Text = "pulpit1";
             this.pulpit1.KeyDown += new System.Windows.Forms.KeyEventHandler(this.Pulpit1_KeyDown);
@@ -46,7 +46,7 @@ partial class OpalenicaForm
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.Black;
-            this.ClientSize = new System.Drawing.Size(1366, 768);
+            this.ClientSize = new System.Drawing.Size(1748, 836);
             this.Controls.Add(this.pulpit1);
             this.DoubleBuffered = true;
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;

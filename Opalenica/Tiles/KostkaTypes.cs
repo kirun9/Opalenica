@@ -3,6 +3,5 @@
 public enum KostkaTypes {
     Prosty,
     Rozjazd,
-    Skos,
-    Koziolek,
+    Skos
 }

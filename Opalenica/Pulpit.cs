@@ -9,7 +9,7 @@ using System.Drawing.Drawing2D;
 using System.Windows.Forms;
 
 internal class Pulpit : Control {
-    private readonly Size designSize = new Size(1366, 768);
+    private readonly Size designSize = new Size(1748, 836);
     public static (float Horizontal, float Vertical) Scale { get; private set; } = (1, 1);
     private bool DesignerMode { get; } = false;
 
@@ -19,7 +19,7 @@ internal class Pulpit : Control {
 
     [Category("Appearance")]
     [Browsable(true)]
-    public new Padding Padding { get; set; } = new Padding(1, 74, 1, 74);
+    //public new Padding Padding { get; set; } = new Padding(1, 74, 1, 74);
 
     public List<Tile> RegisteredTiles = new List<Tile>();
 
@@ -38,7 +38,6 @@ internal class Pulpit : Control {
         grid.Padding = Padding;
         this.DoubleBuffered = true;
         RegisterElements();
-        //tileSize = new Size((designSize.Width - Padding.Vertical) / 38, (designSize.Height - Padding.Horizontal) / 38);
     }
 
     public Pulpit(Control parent, String text) : base(parent, text) {
@@ -59,6 +58,11 @@ internal class Pulpit : Control {
         for (int i = 1; i < 1013; i++) {
             RegisteredTiles.Add(new Kostka(i-1, i.ToString()));
         }
+
+
+        //Adding tiles
+        ((Kostka) RegisteredTiles[16 * 17 - 1]).setType(KostkaTypes.Rozjazd, 0, 0);
+
     }
 
     public void RegisterElements() {
