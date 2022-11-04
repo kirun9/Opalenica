@@ -13,9 +13,9 @@ internal class Pulpit : Control {
     public static (float Horizontal, float Vertical) Scale { get; private set; } = (1, 1);
     private bool DesignerMode { get; } = false;
 
-    private static int sizeX = 44;
-    private static int sizeY = 20;
-    private Grid grid { get; set; } = new Grid($"{sizeX}x{sizeY}", "31x31");
+    private static int sizeX = 46;
+    private static int sizeY = 22;
+    private Grid grid { get; set; } = new Grid($"{sizeX}x{sizeY}", "38x38");
 
     [Category("Appearance")]
     [Browsable(true)]
@@ -56,11 +56,9 @@ internal class Pulpit : Control {
     }
 
     public void RegisterTiles() {
-        for (int i = 0; i < grid.Capacity; i++) {
-            RegisteredTiles.Add(new Kostka(i));
+        for (int i = 1; i < 1013; i++) {
+            RegisteredTiles.Add(new Kostka(i-1, i.ToString()));
         }
-
-        RegisteredTiles.Add(new Kostka(grid.CalculatePosition(0, 5), true, false, 0, 1));
     }
 
     public void RegisterElements() {
