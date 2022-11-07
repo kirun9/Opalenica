@@ -63,6 +63,9 @@
     <Compile Update="Forms\OpalenicaForm.cs">
       <SubType>Form</SubType>
     </Compile>
+    <Compile Update="Forms\Settings\SerialSettingsControl.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
   </ItemGroup>
 
 </Project>

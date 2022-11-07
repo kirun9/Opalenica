@@ -8,8 +8,6 @@ using System.Collections.ObjectModel;
 using System.Drawing.Drawing2D;
 using System.Windows.Forms;
 
-using static System.ComponentModel.Design.ObjectSelectorEditor;
-
 public partial class OptionsForm : ResizableForm
 {
     public List<Tab> SettingsTabs = new List<Tab>();
@@ -20,17 +18,11 @@ public partial class OptionsForm : ResizableForm
         SettingsTabs = new List<Tab>()
         {
             new Tab("Ogólne", new GeneralSettingsControl()) { Selected = true },
-            new Tab("Port", new GeneralSettingsControl()),
-            new Tab("Semafory", new GeneralSettingsControl()),
-            new Tab("Rozjazdy", new GeneralSettingsControl()),
-            new Tab("Tory", new GeneralSettingsControl()),
-            new Tab("Blokady", new GeneralSettingsControl()),
-            // For test purposes
-            new Tab("Ogólne2", new GeneralSettingsControl()),
-            new Tab("Semafory2", new GeneralSettingsControl()),
-            new Tab("Rozjazdy2", new GeneralSettingsControl()),
-            new Tab("Tory2", new GeneralSettingsControl()),
-            new Tab("Blokady2", new GeneralSettingsControl()),
+            new Tab("Port", new SerialSettingsControl()),
+            new Tab("Semafory", new SemSettingsControl()),
+            new Tab("Rozjazdy", new JuncSettingsControl()),
+            new Tab("Tory", new TrackSettingsControl()),
+            new Tab("Blokady", new LBSettingsControl()),
         };
 
         InitializeComponent();
