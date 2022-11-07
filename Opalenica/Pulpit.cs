@@ -5,6 +5,9 @@ using System.Diagnostics;
 using System.Drawing.Drawing2D;
 using System.Windows.Forms;
 
+using CommandProcessor;
+
+using Opalenica.Forms;
 using Opalenica.Interfaces;
 using Opalenica.Render;
 using Opalenica.Tiles;
@@ -35,43 +38,40 @@ internal partial class Pulpit : Control
     [Obsolete("use second contructor", true)]
     public Pulpit() : base()
     {
-#if DEBUG
-        watch = new Stopwatch();
-        watch.Start();
-#endif
         DesignerMode = LicenseManager.UsageMode == LicenseUsageMode.Designtime;
-        grid.Padding = Padding;
-        this.DoubleBuffered = true;
-        RegisterElements();
-
-        //tileSize = new Size((designSize.Width - Padding.Vertical) / 38, (designSize.Height - Padding.Horizontal) / 38);
+        ConstructForm();
     }
 
     public Pulpit(Control parent, String text) : base(parent, text)
     {
         Parent = parent;
         Text = text;
+        DesignerMode = LicenseManager.UsageMode == LicenseUsageMode.Designtime;
+        ConstructForm();
+    }
 
+    private void ConstructForm()
+    {
 #if DEBUG
         watch = new Stopwatch();
         watch.Start();
 #endif
-        DesignerMode = LicenseManager.UsageMode == LicenseUsageMode.Designtime;
         grid.Padding = Padding;
         this.DoubleBuffered = true;
         RegisterElements();
+
+        Command command = new Command("options", () =>
+        {
+            OptionsForm form = new OptionsForm();
+            form.Location = new Point(Location.X + Width / 2 - form.Width / 2, Location.Y + Height / 2 - form.Height / 2);
+            form.ShowDialog(this);
+            return CommandProcessor.BreakChainCommand();
+        });
+        CommandProcessor.RegisterCommand(command);
     }
 
     public void RegisterTiles()
     {
-        /*Track.GetTrack("outR", TrackType.BrakKontroliZamkniety);
-        Track.GetTrack("1", TrackType.BrakKontroliZamkniety);
-        Track.GetTrack("1a", TrackType.BrakKontroliZamkniety);
-
-        Track.GetTrack("outS", TrackType.BrakKontroli);
-        Track.GetTrack("2", TrackType.BrakKontroli);
-        Track.GetTrack("2a", TrackType.BrakKontroli);*/
-
         RegisteredTiles.Add(new TrackTile(grid.CalculatePosition(0, 5), Track.GetTrack("outR")));
         RegisteredTiles.Add(new TrackTile(grid.CalculatePosition(0, 7), Track.GetTrack("outS")));
 

@@ -51,9 +51,18 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Reference Include="CustomUIDesign">
+      <HintPath>libs\CustomUIDesign.dll</HintPath>
+    </Reference>
     <Reference Include="Renderers">
       <HintPath>libs\Renderers.dll</HintPath>
     </Reference>
+  </ItemGroup>
+
+  <ItemGroup>
+    <Compile Update="Forms\OpalenicaForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
   </ItemGroup>
 
 </Project>
