@@ -39,24 +39,29 @@ public partial class OptionsForm : ResizableForm
 
     private void CalculateTabs()
     {
-        if (firstTabIndex >= SettingsTabs.Count) throw new ArgumentOutOfRangeException(nameof(firstTabIndex));
-        TabFlowPanel.Controls.Clear();
-        bool breakOccured = false;
-        foreach (var tab in SettingsTabs.Skip(firstTabIndex))
+        try
         {
-            TabFlowPanel.Controls.Add(tab.Button);
-            if (tab.Button.Bounds.Right > TabFlowPanel.Bounds.Right)
+            if (firstTabIndex >= SettingsTabs.Count) throw new ArgumentOutOfRangeException(nameof(firstTabIndex));
+            TabFlowPanel.Controls.Clear();
+            bool breakOccured = false;
+            foreach (var tab in SettingsTabs.Skip(firstTabIndex))
             {
-                RightButton.Visible = true;
-                LeftButton.Visible = true;
-                breakOccured = true;
-                break;
+                TabFlowPanel.Controls.Add(tab.Button);
+                if (tab.Button is null) continue;
+                if (tab.Button.Bounds.Right > TabFlowPanel.Bounds.Right)
+                {
+                    RightButton.Visible = true;
+                    LeftButton.Visible = true;
+                    breakOccured = true;
+                    break;
+                }
+            }
+            if (!breakOccured)
+            {
+                RightButton.Enabled = false;
             }
         }
-        if (!breakOccured)
-        {
-            RightButton.Enabled = false;
-        }
+        catch (Exception) { }
     }
 
     protected override void OnPaint(PaintEventArgs e)
@@ -118,5 +123,17 @@ public partial class OptionsForm : ResizableForm
         }
         if (firstTabIndex is 0)
             LeftButton.Enabled = false;
+    }
+
+    private void ButtonWithoutPadding1_Click(Object sender, EventArgs e)
+    {
+        WindowState = WindowState is FormWindowState.Normal ? FormWindowState.Maximized : FormWindowState.Normal;
+        MaximizeButton.Text = WindowState is FormWindowState.Normal ? "□" : "_";
+    }
+
+    protected override void OnSizeChanged(EventArgs e)
+    {
+        base.OnSizeChanged(e);
+        CalculateTabs();
     }
 }

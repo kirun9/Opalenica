@@ -31,6 +31,7 @@ partial class OptionsForm
     private void InitializeComponent()
     {
             this.TopPanel = new System.Windows.Forms.Panel();
+            this.MaximizeButton = new CustomUIDesign.ButtonWithoutPadding();
             this.ExitButton = new CustomUIDesign.ButtonWithoutPadding();
             this.Title = new System.Windows.Forms.Label();
             this.PrevTabButton = new System.Windows.Forms.Panel();
@@ -47,6 +48,7 @@ partial class OptionsForm
             // TopPanel
             // 
             this.TopPanel.BackColor = System.Drawing.Color.Transparent;
+            this.TopPanel.Controls.Add(this.MaximizeButton);
             this.TopPanel.Controls.Add(this.ExitButton);
             this.TopPanel.Controls.Add(this.Title);
             this.TopPanel.Dock = System.Windows.Forms.DockStyle.Top;
@@ -54,6 +56,24 @@ partial class OptionsForm
             this.TopPanel.Name = "TopPanel";
             this.TopPanel.Size = new System.Drawing.Size(809, 30);
             this.TopPanel.TabIndex = 0;
+            // 
+            // MaximizeButton
+            // 
+            this.MaximizeButton.Dock = System.Windows.Forms.DockStyle.Right;
+            this.MaximizeButton.FlatAppearance.BorderSize = 0;
+            this.MaximizeButton.FlatAppearance.MouseDownBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))));
+            this.MaximizeButton.FlatAppearance.MouseOverBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))));
+            this.MaximizeButton.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.MaximizeButton.Font = new System.Drawing.Font("Segoe UI", 18F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
+            this.MaximizeButton.ForeColor = System.Drawing.Color.White;
+            this.MaximizeButton.Location = new System.Drawing.Point(749, 0);
+            this.MaximizeButton.Name = "MaximizeButton";
+            this.MaximizeButton.Padding = new System.Windows.Forms.Padding(0, 0, 3, 0);
+            this.MaximizeButton.Size = new System.Drawing.Size(30, 30);
+            this.MaximizeButton.TabIndex = 2;
+            this.MaximizeButton.Text = "□";
+            this.MaximizeButton.UseVisualStyleBackColor = true;
+            this.MaximizeButton.Click += new System.EventHandler(this.ButtonWithoutPadding1_Click);
             // 
             // ExitButton
             // 
@@ -67,6 +87,7 @@ partial class OptionsForm
             this.ExitButton.ForeColor = System.Drawing.Color.Red;
             this.ExitButton.Location = new System.Drawing.Point(779, 0);
             this.ExitButton.Name = "ExitButton";
+            this.ExitButton.Padding = new System.Windows.Forms.Padding(3, 0, 0, 0);
             this.ExitButton.Size = new System.Drawing.Size(30, 30);
             this.ExitButton.TabIndex = 1;
             this.ExitButton.Text = "✖";
@@ -80,7 +101,7 @@ partial class OptionsForm
             this.Title.Font = new System.Drawing.Font("Segoe UI", 14F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
             this.Title.Location = new System.Drawing.Point(0, 0);
             this.Title.Name = "Title";
-            this.Title.Size = new System.Drawing.Size(773, 30);
+            this.Title.Size = new System.Drawing.Size(743, 30);
             this.Title.TabIndex = 0;
             this.Title.Text = "Options";
             // 
@@ -99,6 +120,7 @@ partial class OptionsForm
             this.ContentPanel.AutoScroll = true;
             this.ContentPanel.Dock = System.Windows.Forms.DockStyle.Fill;
             this.ContentPanel.Location = new System.Drawing.Point(0, 26);
+            this.ContentPanel.MinimumSize = new System.Drawing.Size(809, 369);
             this.ContentPanel.Name = "ContentPanel";
             this.ContentPanel.Size = new System.Drawing.Size(809, 369);
             this.ContentPanel.TabIndex = 2;
@@ -175,7 +197,6 @@ partial class OptionsForm
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.None;
             this.Name = "OptionsForm";
             this.Padding = new System.Windows.Forms.Padding(3);
-            this.RestrainLocation = true;
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
             this.Text = "OptionsForm";
             this.TopPanel.ResumeLayout(false);
@@ -196,4 +217,5 @@ partial class OptionsForm
     private ButtonWithoutPadding LeftButton;
     private ButtonWithoutPadding RightButton;
     private Panel ContentPanel;
+    private ButtonWithoutPadding MaximizeButton;
 }
