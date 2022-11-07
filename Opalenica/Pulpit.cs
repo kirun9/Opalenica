@@ -3,6 +3,7 @@
 using System.ComponentModel;
 using System.Diagnostics;
 using System.Drawing.Drawing2D;
+using System.IO.Ports;
 using System.Windows.Forms;
 
 using CommandProcessor;
@@ -20,6 +21,8 @@ internal partial class Pulpit : Control
     private bool DesignerMode { get; } = false;
 
     private Grid grid { get; set; } = new Grid("34x19", "40x40");
+
+    public static SerialPort serialPort = new SerialPort();
 
     [Category("Appearance")]
     [Browsable(true)]

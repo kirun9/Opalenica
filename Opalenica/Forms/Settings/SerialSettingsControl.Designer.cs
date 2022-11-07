@@ -34,9 +34,9 @@ partial class SerialSettingsControl
             this.PortLabel = new System.Windows.Forms.Label();
             this.BaudComboBox = new System.Windows.Forms.ComboBox();
             this.BaudLabel = new System.Windows.Forms.Label();
-            this.button1 = new CustomUIDesign.ButtonWithoutPadding();
-            this.buttonWithoutPadding1 = new CustomUIDesign.ButtonWithoutPadding();
-            this.buttonWithoutPadding2 = new CustomUIDesign.ButtonWithoutPadding();
+            this.resetConnectionButton = new CustomUIDesign.ButtonWithoutPadding();
+            this.startConnectionButton = new CustomUIDesign.ButtonWithoutPadding();
+            this.saveButton = new CustomUIDesign.ButtonWithoutPadding();
             this.SuspendLayout();
             // 
             // PortComboBox
@@ -59,7 +59,7 @@ partial class SerialSettingsControl
             this.PortLabel.Font = new System.Drawing.Font("Segoe UI", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
             this.PortLabel.Location = new System.Drawing.Point(68, 110);
             this.PortLabel.Name = "PortLabel";
-            this.PortLabel.Size = new System.Drawing.Size(35, 19);
+            this.PortLabel.Size = new System.Drawing.Size(34, 19);
             this.PortLabel.TabIndex = 10;
             this.PortLabel.Text = "Port";
             // 
@@ -87,55 +87,55 @@ partial class SerialSettingsControl
             this.BaudLabel.TabIndex = 8;
             this.BaudLabel.Text = "Baud";
             // 
-            // button1
+            // resetConnectionButton
             // 
-            this.button1.Enabled = false;
-            this.button1.FlatAppearance.MouseDownBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))));
-            this.button1.FlatAppearance.MouseOverBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))));
-            this.button1.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.button1.Location = new System.Drawing.Point(68, 175);
-            this.button1.Name = "button1";
-            this.button1.Size = new System.Drawing.Size(118, 23);
-            this.button1.TabIndex = 12;
-            this.button1.Text = "Restart Connection";
-            this.button1.UseVisualStyleBackColor = true;
+            this.resetConnectionButton.Enabled = false;
+            this.resetConnectionButton.FlatAppearance.MouseDownBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))));
+            this.resetConnectionButton.FlatAppearance.MouseOverBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))));
+            this.resetConnectionButton.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.resetConnectionButton.Location = new System.Drawing.Point(68, 175);
+            this.resetConnectionButton.Name = "resetConnectionButton";
+            this.resetConnectionButton.Size = new System.Drawing.Size(118, 23);
+            this.resetConnectionButton.TabIndex = 12;
+            this.resetConnectionButton.Text = "Restart Connection";
+            this.resetConnectionButton.UseVisualStyleBackColor = true;
             // 
-            // buttonWithoutPadding1
+            // startConnectionButton
             // 
-            this.buttonWithoutPadding1.Enabled = false;
-            this.buttonWithoutPadding1.FlatAppearance.MouseDownBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))));
-            this.buttonWithoutPadding1.FlatAppearance.MouseOverBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))));
-            this.buttonWithoutPadding1.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.buttonWithoutPadding1.Location = new System.Drawing.Point(217, 175);
-            this.buttonWithoutPadding1.Name = "buttonWithoutPadding1";
-            this.buttonWithoutPadding1.Size = new System.Drawing.Size(121, 23);
-            this.buttonWithoutPadding1.TabIndex = 13;
-            this.buttonWithoutPadding1.Text = "Start Connection";
-            this.buttonWithoutPadding1.UseVisualStyleBackColor = true;
+            this.startConnectionButton.FlatAppearance.MouseDownBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))));
+            this.startConnectionButton.FlatAppearance.MouseOverBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))));
+            this.startConnectionButton.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.startConnectionButton.Location = new System.Drawing.Point(217, 175);
+            this.startConnectionButton.Name = "startConnectionButton";
+            this.startConnectionButton.Size = new System.Drawing.Size(121, 23);
+            this.startConnectionButton.TabIndex = 13;
+            this.startConnectionButton.Text = "Start Connection";
+            this.startConnectionButton.UseVisualStyleBackColor = true;
+            this.startConnectionButton.Click += new System.EventHandler(this.startConnectionButton_Click);
             // 
-            // buttonWithoutPadding2
+            // saveButton
             // 
-            this.buttonWithoutPadding2.Enabled = false;
-            this.buttonWithoutPadding2.FlatAppearance.MouseDownBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))));
-            this.buttonWithoutPadding2.FlatAppearance.MouseOverBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))));
-            this.buttonWithoutPadding2.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.buttonWithoutPadding2.Font = new System.Drawing.Font("Segoe UI", 11F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
-            this.buttonWithoutPadding2.Location = new System.Drawing.Point(702, 334);
-            this.buttonWithoutPadding2.Margin = new System.Windows.Forms.Padding(6);
-            this.buttonWithoutPadding2.Name = "buttonWithoutPadding2";
-            this.buttonWithoutPadding2.Size = new System.Drawing.Size(101, 29);
-            this.buttonWithoutPadding2.TabIndex = 14;
-            this.buttonWithoutPadding2.Text = "Save";
-            this.buttonWithoutPadding2.UseVisualStyleBackColor = true;
+            this.saveButton.Enabled = false;
+            this.saveButton.FlatAppearance.MouseDownBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))));
+            this.saveButton.FlatAppearance.MouseOverBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))));
+            this.saveButton.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.saveButton.Font = new System.Drawing.Font("Segoe UI", 11F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
+            this.saveButton.Location = new System.Drawing.Point(702, 334);
+            this.saveButton.Margin = new System.Windows.Forms.Padding(6);
+            this.saveButton.Name = "saveButton";
+            this.saveButton.Size = new System.Drawing.Size(101, 29);
+            this.saveButton.TabIndex = 14;
+            this.saveButton.Text = "Save";
+            this.saveButton.UseVisualStyleBackColor = true;
             // 
             // SerialSettingsControl
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.Black;
-            this.Controls.Add(this.buttonWithoutPadding2);
-            this.Controls.Add(this.buttonWithoutPadding1);
-            this.Controls.Add(this.button1);
+            this.Controls.Add(this.saveButton);
+            this.Controls.Add(this.startConnectionButton);
+            this.Controls.Add(this.resetConnectionButton);
             this.Controls.Add(this.PortComboBox);
             this.Controls.Add(this.PortLabel);
             this.Controls.Add(this.BaudComboBox);
@@ -154,7 +154,7 @@ partial class SerialSettingsControl
     private Label PortLabel;
     private ComboBox BaudComboBox;
     private Label BaudLabel;
-    private ButtonWithoutPadding button1;
-    private ButtonWithoutPadding buttonWithoutPadding1;
-    private ButtonWithoutPadding buttonWithoutPadding2;
+    private ButtonWithoutPadding resetConnectionButton;
+    private ButtonWithoutPadding startConnectionButton;
+    private ButtonWithoutPadding saveButton;
 }
