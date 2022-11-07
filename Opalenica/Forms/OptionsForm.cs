@@ -30,7 +30,7 @@ public partial class OptionsForm : ResizableForm
         this.DragControls = new Collection<Control>() { this.TopPanel, this.Title };
         foreach (var tab in SettingsTabs)
         {
-            tab.Button = GetTabButton(tab.Name, tab.Selected);
+            tab.Button = GetTabButton(tab.Name);
         }
         CalculateTabs();
         ShowTab(SettingsTabs[0].Name);
@@ -74,8 +74,7 @@ public partial class OptionsForm : ResizableForm
             if (tab.Selected)
             {
                 ContentPanel.Controls.Remove(tab.Control);
-                tab.Selected = false;
-                SetButtonBackColor(tab.Button, false);
+                tab.Button.Selected = tab.Selected = false;
                 break;
             }
         }
@@ -84,41 +83,16 @@ public partial class OptionsForm : ResizableForm
         {
             if (tab.Name == name)
             {
-                tab.Selected = true;
-                SetButtonBackColor(tab.Button, true);
+                tab.Button.Selected = tab.Selected = true;
                 ContentPanel.Controls.Add(tab.Control);
             }
         }
     }
 
-    private void SetButtonBackColor(Button button, bool selected)
+    public TabButton GetTabButton(string name)
     {
-        button.BackColor = selected ? ControlPaint.Dark(Colors.Blue) : Colors.Black;
-    }
-
-    public ButtonWithoutPadding GetTabButton(string name, bool selected)
-    {
-        var button = new ButtonWithoutPadding();
-        button.Text = name;
-
-        button.AutoSize = true;
-        button.AutoSizeMode = AutoSizeMode.GrowAndShrink;
-        button.BackColor = selected ? ControlPaint.Dark(Colors.Blue) : Colors.Black;
-        button.FlatAppearance.BorderSize = 0;
-        button.FlatAppearance.MouseDownBackColor = ControlPaint.Light(button.BackColor);
-        button.FlatAppearance.MouseOverBackColor = ControlPaint.Light(button.BackColor);
-        button.FlatStyle = FlatStyle.Flat;
-        button.Font = new Font("Segoe UI", 10F, FontStyle.Bold, GraphicsUnit.Point);
-        button.ForeColor = Color.White;
-        button.Location = new Point(3, 3);
-        button.MaximumSize = new Size(0, 20);
-        button.Size = new Size(57, 20);
-        button.TabIndex = 6;
-        button.TextAlign = ContentAlignment.MiddleLeft;
-        button.UseVisualStyleBackColor = true;
-
+        var button = new TabButton(name);
         button.Click += (_, _) => { ShowTab(name); };
-
         return button;
     }
 

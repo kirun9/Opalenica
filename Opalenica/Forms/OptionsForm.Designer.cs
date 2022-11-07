@@ -116,7 +116,8 @@ partial class OptionsForm
             // 
             // TabFlowPanel
             // 
-            this.TabFlowPanel.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.TabFlowPanel.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.TabFlowPanel.Location = new System.Drawing.Point(26, 0);
             this.TabFlowPanel.Margin = new System.Windows.Forms.Padding(0);
             this.TabFlowPanel.Name = "TabFlowPanel";
