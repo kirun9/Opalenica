@@ -10,6 +10,7 @@ using CommandProcessor;
 using Opalenica.Forms;
 using Opalenica.Interfaces;
 using Opalenica.Render;
+using Opalenica.Serialization;
 using Opalenica.Tiles;
 using Opalenica.Tiles.Interfaces;
 
@@ -18,6 +19,8 @@ internal partial class Pulpit : Control
     private readonly Size designSize = new Size(1366, 768);
     public static (float Horizontal, float Vertical) Scale { get; private set; } = (1, 1);
     private bool DesignerMode { get; } = false;
+
+    public static PulpitSettings Settings { get; set; }
 
     private Grid grid { get; set; } = new Grid("34x19", "40x40");
 
@@ -59,6 +62,10 @@ internal partial class Pulpit : Control
         grid.Padding = Padding;
         this.DoubleBuffered = true;
         RegisterElements();
+
+        PulpitSettings.ReadFile();
+
+        PulpitSettings.CheckSettings();
 
         Command command = new Command("options", () =>
         {
