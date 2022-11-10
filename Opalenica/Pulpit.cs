@@ -293,6 +293,17 @@ internal partial class Pulpit : Control
         Point p = new Point((int)(e.X / Scale.Horizontal), (int)(e.Y / Scale.Vertical));
         var tile = grid.GetTileFromPoint(p);
 
+
+        /*
+        XTAAAAAADDDDDDDD
+        X - wybór linii(0 - rozjazdy, 1 - semafory)
+        T - (przy rozjazdach 0 / 1 na + bądź na -, przy semaforach 0)
+        AAAAAA - 6bit adres
+        DDDDDDDD - 1 - 8 bit danych do
+        wpisania dla semaforów tylko gdy X = 1)
+        */
+        
+
         if (e.Button is MouseButtons.Left or MouseButtons.Middle)
         {
             if (blockLeftClick)
