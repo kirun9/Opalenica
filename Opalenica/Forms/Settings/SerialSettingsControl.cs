@@ -42,15 +42,20 @@ public partial class SerialSettingsControl : UserControl
         }
         else showWarning = true;
 
-        if (showWarning)
-            InfoTile.AddInfo("Serial port settings are not set. Please set them in settings.", InfoType.Warning);
+        if (showWarning && InfoTile.CountMessagesByTag("Serial", "Settings", "Error") <= 0)
+            InfoTile.AddInfo("Serial port settings are not set. Please set them in settings.", MessageSeverity.Warning, "Serial", "Settings", "Error");
+        else if (!showWarning)
+        {
+            var message = InfoTile.GetMessageByTag("Serial", "Settings", "Error");
+            InfoTile.RemoveInfo(message.Id);
+        }
     }
 
     internal int GetSelectedBaudRate()
     {
         if (Int32.TryParse(BaudComboBox.SelectedItem.ToString(), out int baud))
             return baud;
-        else throw new InvalidCastException();
+        else throw new InvalidCastException("Provided empty baud");
     }
 
     internal string GetSelectedPort()

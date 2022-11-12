@@ -31,9 +31,21 @@ public class PulpitSettings
 
     public static void CheckSettings()
     {
-        if (Settings.SerialOptions is null || Settings.SerialOptions.BaudRate is 0 || Settings.SerialOptions.PortName is null or "")
+        if (Settings.SerialOptions is null) Settings.SerialOptions = new SerialOptions();
+        if ((Settings.SerialOptions.BaudRate is 0 || Settings.SerialOptions.PortName is null or "") && InfoTile.CountMessagesByTag("Serial", "Settings", "Error") <= 0)
         {
-            InfoTile.AddInfo("Serial port settings are not set. Please set them in settings.", InfoType.Warning);
+            InfoTile.AddInfo("Serial port settings are not set. Please set them in settings.", MessageSeverity.Warning, "Serial", "Settings", "Error");
+        }
+        else if ((Settings.SerialOptions.BaudRate is not 0 && Settings.SerialOptions.PortName is not (null or "")))
+        {
+            if (InfoTile.CountMessagesByTag("Serial", "Settings", "Error") > 0)
+            {
+                var messages = InfoTile.GetMessagesByTag("Serial", "Settings", "Error").ToArray();
+                foreach (var m in messages)
+                {
+                    InfoTile.RemoveInfo(m.Id);
+                }
+            }
         }
     }
 

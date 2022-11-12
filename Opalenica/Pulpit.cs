@@ -72,6 +72,7 @@ internal partial class Pulpit : Control
             OptionsForm form = new OptionsForm();
             form.Location = new Point(Location.X + Width / 2 - form.Width / 2, Location.Y + Height / 2 - form.Height / 2);
             form.ShowDialog(this);
+            PulpitSettings.CheckSettings();
             return CommandProcessor.BreakChainCommand();
         });
         CommandProcessor.RegisterCommand(command);
