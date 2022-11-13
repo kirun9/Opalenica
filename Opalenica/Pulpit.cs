@@ -21,7 +21,7 @@ internal class Pulpit : Control {
     [Browsable(true)]
     //public new Padding Padding { get; set; } = new Padding(1, 74, 1, 74);
 
-    public List<Tile> RegisteredTiles = new List<Tile>();
+    public List<Kostka> RegisteredTiles = new List<Kostka>();
 
     private bool blockLeftClick = false;
 
@@ -61,7 +61,7 @@ internal class Pulpit : Control {
 
 
         //Adding tiles
-        ((Kostka) RegisteredTiles[16 * 17 - 1]).setType(KostkaTypes.Rozjazd, 0, 0);
+        RegisteredTiles[sizeX * 15 + 17 - 1].setType(KostkaTypes.Rozjazd, 0, 0, 0, 3, 0);
 
     }
 
@@ -143,36 +143,23 @@ internal class Pulpit : Control {
         g.Transform = defaultTransform;
     }
 
-    //protected override void OnMouseClick(MouseEventArgs e) {
-    //    void ShowContextMenu(ContextMenuStrip menu) {
-    //        /* if debugmode
-    //             * add debug items
-    //             * */
-    //        blockLeftClick = true;
-    //        menu.Show(this, e.Location);
-    //    }
+    protected override void OnMouseClick(MouseEventArgs e) {
 
-    //    base.OnMouseClick(e);
+    }
 
-    //    Point p = new Point((int) (e.X / Scale.Horizontal), (int) (e.Y / Scale.Vertical));
-    //    var tile = grid.GetTileFromPoint(p);
 
-    //    if (e.Button is MouseButtons.Left or MouseButtons.Middle) {
-    //        if (blockLeftClick) {
-    //            blockLeftClick = false;
-    //            return;
-    //        }
-    //        if ((tile.IsOccupied ? tile.ParentTile ?? tile : tile) is IMouseEvent pMouseEvent) {
-    //            pMouseEvent.OnMouseClick(e);
-    //        }
-    //    }
-
-    //    if (e.Button == MouseButtons.Right) {
-    //        if ((tile.IsOccupied ? tile.ParentTile ?? tile : tile) is IHasMenuStrip pMenuStrip) {
-    //            ShowContextMenu(pMenuStrip.GetMenuStrip());
-    //            return;
-    //        }
-    //    }
-
-    //}
+    //Only for changing cursor!!!
+    protected override void OnMouseMove(MouseEventArgs e) {
+        foreach (var kostka in grid.GetTiles()) {
+            if(((Kostka) kostka).hasButton) {
+                if (((Kostka) kostka).buttonPosition.Contains(e.Location)) {
+                    this.Cursor = Cursors.Hand;
+                }
+                break;
+            }
+            else {
+                this.Cursor = Cursors.Default;
+            }
+        }
+    }
 }
