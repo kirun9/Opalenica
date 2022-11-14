@@ -47,7 +47,8 @@ public partial class SerialSettingsControl : UserControl
         else if (!showWarning)
         {
             var message = InfoTile.GetMessageByTag("Serial", "Settings", "Error");
-            InfoTile.RemoveInfo(message.Id);
+            if (message is not null)
+                InfoTile.RemoveInfo(message.Id);
         }
     }
 

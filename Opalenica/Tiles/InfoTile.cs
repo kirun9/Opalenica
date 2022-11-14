@@ -28,6 +28,9 @@ public class InfoTile : Tile
         InfoLines.Add((2, "Sample Information", Colors.Yellow, Colors.Yellow));
         InfoLines.Add((3, "Sample Help info", Colors.White, Colors.White));*/
         Font = new Font(base.Font.FontFamily, 12F, FontStyle.Bold, base.Font.Unit);
+
+        Command command = new Command("confirm", ConfirmMessage);
+        CommandProcessor.RegisterCommand(command);
     }
 
     protected override void Paint(Graphics g)
@@ -39,7 +42,7 @@ public class InfoTile : Tile
         float prevHeight = 5;
         foreach (var line in InfoLines)
         {
-            g.DrawString(line.Message, Font, new SolidBrush(line.GetColor(Parent.Pulse)), 5, prevHeight);
+            g.DrawString($"[{line.Id}] {line.Message}", Font, new SolidBrush(line.GetColor(Parent.Pulse)), 5, prevHeight);
             var size = g.MeasureString(line.Message, Font);
             prevHeight += size.Height + 2;
         }
@@ -96,11 +99,16 @@ public class InfoTile : Tile
 
     public static bool ConfirmMessage(CommandContext context)
     {
-        var message = GetMessage(context.GetArgAs<int>(0));
+       var message = GetMessage(context.GetArg<int>(0));
         if (message is null) return CommandProcessor.BreakChainCommand();
         if (message.Severity is MessageSeverity.Error)
         {
             SelectMessage(message.Id);
+            return true;
+        }
+        else
+        {
+            RemoveInfo(message.Id);
             return true;
         }
 
