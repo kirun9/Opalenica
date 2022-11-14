@@ -13,58 +13,63 @@ CCCCC - bity CRC dla weryfikacji poprawności danych
 // First register (0-7)
 //
 // Another example:
-// 10000011 00001010 01110101
+// 10000011 00000010 01110101
 // signal, from pin no.4, 4 bits (011 - LLL), reading from 2nd byte from lsb - 1010 - pin 4-HIGH, 5-LOW, 6-HIGH, 7-LOW, control bits ok.
 
 int junctionDataPin = 2;
-int junctionClockPin = 4;
-int junctionLatchPin = 3;
+int junctionClockPin = 3;
+int junctionLatchPin = 4;
 
 int signalDataPin = 5;
 int signalClockPin = 6;
 int signalLatchPin = 7;
 
+// Number of registers for junctions
 const int junctionRegistersNumber = 3;
 int junctionData[junctionRegistersNumber];
 
+// Number of registers for signals
 const int signalRegistersNumber = 3;
 int signalData[signalRegistersNumber];
 
 
-byte buffer[3]; // = {0b10000011, 0b00001010, 0b01110101};
+byte buffer[3]; // = {0b10000111, 0b00110100, 0b10110101};
 
 void setup() {
   Serial.begin(9600);
   pinMode(junctionLatchPin, OUTPUT);
   pinMode(junctionClockPin, OUTPUT);
   pinMode(junctionDataPin, OUTPUT);
-  /*
-  changeSignals(buffer);
-  */
+  pinMode(signalLatchPin, OUTPUT);
+  pinMode(signalClockPin, OUTPUT);
+  pinMode(signalDataPin, OUTPUT);
+  
+  //changeSignals(buffer);
+  
 }
 
 void loop() {
 
-  /*
-  //Version for simulating in wokwi:
-  digitalWrite(junctionLatchPin, LOW);
-    for(int i = junctionRegistersNumber; i >= 0; i--){
-      shiftOut(junctionDataPin, junctionClockPin, MSBFIRST, junctionData[i]);
-    }
-  digitalWrite(junctionLatchPin, HIGH);
-  */
-
-  //Go off only if there is something to read
+  
+  // Version for simulating in wokwi:
+  // digitalWrite(signalLatchPin, LOW);
+  //   for(int i = signalRegistersNumber; i >= 0; i--){
+  //     shiftOut(signalDataPin, signalClockPin, MSBFIRST, signalData[i]);
+  //   }
+  // digitalWrite(signalLatchPin, HIGH);
+  
+  
+  // Go off only if there is something to read
   if(Serial.available() > 0){
     Serial.readBytes(buffer, 3);
-    //Check correctness of the control bits
+    // Check correctness of the control bits
     if((buffer[2] & 0b00011111) == 21){
       
-      //For junctions (first bit = 0)
+      // For junctions (first bit = 0)
       if((((buffer[0] & 0b10000000) >> 7) == 0 && ((buffer[2] & 0b11100000) >> 5) == 0){
         changeJunctions(buffer);
       }
-      //For signals
+      // For signals
       else if(((buffer[0] & 0b10000000) >> 7) == 1){
         changeSignals(buffer);
       }
@@ -72,13 +77,15 @@ void loop() {
     }else{
       Serial.println("not ok, error.");
     }
-    //count up routine
+    
+    
     digitalWrite(junctionLatchPin, LOW);
     for(int i = junctionRegistersNumber; i >= 0; i--){
       shiftOut(junctionDataPin, junctionClockPin, MSBFIRST, junctionData[i]);
     }
     digitalWrite(junctionLatchPin, HIGH);
   }
+  
 }
 
 void changeJunctions(byte buff[]){
@@ -101,7 +108,7 @@ void changeSignals(byte buff[]){
   int position = (buff[0] & 0b01111111) % 8; // Index - from 0 to 7
   
   // Let's check if we fit in one register - if modulo from adress + length >= 8 then two registers will be needed.
-  if(whatPosition + length <= 8){
+  if(position + length <= 8){
     // Which register to write to - take adress from buffer and divide by 8
     int registerBlock1 = signalData[whichRegister];
     // Check out this big brain - we are taking length of our data and iterating to it from 0 - that way we can check bit by bit and set it or clear it on position + i.
@@ -127,12 +134,14 @@ void changeSignals(byte buff[]){
       }
     }
 
+    // FOR CLEARANCE!
+    // (8 - position) is the number what we are left with in the second register!
     // Now the second one
-    for(int i = 0; i < position - (8 - position); i++){
-      if((buff[1] & (1 << i)) != 0){
-        bitSet(registerBlock2, position + i);
+    for(int i = 0; i < length - (8 - position); i++){
+      if((buff[1] & (1 << i + (8 - position))) != 0){
+        bitSet(registerBlock2, i);
       }else{
-        bitClear(registerBlock2, position + i);
+        bitClear(registerBlock2, i);
       }
     }
     signalData[whichRegister] = registerBlock1;
