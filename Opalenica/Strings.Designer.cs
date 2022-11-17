@@ -133,6 +133,60 @@ namespace Opalenica {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Block System.
+        /// </summary>
+        internal static string Settings_Tabs_BlockSys {
+            get {
+                return ResourceManager.GetString("Settings.Tabs.BlockSys", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to General.
+        /// </summary>
+        internal static string Settings_Tabs_General {
+            get {
+                return ResourceManager.GetString("Settings.Tabs.General", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Junctions.
+        /// </summary>
+        internal static string Settings_Tabs_Junctions {
+            get {
+                return ResourceManager.GetString("Settings.Tabs.Junctions", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Port.
+        /// </summary>
+        internal static string Settings_Tabs_SerialPort {
+            get {
+                return ResourceManager.GetString("Settings.Tabs.SerialPort", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Signals.
+        /// </summary>
+        internal static string Settings_Tabs_Signals {
+            get {
+                return ResourceManager.GetString("Settings.Tabs.Signals", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Tracks.
+        /// </summary>
+        internal static string Settings_Tabs_Tracks {
+            get {
+                return ResourceManager.GetString("Settings.Tabs.Tracks", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Opalenica.
         /// </summary>
         internal static string Title {

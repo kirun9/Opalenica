@@ -14,14 +14,14 @@ public partial class GeneralSettingsControl : UserControl
     {
         InitializeComponent();
 
-        /*this.RestartInfoLabel.SetString(true, true);
+        this.RestartInfoLabel.SetString(true, true);
         this.LanguageLabel.SetString(true, true);
         this.ModeLabel.SetString(true, true);
         this.CancelButton.SetString(true, true);
         this.ApplyButton.SetString(true, true);
         this.FullScreenLabel.SetString(true, true);
         this.MonitorLabel.SetString(true, true);
-        this.AcceptButton.SetString(true, true);*/
+        this.AcceptButton.SetString(true, true);
 
         MonitorComboBox.Items.AddRange(Screen.AllScreens.Select((e, i) => GetScreenName(e, i)).ToArray());
         var monitor = GetScreenName(GetScreenFromSettings());
@@ -65,6 +65,14 @@ public partial class GeneralSettingsControl : UserControl
         if (LanguageComboBox.SelectedItem.ToString() != defaultValue)
         {
             _needRestart = true;
+            RestartInfoLabel.Show();
+            ApplyButton.Enabled = _needRestart;
+        }
+        else
+        {
+            _needRestart = false;
+            RestartInfoLabel.Hide();
+            ApplyButton.Enabled = true;
         }
     }
 

@@ -31,8 +31,13 @@ static class Extensions
         return source.Select((item, index) => (item, index));
     }
 
-    /*public static void SetString(this Control control, bool SkipMainNamespace, bool parentNamespace)
+    public static void SetString(this Control control, bool SkipMainNamespace, Control parentControl)
+    {
+        control.Text = Language.GetString(control.Name, parentControl.GetType(), SkipMainNamespace);
+    }
+
+    public static void SetString(this Control control, bool SkipMainNamespace, bool parentNamespace)
     {
         control.Text = Language.GetString(control.Name, parentNamespace ? (control.Parent ?? control).GetType() : control.GetType(), SkipMainNamespace);
-    }*/
+    }
 }

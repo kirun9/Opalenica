@@ -3,7 +3,8 @@
 using Opalenica.Tiles;
 
 using System.Text.Json;
-using System.Text.Json.Serialization;
+
+using static Opalenica.Language;
 
 public class PulpitSettings
 {
@@ -34,7 +35,7 @@ public class PulpitSettings
         if (Settings.SerialOptions is null) Settings.SerialOptions = new SerialOptions();
         if ((Settings.SerialOptions.BaudRate is 0 || Settings.SerialOptions.PortName is null or "") && InfoTile.CountMessagesByTag("Serial", "Settings", "Error") <= 0)
         {
-            InfoTile.AddInfo("Serial port settings are not set. Please set them in settings.", MessageSeverity.Warning, "Serial", "Settings", "Error");
+            InfoTile.AddInfo(GetString("Messages.SerialNotSetError"), MessageSeverity.Warning, "Serial", "Settings", "Error");
         }
         else if ((Settings.SerialOptions.BaudRate is not 0 && Settings.SerialOptions.PortName is not (null or "")))
         {

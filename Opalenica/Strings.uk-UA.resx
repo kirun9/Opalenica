@@ -1,0 +1,84 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<root>
+  <resheader name="resmimetype">
+    <value>text/microsoft-resx</value>
+  </resheader>
+  <resheader name="version">
+    <value>2.0</value>
+  </resheader>
+  <resheader name="reader">
+    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <resheader name="writer">
+    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <data name="Forms.Settings.GeneralSettingsControl.AcceptButton" xml:space="preserve">
+    <value>Прийняти</value>
+  </data>
+  <data name="Forms.Settings.GeneralSettingsControl.ApplyButton" xml:space="preserve">
+    <value>Застосувати</value>
+  </data>
+  <data name="Forms.Settings.GeneralSettingsControl.CancelButton" xml:space="preserve">
+    <value>Скасувати</value>
+  </data>
+  <data name="Forms.Settings.GeneralSettingsControl.FullScreenLabel" xml:space="preserve">
+    <value>Повноекранний</value>
+  </data>
+  <data name="Forms.Settings.GeneralSettingsControl.LanguageLabel" xml:space="preserve">
+    <value>Мову</value>
+  </data>
+  <data name="Forms.Settings.GeneralSettingsControl.ModeLabel" xml:space="preserve">
+    <value>Режим дисплею</value>
+  </data>
+  <data name="Forms.Settings.GeneralSettingsControl.MonitorLabel" xml:space="preserve">
+    <value>Монітор дисплея</value>
+  </data>
+  <data name="Forms.Settings.GeneralSettingsControl.RestartInfoLabel" xml:space="preserve">
+    <value>* Перезапустіть програму, щоб зміни набули чинності</value>
+  </data>
+  <data name="Settings.Tabs.BlockSys" xml:space="preserve">
+    <value>Блокова система</value>
+  </data>
+  <data name="Settings.Tabs.General" xml:space="preserve">
+    <value>Загальний</value>
+  </data>
+  <data name="Settings.Tabs.Junctions" xml:space="preserve">
+    <value>Розв'язки</value>
+  </data>
+  <data name="Settings.Tabs.SerialPort" xml:space="preserve">
+    <value>Послідовний порт</value>
+  </data>
+  <data name="Settings.Tabs.Signals" xml:space="preserve">
+    <value>Сигнали</value>
+  </data>
+  <data name="Settings.Tabs.Tracks" xml:space="preserve">
+    <value>Доріжки</value>
+  </data>
+  <data name="Title" xml:space="preserve">
+    <value>Опалениця</value>
+  </data>
+  <data name="Forms.OptionsForm.Title" xml:space="preserve">
+    <value>Опції</value>
+  </data>
+  <data name="Forms.Settings.SerialSettingsControl.PortLabel" xml:space="preserve">
+    <value>Послідовний порт</value>
+  </data>
+  <data name="Forms.Settings.SerialSettingsControl.BaudLabel" xml:space="preserve">
+    <value>Швидкість передачі</value>
+  </data>
+  <data name="Forms.Settings.SerialSettingsControl.RestartButton" xml:space="preserve">
+    <value>Перезапустіть з’єднання</value>
+  </data>
+  <data name="Forms.Settings.SerialSettingsControl.StartButton" xml:space="preserve">
+    <value>Запустіть підключення</value>
+  </data>
+  <data name="Forms.Settings.SerialSettingsControl.SaveButton" xml:space="preserve">
+    <value>Зберегти</value>
+  </data>
+  <data name="Forms.Settings.SerialSettingsControl.ConnectionStatusLabel" xml:space="preserve">
+    <value>Стан з'єднання</value>
+  </data>
+  <data name="Messages.SerialNotSetError" xml:space="preserve">
+    <value>Параметри послідовного порту не встановлені. Встановіть їх у налаштуваннях.</value>
+  </data>
+</root>

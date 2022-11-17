@@ -2,13 +2,12 @@
 
 using CustomUIDesign;
 
+using static Opalenica.Language;
 using Opalenica.Forms.Settings;
 
 using System.Collections.ObjectModel;
 using System.Drawing.Drawing2D;
 using System.Windows.Forms;
-
-using static System.ComponentModel.Design.ObjectSelectorEditor;
 
 public partial class OptionsForm : ResizableForm
 {
@@ -19,15 +18,16 @@ public partial class OptionsForm : ResizableForm
     {
         SettingsTabs = new List<Tab>()
         {
-            new Tab("Ogólne", new GeneralSettingsControl()) { Selected = true },
-            new Tab("Port", new SerialSettingsControl()),
-            new Tab("Semafory", new SemSettingsControl()),
-            new Tab("Rozjazdy", new JuncSettingsControl()),
-            new Tab("Tory", new TrackSettingsControl()),
-            new Tab("Blokady", new LBSettingsControl()),
+            new Tab(GetString("Settings.Tabs.General"), new GeneralSettingsControl()) { Selected = true },
+            new Tab(GetString("Settings.Tabs.SerialPort"), new SerialSettingsControl()),
+            new Tab(GetString("Settings.Tabs.Signals"), new SemSettingsControl()),
+            new Tab(GetString("Settings.Tabs.Junctions"), new JuncSettingsControl()),
+            new Tab(GetString("Settings.Tabs.Tracks"), new TrackSettingsControl()),
+            new Tab(GetString("Settings.Tabs.BlockSys"), new LBSettingsControl()),
         };
 
         InitializeComponent();
+        Title.SetString(true, this);
         SuspendLayout();
         this.DragControls = new Collection<Control>() { this.TopPanel, this.Title };
         foreach (var tab in SettingsTabs)

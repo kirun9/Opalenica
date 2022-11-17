@@ -8,6 +8,8 @@ using System.Data;
 using System.Linq;
 using System.Windows.Forms;
 
+using static Opalenica.Language;
+
 public partial class SerialSettingsControl : UserControl
 {
     private SerialOptions Settings;
@@ -15,6 +17,13 @@ public partial class SerialSettingsControl : UserControl
     public SerialSettingsControl()
     {
         InitializeComponent();
+
+        this.PortLabel.SetString(true, this);
+        this.BaudLabel.SetString(true, this);
+        this.RestartButton.SetString(true, this);
+        this.StartButton.SetString(true, this);
+        this.SaveButton.SetString(true, this);
+        this.ConnectionStatusLabel.SetString(true, this);
 
         if (PulpitSettings.Settings.SerialOptions is null)
         {
@@ -43,7 +52,7 @@ public partial class SerialSettingsControl : UserControl
         else showWarning = true;
 
         if (showWarning && InfoTile.CountMessagesByTag("Serial", "Settings", "Error") <= 0)
-            InfoTile.AddInfo("Serial port settings are not set. Please set them in settings.", MessageSeverity.Warning, "Serial", "Settings", "Error");
+            InfoTile.AddInfo(GetString("Messages.SerialNotSetError"), MessageSeverity.Warning, "Serial", "Settings", "Error");
         else if (!showWarning)
         {
             var message = InfoTile.GetMessageByTag("Serial", "Settings", "Error");
