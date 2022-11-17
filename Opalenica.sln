@@ -12,7 +12,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution 
 		.editorconfig = .editorconfig
 	EndProjectSection
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OpalenicaTests", "OpalenicaTests\OpalenicaTests.csproj", "{0AAEB00A-7634-49C6-B2D5-0EF18D5F32D4}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "OpalenicaTests", "OpalenicaTests\OpalenicaTests.csproj", "{0AAEB00A-7634-49C6-B2D5-0EF18D5F32D4}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

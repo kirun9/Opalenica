@@ -1,5 +1,7 @@
 namespace Opalenica;
 
+using System.Globalization;
+
 using CommandProcessor;
 
 /**
@@ -27,6 +29,8 @@ internal static class Program
     {
         // To customize application configuration such as set high DPI settings or default font,
         // see https://aka.ms/applicationconfiguration.
+        Language.InitializeLanguage(new CultureInfo(Opalenica.Settings.Default.Language));
+
         CommandProcessor.RegisterCommands(typeof(Program).Assembly);
 
         startupCommands = string.Join(" ", args);

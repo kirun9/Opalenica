@@ -25,4 +25,14 @@ static class Extensions
         }
         list.Insert(1, command);
     }
+
+    public static IEnumerable<(T item, int index)> WithIndex<T>(this IEnumerable<T> source)
+    {
+        return source.Select((item, index) => (item, index));
+    }
+
+    /*public static void SetString(this Control control, bool SkipMainNamespace, bool parentNamespace)
+    {
+        control.Text = Language.GetString(control.Name, parentNamespace ? (control.Parent ?? control).GetType() : control.GetType(), SkipMainNamespace);
+    }*/
 }

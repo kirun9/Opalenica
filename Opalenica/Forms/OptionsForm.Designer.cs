@@ -30,6 +30,7 @@ partial class OptionsForm
     /// </summary>
     private void InitializeComponent()
     {
+            this.components = new System.ComponentModel.Container();
             this.TopPanel = new System.Windows.Forms.Panel();
             this.MaximizeButton = new CustomUIDesign.ButtonWithoutPadding();
             this.ExitButton = new CustomUIDesign.ButtonWithoutPadding();
@@ -40,9 +41,11 @@ partial class OptionsForm
             this.TabFlowPanel = new System.Windows.Forms.FlowLayoutPanel();
             this.LeftButton = new CustomUIDesign.ButtonWithoutPadding();
             this.RightButton = new CustomUIDesign.ButtonWithoutPadding();
+            this.bindingSource1 = new System.Windows.Forms.BindingSource(this.components);
             this.TopPanel.SuspendLayout();
             this.PrevTabButton.SuspendLayout();
             this.TabPanel.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.bindingSource1)).BeginInit();
             this.SuspendLayout();
             // 
             // TopPanel
@@ -119,7 +122,7 @@ partial class OptionsForm
             // 
             this.ContentPanel.AutoScroll = true;
             this.ContentPanel.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.ContentPanel.Location = new System.Drawing.Point(0, 26);
+            this.ContentPanel.Location = new System.Drawing.Point(0, 29);
             this.ContentPanel.MinimumSize = new System.Drawing.Size(809, 369);
             this.ContentPanel.Name = "ContentPanel";
             this.ContentPanel.Size = new System.Drawing.Size(809, 369);
@@ -127,19 +130,22 @@ partial class OptionsForm
             // 
             // TabPanel
             // 
+            this.TabPanel.BackColor = System.Drawing.Color.Black;
             this.TabPanel.Controls.Add(this.TabFlowPanel);
             this.TabPanel.Controls.Add(this.LeftButton);
             this.TabPanel.Controls.Add(this.RightButton);
             this.TabPanel.Dock = System.Windows.Forms.DockStyle.Top;
             this.TabPanel.Location = new System.Drawing.Point(0, 0);
+            this.TabPanel.Margin = new System.Windows.Forms.Padding(3, 3, 3, 6);
             this.TabPanel.Name = "TabPanel";
-            this.TabPanel.Size = new System.Drawing.Size(809, 26);
+            this.TabPanel.Size = new System.Drawing.Size(809, 29);
             this.TabPanel.TabIndex = 1;
             // 
             // TabFlowPanel
             // 
             this.TabFlowPanel.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
+            this.TabFlowPanel.BackColor = System.Drawing.Color.Black;
             this.TabFlowPanel.Location = new System.Drawing.Point(26, 0);
             this.TabFlowPanel.Margin = new System.Windows.Forms.Padding(0);
             this.TabFlowPanel.Name = "TabFlowPanel";
@@ -158,7 +164,7 @@ partial class OptionsForm
             this.LeftButton.ForeColor = System.Drawing.Color.White;
             this.LeftButton.Location = new System.Drawing.Point(0, 0);
             this.LeftButton.Name = "LeftButton";
-            this.LeftButton.Size = new System.Drawing.Size(26, 26);
+            this.LeftButton.Size = new System.Drawing.Size(26, 29);
             this.LeftButton.TabIndex = 5;
             this.LeftButton.Text = "◀";
             this.LeftButton.UseVisualStyleBackColor = true;
@@ -176,7 +182,7 @@ partial class OptionsForm
             this.RightButton.ForeColor = System.Drawing.Color.White;
             this.RightButton.Location = new System.Drawing.Point(783, 0);
             this.RightButton.Name = "RightButton";
-            this.RightButton.Size = new System.Drawing.Size(26, 26);
+            this.RightButton.Size = new System.Drawing.Size(26, 29);
             this.RightButton.TabIndex = 4;
             this.RightButton.Text = "▶";
             this.RightButton.UseVisualStyleBackColor = true;
@@ -202,6 +208,7 @@ partial class OptionsForm
             this.TopPanel.ResumeLayout(false);
             this.PrevTabButton.ResumeLayout(false);
             this.TabPanel.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.bindingSource1)).EndInit();
             this.ResumeLayout(false);
 
     }
@@ -218,4 +225,5 @@ partial class OptionsForm
     private ButtonWithoutPadding RightButton;
     private Panel ContentPanel;
     private ButtonWithoutPadding MaximizeButton;
+    private BindingSource bindingSource1;
 }

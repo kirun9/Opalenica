@@ -8,6 +8,8 @@ using System.Collections.ObjectModel;
 using System.Drawing.Drawing2D;
 using System.Windows.Forms;
 
+using static System.ComponentModel.Design.ObjectSelectorEditor;
+
 public partial class OptionsForm : ResizableForm
 {
     public List<Tab> SettingsTabs = new List<Tab>();
@@ -66,10 +68,29 @@ public partial class OptionsForm : ResizableForm
 
     protected override void OnPaint(PaintEventArgs e)
     {
+        base.OnPaint(e);
+
         using Pen pen = new Pen(Colors.White, 3);
         pen.Alignment = PenAlignment.Inset;
         e.Graphics.DrawRectangle(pen, ClientRectangle);
-        base.OnPaint(e);
+    }
+
+    private Rectangle GetBoundsToForm(Control control)
+    {
+        var bounds = control.Bounds;
+        var parent = control.Parent;
+        while (parent != this)
+        {
+            bounds.Offset(parent.Location);
+            parent = parent.Parent;
+        }
+        return bounds;
+    }
+
+    private Point GetPointToForm(Control control, Point point)
+    {
+        var bounds = GetBoundsToForm(control);
+        return new Point(point.X + bounds.X, point.Y + bounds.Y);
     }
 
     private void ShowTab(string name)
@@ -92,6 +113,7 @@ public partial class OptionsForm : ResizableForm
                 ContentPanel.Controls.Add(tab.Control);
             }
         }
+        Invalidate();
     }
 
     public TabButton GetTabButton(string name)
