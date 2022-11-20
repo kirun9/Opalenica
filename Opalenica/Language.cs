@@ -14,6 +14,17 @@ public static class Language
 
     public static void InitializeLanguage(CultureInfo selectedLanguage)
     {
+        CultureAndRegionInfoBuilder.Unregister("pl-SL");
+        CultureAndRegionInfoBuilder builder = new CultureAndRegionInfoBuilder("pl-SL", CultureAndRegionModifiers.None);
+        var parent = CultureInfo.GetCultureInfo("pl-PL");
+        builder.LoadDataFromCultureInfo(parent);
+        builder.LoadDataFromRegionInfo(new RegionInfo(parent.LCID));
+        builder.RegionEnglishName = "Silesia";
+        builder.RegionNativeName = "Ślōnski";
+        builder.CultureEnglishName = "Polish (Silesia)";
+        builder.CultureNativeName = "Polski (Ślōnski)";
+        builder.Register();
+
         selectedLanguage ??= CultureInfo.CurrentCulture;
         if (!GetSupportedLanguages().Contains(selectedLanguage)) selectedLanguage = new CultureInfo("en");
         rm = new ResourceManager("Opalenica.Strings", typeof(Program).Assembly);
@@ -77,9 +88,38 @@ public static class Language
             : throw new ArgumentException("Invalid language code");
     }
 
+    public static string LangcodeToEnglishName(string langCode)
+    {
+        string langRegex = @"^([a-z]{2})(?:-([A-Z]{2,3}))?$";
+        return Regex.IsMatch(langCode, langRegex)
+            ? new CultureInfo(langCode).EnglishName
+            : throw new ArgumentException("Invalid language code");
+    }
+
+    public static string LangcodeToLocalName(string langCode)
+    {
+        string langRegex = @"^([a-z]{2})(?:-([A-Z]{2,3}))?$";
+        return Regex.IsMatch(langCode, langRegex)
+            ? new CultureInfo(langCode).DisplayName
+            : throw new ArgumentException("Invalid language code");
+    }
+
     public static string NativeNameToLangcode(string name)
     {
         var culture = CultureInfo.GetCultures(CultureTypes.AllCultures).Where(e => e.NativeName == name).Select(e => e.Name).FirstOrDefault("Not found");
         return culture is "Not found" ? throw new ArgumentException("Invalid native language name") : culture;
     }
+
+    public static string EnglishNameToLangcode(string name)
+    {
+        var culture = CultureInfo.GetCultures(CultureTypes.AllCultures).Where(e => e.EnglishName == name).Select(e => e.Name).FirstOrDefault("Not found");
+        return culture is "Not found" ? throw new ArgumentException("Invalid english language name") : culture;
+    }
+
+    public static string LocalNameToLangcode(string name)
+    {
+        var culture = CultureInfo.GetCultures(CultureTypes.AllCultures).Where(e => e.DisplayName == name).Select(e => e.Name).FirstOrDefault("Not found");
+        return culture is "Not found" ? throw new ArgumentException("Invalid local language name") : culture;
+    }
 }
+

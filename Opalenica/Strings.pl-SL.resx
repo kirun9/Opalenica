@@ -1,0 +1,84 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<root>
+  <resheader name="resmimetype">
+    <value>text/microsoft-resx</value>
+  </resheader>
+  <resheader name="version">
+    <value>2.0</value>
+  </resheader>
+  <resheader name="reader">
+    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <resheader name="writer">
+    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <data name="Forms.Settings.GeneralSettingsControl.AcceptButton" xml:space="preserve">
+    <value>Akceptuj</value>
+  </data>
+  <data name="Forms.Settings.GeneralSettingsControl.ApplyButton" xml:space="preserve">
+    <value>Zastosuj</value>
+  </data>
+  <data name="Forms.Settings.GeneralSettingsControl.CancelButton" xml:space="preserve">
+    <value>Anuluj</value>
+  </data>
+  <data name="Forms.Settings.GeneralSettingsControl.FullScreenLabel" xml:space="preserve">
+    <value>Tryb Pełnoekranowy</value>
+  </data>
+  <data name="Forms.Settings.GeneralSettingsControl.LanguageLabel" xml:space="preserve">
+    <value>Gŏdka</value>
+  </data>
+  <data name="Forms.Settings.GeneralSettingsControl.ModeLabel" xml:space="preserve">
+    <value>Tryb Wyświytlaniŏ</value>
+  </data>
+  <data name="Forms.Settings.GeneralSettingsControl.MonitorLabel" xml:space="preserve">
+    <value>Głowny Mōnitōr</value>
+  </data>
+  <data name="Forms.Settings.GeneralSettingsControl.RestartInfoLabel" xml:space="preserve">
+    <value>* Sztartnij zaś aplikacyjõ, coby pōmiany ôdniosły efekt</value>
+  </data>
+  <data name="Title" xml:space="preserve">
+    <value>Opalenica</value>
+  </data>
+  <data name="Settings.Tabs.BlockSys" xml:space="preserve">
+    <value>Szpery</value>
+  </data>
+  <data name="Settings.Tabs.General" xml:space="preserve">
+    <value>Ôgōlne</value>
+  </data>
+  <data name="Settings.Tabs.Junctions" xml:space="preserve">
+    <value>Rozjazdy</value>
+  </data>
+  <data name="Settings.Tabs.SerialPort" xml:space="preserve">
+    <value>Port</value>
+  </data>
+  <data name="Settings.Tabs.Signals" xml:space="preserve">
+    <value>Semafory</value>
+  </data>
+  <data name="Settings.Tabs.Tracks" xml:space="preserve">
+    <value>Tory</value>
+  </data>
+  <data name="Forms.OptionsForm.Title" xml:space="preserve">
+    <value>Ustawiyniŏ</value>
+  </data>
+  <data name="Forms.Settings.SerialSettingsControl.PortLabel" xml:space="preserve">
+    <value>Port</value>
+  </data>
+  <data name="Forms.Settings.SerialSettingsControl.BaudLabel" xml:space="preserve">
+    <value>Baud</value>
+  </data>
+  <data name="Forms.Settings.SerialSettingsControl.RestartButton" xml:space="preserve">
+    <value>Sztartnij zaś połōnczynie</value>
+  </data>
+  <data name="Forms.Settings.SerialSettingsControl.StartButton" xml:space="preserve">
+    <value>Sztartnij połōnczynie</value>
+  </data>
+  <data name="Forms.Settings.SerialSettingsControl.SaveButton" xml:space="preserve">
+    <value>Zapisz</value>
+  </data>
+  <data name="Forms.Settings.SerialSettingsControl.ConnectionStatusLabel" xml:space="preserve">
+    <value>Status Połōnczyniŏ</value>
+  </data>
+  <data name="Messages.SerialNotSetError" xml:space="preserve">
+    <value>Ustawiyniŏ portu szeregowygo niy sōm zdefiniowane. Gezecōw jy w ustawiyniach.</value>
+  </data>
+</root>

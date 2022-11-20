@@ -29,7 +29,8 @@ internal static class Program
     {
         // To customize application configuration such as set high DPI settings or default font,
         // see https://aka.ms/applicationconfiguration.
-        Language.InitializeLanguage(new CultureInfo(Opalenica.Settings.Default.Language));
+        var c = new CultureInfo(Opalenica.Settings.Default.Language);
+        Language.InitializeLanguage(c);
 
         CommandProcessor.RegisterCommands(typeof(Program).Assembly);
 

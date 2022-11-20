@@ -28,8 +28,8 @@ public partial class GeneralSettingsControl : UserControl
         if (monitor is "") monitor = GetScreenName(OpalenicaForm.actualScreen);
         MonitorComboBox.SelectedItem = monitor;
         ModeDropdown.SelectedIndex = Form.ActiveForm.WindowState is FormWindowState.Maximized ? 0 : 1;
-        LanguageComboBox.Items.AddRange(Language.GetSupportedLanguages().Select(e => e.NativeName).ToArray());
-        LanguageComboBox.SelectedItem = Language.LangcodeToNativeName(Opalenica.Settings.Default.Language);
+        LanguageComboBox.Items.AddRange(Language.GetSupportedLanguages().Select(e => e.EnglishName).ToArray());
+        LanguageComboBox.SelectedItem = Language.LangcodeToEnglishName(Opalenica.Settings.Default.Language);
     }
 
     public static Screen GetScreenFromSettings()
@@ -61,7 +61,7 @@ public partial class GeneralSettingsControl : UserControl
 
     private void LanguageComboBox_SelectedIndexChanged(object sender, EventArgs e)
     {
-        var defaultValue = Language.LangcodeToNativeName(Opalenica.Settings.Default.Language);
+        var defaultValue = Language.LangcodeToEnglishName(Opalenica.Settings.Default.Language);
         if (LanguageComboBox.SelectedItem.ToString() != defaultValue)
         {
             _needRestart = true;
