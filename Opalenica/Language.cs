@@ -225,7 +225,7 @@ public static class Language
     ///
     /// Teraz czas na przykład:
     /// for (int i = 0; i < 25; i++) {
-    ///     string s = "Znaleziono " + GetPlural("{0} odcin{1}", episodes);
+    ///     string s = "Znaleziono " + GetPlural("{0} odcin{1}", i, episodes);
     /// }
     /// Output:
     /// Znaleziono 0 odcinków
