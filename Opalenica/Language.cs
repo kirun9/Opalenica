@@ -212,5 +212,37 @@ public static class Language
     ///      <item>x1</item>
     ///      <item>2x</item>
     ///  </string-array>
+    ///
+    ///
+    /// What I want
+    /// Dostarczam plik "Pluarals.resx" (albo "Plurals.pl.resx") z danymi jak wyżej: EpisodesSuffix oraz EpisodesSuffixNumber ale wartości oddzielone pipem (vertival bar) `|` (nazwy mają być w formacie "nazwa" oraz "nazwa_N")
+    /// np. "|s|es" bądź "x1|2x5|6x"
+    /// np. episodes oraz episodes_N
+    /// Format danych: Dowolny, jak ci będzie pasował
+    /// Odnajdziesz się XD
+    /// Format stringa - taki jak w string.format <see cref="https://learn.microsoft.com/en-us/dotnet/standard/base-types/composite-formatting"/>
+    ///
+    ///
+    /// Teraz czas na przykład:
+    /// for (int i = 0; i < 25; i++) {
+    ///     string s = "Znaleziono " + GetPlural("{0} odcin{1}", episodes);
+    /// }
+    /// Output:
+    /// Znaleziono 0 odcinków
+    /// Znaleziono 1 odcinek
+    /// Znaleziono 2 odcinki
+    /// Znaleziono 3 odcinki
+    /// Znaleziono 4 odcinki
+    /// Znaleziono 5 odcinków
+    /// Znaleziono 6 odcinków
+    /// ...
+    /// Znaleziono 20 odcinków
+    /// Znaleziono 21 odcinków
+    /// Znaleziono 22 odcinki
+    /// Znaleziono 23 odcinki
+    /// Znaleziono 24 odcinki
+    /// Znaleziono 25 odcinków
+    ///
+    /// Czaisz chyba bazę
 }
 
