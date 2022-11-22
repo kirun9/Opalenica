@@ -65,6 +65,7 @@ public partial class GeneralSettingsControl : UserControl
         if (LanguageComboBox.SelectedItem.ToString() != defaultValue)
         {
             _needRestart = true;
+            RestartInfoLabel.SetString(true, true, Language.LangcodeToCultureInfo(Language.EnglishNameToLangcode(LanguageComboBox.SelectedItem.ToString())));
             RestartInfoLabel.Show();
             ApplyButton.Enabled = _needRestart;
         }
@@ -76,12 +77,12 @@ public partial class GeneralSettingsControl : UserControl
         }
     }
 
-    private void ModeDropdown_SelectedIndexChanged(Object sender, EventArgs e)
+    private void AcceptButton_Click(object sender, EventArgs e)
     {
 
     }
 
-    private void MonitorComboBox_SelectedIndexChanged(Object sender, EventArgs e)
+    private void ApplyButton_Click(object sender, EventArgs e)
     {
 
     }

@@ -1,5 +1,7 @@
 ﻿namespace Opalenica;
 
+using System.Globalization;
+
 static class Extensions
 {
     public static bool IsHorizontal(this Size size)
@@ -31,13 +33,23 @@ static class Extensions
         return source.Select((item, index) => (item, index));
     }
 
-    public static void SetString(this Control control, bool SkipMainNamespace, Control parentControl)
+    public static void SetString(this Control control, bool skipMainNamespace, Control parentControl)
     {
-        control.Text = Language.GetString(control.Name, parentControl.GetType(), SkipMainNamespace);
+        control.Text = Language.GetString(control.Name, parentControl.GetType(), skipMainNamespace);
     }
 
-    public static void SetString(this Control control, bool SkipMainNamespace, bool parentNamespace)
+    public static void SetString(this Control control, bool skipMainNamespace, bool parentNamespace)
     {
-        control.Text = Language.GetString(control.Name, parentNamespace ? (control.Parent ?? control).GetType() : control.GetType(), SkipMainNamespace);
+        control.Text = Language.GetString(control.Name, parentNamespace ? (control.Parent ?? control).GetType() : control.GetType(), skipMainNamespace);
+    }
+
+    public static void SetString(this Control control, bool skipMainNamespace, Control parentControl, CultureInfo targetCulture)
+    {
+        control.Text = Language.GetString(control.Name, parentControl.GetType(), skipMainNamespace, targetCulture);
+    }
+
+    public static void SetString(this Control control, bool skipMainNamespace, bool parentNamespace, CultureInfo targetCulture)
+    {
+        control.Text = Language.GetString(control.Name, parentNamespace ? (control.Parent ?? control).GetType() : control.GetType(), skipMainNamespace, targetCulture);
     }
 }

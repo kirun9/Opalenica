@@ -61,7 +61,7 @@ namespace Opalenica {
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("pl-SL")]
+        [global::System.Configuration.DefaultSettingValueAttribute("pl")]
         public string Language {
             get {
                 return ((string)(this["Language"]));

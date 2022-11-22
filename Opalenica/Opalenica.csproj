@@ -130,4 +130,8 @@
     </EmbeddedResource>
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Lang\" />
+  </ItemGroup>
+
 </Project>

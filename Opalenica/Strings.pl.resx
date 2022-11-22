@@ -183,4 +183,7 @@
   <data name="Messages.SerialNotSetError" xml:space="preserve">
     <value>Ustawienia portu szeregowego nie są zdefiniowane. Ustaw je w ustawieniach.</value>
   </data>
+  <data name="Forms.Settings.GeneralSettingsControl.RestartInfoLabel" xml:space="preserve">
+    <value>* Zrestartuj aplikację aby zmiany odniosły efekt.</value>
+  </data>
 </root>

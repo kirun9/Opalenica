@@ -55,8 +55,9 @@ partial class GeneralSettingsControl
             this.AcceptButton.Name = "AcceptButton";
             this.AcceptButton.Size = new System.Drawing.Size(101, 29);
             this.AcceptButton.TabIndex = 10;
-            this.AcceptButton.UseVisualStyleBackColor = true;
             this.AcceptButton.Text = "Accept";
+            this.AcceptButton.UseVisualStyleBackColor = true;
+            this.AcceptButton.Click += new System.EventHandler(this.AcceptButton_Click);
             // 
             // MonitorComboBox
             // 
@@ -70,7 +71,6 @@ partial class GeneralSettingsControl
             this.MonitorComboBox.Name = "MonitorComboBox";
             this.MonitorComboBox.Size = new System.Drawing.Size(244, 25);
             this.MonitorComboBox.TabIndex = 1;
-            this.MonitorComboBox.SelectedIndexChanged += new System.EventHandler(this.MonitorComboBox_SelectedIndexChanged);
             // 
             // MonitorLabel
             // 
@@ -79,7 +79,7 @@ partial class GeneralSettingsControl
             this.MonitorLabel.Font = new System.Drawing.Font("Segoe UI", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
             this.MonitorLabel.Location = new System.Drawing.Point(68, 73);
             this.MonitorLabel.Name = "MonitorLabel";
-            this.MonitorLabel.Size = new System.Drawing.Size(107, 19);
+            this.MonitorLabel.Size = new System.Drawing.Size(111, 19);
             this.MonitorLabel.TabIndex = 0;
             this.MonitorLabel.Text = "<MonitorLabel>";
             // 
@@ -90,7 +90,7 @@ partial class GeneralSettingsControl
             this.FullScreenLabel.Font = new System.Drawing.Font("Segoe UI", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
             this.FullScreenLabel.Location = new System.Drawing.Point(68, 184);
             this.FullScreenLabel.Name = "FullScreenLabel";
-            this.FullScreenLabel.Size = new System.Drawing.Size(130, 19);
+            this.FullScreenLabel.Size = new System.Drawing.Size(122, 19);
             this.FullScreenLabel.TabIndex = 6;
             this.FullScreenLabel.Text = "<FullScreenLabel>";
             // 
@@ -116,8 +116,9 @@ partial class GeneralSettingsControl
             this.ApplyButton.Name = "ApplyButton";
             this.ApplyButton.Size = new System.Drawing.Size(101, 29);
             this.ApplyButton.TabIndex = 9;
-            this.ApplyButton.UseVisualStyleBackColor = true;
             this.ApplyButton.Text = "Apply";
+            this.ApplyButton.UseVisualStyleBackColor = true;
+            this.ApplyButton.Click += new System.EventHandler(this.ApplyButton_Click);
             // 
             // CancelButton
             // 
@@ -130,8 +131,8 @@ partial class GeneralSettingsControl
             this.CancelButton.Name = "CancelButton";
             this.CancelButton.Size = new System.Drawing.Size(101, 29);
             this.CancelButton.TabIndex = 8;
-            this.CancelButton.UseVisualStyleBackColor = true;
             this.CancelButton.Text = "Cancel";
+            this.CancelButton.UseVisualStyleBackColor = true;
             // 
             // ModeLabel
             // 
@@ -140,7 +141,7 @@ partial class GeneralSettingsControl
             this.ModeLabel.Font = new System.Drawing.Font("Segoe UI", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
             this.ModeLabel.Location = new System.Drawing.Point(68, 110);
             this.ModeLabel.Name = "ModeLabel";
-            this.ModeLabel.Size = new System.Drawing.Size(93, 19);
+            this.ModeLabel.Size = new System.Drawing.Size(97, 19);
             this.ModeLabel.TabIndex = 2;
             this.ModeLabel.Text = "<ModeLabel>";
             // 
@@ -159,7 +160,6 @@ partial class GeneralSettingsControl
             this.ModeDropdown.Name = "ModeDropdown";
             this.ModeDropdown.Size = new System.Drawing.Size(139, 25);
             this.ModeDropdown.TabIndex = 3;
-            this.ModeDropdown.SelectedIndexChanged += new System.EventHandler(this.ModeDropdown_SelectedIndexChanged);
             // 
             // LanguageLabel
             // 
@@ -168,7 +168,7 @@ partial class GeneralSettingsControl
             this.LanguageLabel.Font = new System.Drawing.Font("Segoe UI", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
             this.LanguageLabel.Location = new System.Drawing.Point(68, 147);
             this.LanguageLabel.Name = "LanguageLabel";
-            this.LanguageLabel.Size = new System.Drawing.Size(69, 19);
+            this.LanguageLabel.Size = new System.Drawing.Size(121, 19);
             this.LanguageLabel.TabIndex = 4;
             this.LanguageLabel.Text = "<LanguageLabel>";
             // 
@@ -186,7 +186,7 @@ partial class GeneralSettingsControl
             this.LanguageComboBox.TabIndex = 5;
             this.LanguageComboBox.SelectedIndexChanged += new System.EventHandler(this.LanguageComboBox_SelectedIndexChanged);
             // 
-            // label3
+            // RestartInfoLabel
             // 
             this.RestartInfoLabel.AccessibleRole = System.Windows.Forms.AccessibleRole.StaticText;
             this.RestartInfoLabel.AutoSize = true;
@@ -194,10 +194,10 @@ partial class GeneralSettingsControl
             this.RestartInfoLabel.ForeColor = System.Drawing.Color.Red;
             this.RestartInfoLabel.Location = new System.Drawing.Point(68, 221);
             this.RestartInfoLabel.Name = "RestartInfoLabel";
-            this.RestartInfoLabel.Size = new System.Drawing.Size(290, 15);
+            this.RestartInfoLabel.Size = new System.Drawing.Size(108, 15);
             this.RestartInfoLabel.TabIndex = 13;
-            this.RestartInfoLabel.Visible = false;
             this.RestartInfoLabel.Text = "<RestartInfoLabel>";
+            this.RestartInfoLabel.Visible = false;
             // 
             // GeneralSettingsControl
             // 
@@ -225,8 +225,6 @@ partial class GeneralSettingsControl
     }
 
     #endregion
-
-    private Button AcceptButton;
     private ComboBox MonitorComboBox;
     private Label MonitorLabel;
     private Label FullScreenLabel;
@@ -238,4 +236,5 @@ partial class GeneralSettingsControl
     private Label LanguageLabel;
     private ComboBox LanguageComboBox;
     private Label RestartInfoLabel;
+    private CustomUIDesign.ButtonWithoutPadding AcceptButton;
 }

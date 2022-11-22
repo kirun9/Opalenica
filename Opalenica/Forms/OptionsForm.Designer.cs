@@ -30,7 +30,6 @@ partial class OptionsForm
     /// </summary>
     private void InitializeComponent()
     {
-            this.components = new System.ComponentModel.Container();
             this.TopPanel = new System.Windows.Forms.Panel();
             this.MaximizeButton = new CustomUIDesign.ButtonWithoutPadding();
             this.ExitButton = new CustomUIDesign.ButtonWithoutPadding();
@@ -41,11 +40,9 @@ partial class OptionsForm
             this.TabFlowPanel = new System.Windows.Forms.FlowLayoutPanel();
             this.LeftButton = new CustomUIDesign.ButtonWithoutPadding();
             this.RightButton = new CustomUIDesign.ButtonWithoutPadding();
-            this.bindingSource1 = new System.Windows.Forms.BindingSource(this.components);
             this.TopPanel.SuspendLayout();
             this.PrevTabButton.SuspendLayout();
             this.TabPanel.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.bindingSource1)).BeginInit();
             this.SuspendLayout();
             // 
             // TopPanel
@@ -208,7 +205,6 @@ partial class OptionsForm
             this.TopPanel.ResumeLayout(false);
             this.PrevTabButton.ResumeLayout(false);
             this.TabPanel.ResumeLayout(false);
-            ((System.ComponentModel.ISupportInitialize)(this.bindingSource1)).EndInit();
             this.ResumeLayout(false);
 
     }
@@ -225,5 +221,4 @@ partial class OptionsForm
     private ButtonWithoutPadding RightButton;
     private Panel ContentPanel;
     private ButtonWithoutPadding MaximizeButton;
-    private BindingSource bindingSource1;
 }
