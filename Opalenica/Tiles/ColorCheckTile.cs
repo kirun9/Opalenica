@@ -2,12 +2,14 @@
 
 using CommandProcessor;
 
+using Opalenica.Interfaces;
 using Opalenica.Render;
 
 using System.Drawing;
 using System.Windows.Forms;
+using System.Xml.Linq;
 
-public class ColorCheckTile : Tile
+public class ColorCheckTile : Tile, IHasMenuStrip
 {
     public static bool DisplayAllColors = false;
 
@@ -87,5 +89,20 @@ public class ColorCheckTile : Tile
             }
         }
         return false;
+    }
+
+    public ContextMenuStrip GetMenuStrip()
+    {
+        ContextMenuStrip strip = new ContextMenuStrip();
+        ToolStripMenuItem item = new ToolStripMenuItem("Opcje");
+        item.Click += (_, _) => CommandProcessor.ExecuteCommand($"options");
+        strip.Items.Add(item);
+        if (Program.DebugMode)
+        {
+            item = new ToolStripMenuItem("Wszystkie kolory");
+            item.Click += (_, _) => CommandProcessor.ExecuteCommand($"displayallcolors");
+            strip.Items.Add(item);
+        }
+        return strip;
     }
 }

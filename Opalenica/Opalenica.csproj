@@ -48,6 +48,7 @@
 
   <ItemGroup>
     <PackageReference Include="Renderers" Version="1.0.1.4" />
+    <PackageReference Include="System.IO.Ports" Version="7.0.0" />
     <PackageReference Include="System.Resources.ResourceManager" Version="4.3.0" />
   </ItemGroup>
 

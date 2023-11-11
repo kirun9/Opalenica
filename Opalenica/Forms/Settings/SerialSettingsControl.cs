@@ -5,6 +5,7 @@ using Opalenica.Tiles;
 
 using System;
 using System.Data;
+using System.IO.Ports;
 using System.Linq;
 using System.Windows.Forms;
 
@@ -26,8 +27,10 @@ public partial class SerialSettingsControl : UserControl
         BaudComboBox.Items.AddRange(new int[] { 300, 600, 1200, 2400, 4800, 9600, 14400, 19200, 28800, 31250, 38400, 57600, 115200 }.Select(e => e.ToString()).ToArray());
         BaudComboBox.SelectedIndex = -1;
 
-        PortComboBox.Items.Add("InternalPort");
+        PortComboBox.Items.Add("Port Wewnętrzny");
         PortComboBox.SelectedIndex = -1;
+
+        PortComboBox.Items.AddRange(SerialPort.GetPortNames().Select(e => e.ToString()).ToArray());
 
         bool showWarning = false;
 
@@ -43,7 +46,7 @@ public partial class SerialSettingsControl : UserControl
         else showWarning = true;
 
         if (showWarning && InfoTile.CountMessagesByTag("Serial", "Settings", "Error") <= 0)
-            InfoTile.AddInfo("Serial port settings are not set. Please set them in settings.", MessageSeverity.Warning, "Serial", "Settings", "Error");
+            InfoTile.AddInfo("Ustawienia portu szeregowego nie są zdefiniowane. Ustaw je w ustawieniach.", MessageSeverity.Warning, "Serial", "Settings", "Error");
         else if (!showWarning)
         {
             var message = InfoTile.GetMessageByTag("Serial", "Settings", "Error");

@@ -87,7 +87,7 @@ partial class SerialSettingsControl
             this.BaudLabel.Name = "BaudLabel";
             this.BaudLabel.Size = new System.Drawing.Size(40, 19);
             this.BaudLabel.TabIndex = 8;
-            this.BaudLabel.Text = "Baud";
+            this.BaudLabel.Text = "Szybkość";
             // 
             // RestartButton
             // 
@@ -98,7 +98,7 @@ partial class SerialSettingsControl
             this.RestartButton.Name = "RestartButton";
             this.RestartButton.Size = new System.Drawing.Size(118, 23);
             this.RestartButton.TabIndex = 12;
-            this.RestartButton.Text = "Restart Connection";
+            this.RestartButton.Text = "Zrestartuj połączenie";
             this.RestartButton.UseVisualStyleBackColor = true;
             // 
             // StartButton
@@ -110,7 +110,7 @@ partial class SerialSettingsControl
             this.StartButton.Name = "StartButton";
             this.StartButton.Size = new System.Drawing.Size(121, 23);
             this.StartButton.TabIndex = 13;
-            this.StartButton.Text = "Start Connection";
+            this.StartButton.Text = "Uruchom połączenie";
             this.StartButton.UseVisualStyleBackColor = true;
             // 
             // SaveButton
@@ -124,7 +124,7 @@ partial class SerialSettingsControl
             this.SaveButton.Name = "SaveButton";
             this.SaveButton.Size = new System.Drawing.Size(101, 29);
             this.SaveButton.TabIndex = 14;
-            this.SaveButton.Text = "Save";
+            this.SaveButton.Text = "Zapisz";
             this.SaveButton.UseVisualStyleBackColor = true;
             this.SaveButton.Click += new System.EventHandler(this.SaveButton_Click);
             // 
@@ -137,7 +137,7 @@ partial class SerialSettingsControl
             this.ConnectionStatusLabel.Name = "ConnectionStatusLabel";
             this.ConnectionStatusLabel.Size = new System.Drawing.Size(121, 19);
             this.ConnectionStatusLabel.TabIndex = 16;
-            this.ConnectionStatusLabel.Text = "Connection Status";
+            this.ConnectionStatusLabel.Text = "Status Połączenia";
             // 
             // ConnectionLed
             // 
