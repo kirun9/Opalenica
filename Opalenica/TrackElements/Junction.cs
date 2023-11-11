@@ -103,13 +103,13 @@ public class Junction : Element, IHasOwnData<JunctionDataZ>
                 case "+":
                 case "plus":
                     junction.ThrowJunction(true, junction.GetMainDirection());
-                    //SerialCommands.SendCommand("zwr" + junction.Name.ToLower() + " +");
+                    SerialCommands.SendCommand("zwr" + junction.Name.ToLower() + " +");
                     return CommandProcessor.BreakChainCommand();
 
                 case "-":
                 case "minus":
                     junction.ThrowJunction(false, junction.GetMainDirection());
-                    //SerialCommands.SendCommand("zwr" + junction.Name.ToLower() + " -");
+                    SerialCommands.SendCommand("zwr" + junction.Name.ToLower() + " -");
                     return CommandProcessor.BreakChainCommand();
 
                 case "lok":
