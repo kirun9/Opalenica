@@ -10,8 +10,6 @@ using CommandProcessor;
  * Mamy 48
  */
 
-
-
 internal static class Program
 {
     public static bool DebugMode { get; set; } = false;

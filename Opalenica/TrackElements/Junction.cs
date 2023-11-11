@@ -65,7 +65,6 @@ public class Junction : Element, IHasOwnData<JunctionDataZ>
     public float[] CompoundArray => new float[] { 0, 1 };
     public float[] DashPattern => new float[] { 1f };
 
-
     public static Junction GetJunction(string name)
     {
         var j = RegisteredJunctions.FirstOrDefault(e => e?.Name == name, null);
@@ -96,7 +95,7 @@ public class Junction : Element, IHasOwnData<JunctionDataZ>
         {
             Unselect();
             if (context.Args is null || context.Args.Length != 1) return false;
-            string junctionCommand = (context.GetArgAs<string>(0) ?? "").ToLower();
+            string junctionCommand = (context.GetArg<string>(0) ?? "").ToLower();
             var junction = GetJunction(context.CommandName.Substring("zwr".Length));
             if (junction is null) return false;
             switch (junctionCommand)
@@ -104,11 +103,13 @@ public class Junction : Element, IHasOwnData<JunctionDataZ>
                 case "+":
                 case "plus":
                     junction.ThrowJunction(true, junction.GetMainDirection());
+                    //SerialCommands.SendCommand("zwr" + junction.Name.ToLower() + " +");
                     return CommandProcessor.BreakChainCommand();
 
                 case "-":
                 case "minus":
                     junction.ThrowJunction(false, junction.GetMainDirection());
+                    //SerialCommands.SendCommand("zwr" + junction.Name.ToLower() + " -");
                     return CommandProcessor.BreakChainCommand();
 
                 case "lok":

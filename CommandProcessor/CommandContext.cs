@@ -1,5 +1,8 @@
 ﻿namespace CommandProcessor;
 
+using System.Reflection.Metadata.Ecma335;
+using System.Runtime.InteropServices;
+
 public class CommandContext
 {
     public string CommandName { get; private set; }
@@ -22,18 +25,12 @@ public class CommandContext
         if (Args.Length > argPos)
         {
             var arg = Args[argPos];
-            if (arg is IConvertible c)
+            return arg switch
             {
-                return new CastResult<T>((T)c.ToType(typeof(T), null), true);
-            }
-            if (arg is T castedArg)
-            {
-                return new CastResult<T>(castedArg, true);
-            }
-            else
-            {
-                return new CastResult<T>(default, false);
-            }
+                var _ when arg is IConvertible c => new CastResult<T>((T)c.ToType(typeof(T), null), true),
+                var _ when arg is T castedArg => new CastResult<T>(castedArg, true),
+                _ => new CastResult<T>(default, false)
+            };
         }
         else
         {

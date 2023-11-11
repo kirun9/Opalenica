@@ -288,7 +288,7 @@ internal partial class Pulpit : Control
                  * */
             blockLeftClick = true;
 
-            menu.Renderer = new VisualStudioRenderers.VS2019DarkBlueRenderer();
+            menu.Renderer = new Kirun9.Renderers.Opalenica.BlackRenderer();
 
             menu.Show(this, e.Location);
         }
