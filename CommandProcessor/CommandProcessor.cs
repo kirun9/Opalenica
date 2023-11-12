@@ -34,20 +34,24 @@ public class CommandProcessor
             string[] commandArgs = comm.Split(' ', StringSplitOptions.TrimEntries | StringSplitOptions.RemoveEmptyEntries).Skip(1).ToArray();
             if (prevCommand is not null and ChainedCommand chained)
             {
-                if (chained.NextCommand is not null && (chained.NextCommand.Name.Equals(commandName) || chained.NextCommand.Name.ToLower().Equals(commandName.ToLower()) && IGNORE_CASE ))
-                {
-                    prevCommand = chained.NextCommand;
-                    ChainedCommandContext context = new ChainedCommandContext(chained.NextCommand.Name, commandArgs, prevCommandContext);
-                    prevCommandContext = context;
-                    if (chained.NextCommand.Function is not null)
-                        result = chained.NextCommand.Function.Invoke(commandArgs) && result;
-                    else if (chained.NextCommand.Function2 is not null)
-                        result = chained.NextCommand.Function2.Invoke(context) && result;
-                    else
-                        result = false;
-                    continue;
+                bool foundCommand = false;
+                foreach (var nc in chained.NextCommand) {
+                    if (nc is not null && (nc.Name.Equals(commandName) || nc.Name.ToLower().Equals(commandName.ToLower()) && IGNORE_CASE))
+                    {
+                        prevCommand = nc;
+                        ChainedCommandContext context = new ChainedCommandContext(nc.Name, commandArgs, prevCommandContext);
+                        prevCommandContext = context;
+                        foundCommand = true;
+                        if (nc.Function is not null)
+                            result = nc.Function.Invoke(commandArgs) && result;
+                        else if (nc.Function2 is not null)
+                            result = nc.Function2.Invoke(context) && result;
+                        else
+                            result = false;
+                        continue;
+                    }
                 }
-                else
+                if (!foundCommand)
                 {
                     prevCommand = null;
                     prevCommandContext = null;
@@ -93,7 +97,7 @@ public class CommandProcessor
                         if (rca.NeedConfirm)
                         {
                             ChainedCommand chainedCommand = new ChainedCommand(rca.Name, (string[] _) => true);
-                            chainedCommand.NextCommand = command;
+                            chainedCommand.NextCommand.Add(command);
                             RegisterCommand(chainedCommand);
                         }
                         else

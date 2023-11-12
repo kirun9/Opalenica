@@ -5,8 +5,9 @@ using System.Diagnostics;
 [DebuggerDisplay($"{{{nameof(GetDebuggerDisplay)}(),nq}}")]
 public class ChainedCommand : Command
 {
-    public Command? NextCommand { get; set; } = null;
-    public ChainedCommand(String name, Func<String[], Boolean> function) : base(name, function)
+    public List<Command> NextCommand { get; set; } = new List<Command>();
+
+    public ChainedCommand(string name, Func<String[], Boolean> function) : base(name, function)
     {
     }
 
@@ -24,6 +25,6 @@ public class ChainedCommand : Command
 
     private new string GetDebuggerDisplay()
     {
-        return NextCommand is not null ? "Chained: " + Name + " -> " + NextCommand.GetDebuggerDisplay() : "Chained: " + Name;
+        return NextCommand is not null ? "Chained: " + Name + " -> " + (NextCommand.Count > 1 ? "[]" : NextCommand[0].GetDebuggerDisplay()) : "Chained: " + Name;
     }
 }

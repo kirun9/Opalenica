@@ -1,9 +1,12 @@
 ﻿namespace Opalenica.Tiles;
 
 using System.Drawing;
-using Opalenica;
+using System.Xml.Linq;
 
-public class DoubleJunctionTile : Tile
+using Opalenica;
+using Opalenica.Interfaces;
+
+public class DoubleJunctionTile : Tile, IHasMenuStrip
 {
     public Junction JunctionAB { get; set; }
     public Junction JunctionCD { get; set; }
@@ -121,5 +124,19 @@ public class DoubleJunctionTile : Tile
                     break;
             }
         }
+    }
+
+    public ContextMenuStrip GetMenuStrip()
+    {
+        ContextMenuStrip strip = new ContextMenuStrip();
+        ToolStripMenuItem junction1 = new ToolStripMenuItem("Rozjazd " + JunctionAB.Name);
+        junction1.DropDownItems.AddRange(JunctionAB.GetMenuStrip().Items);
+
+        ToolStripMenuItem junction2 = new ToolStripMenuItem("Rozjazd " + JunctionCD.Name);
+        junction2.DropDownItems.AddRange(JunctionCD.GetMenuStrip().Items);
+        strip.Items.Add(junction1);
+        strip.Items.Add(junction2);
+
+        return strip;
     }
 }

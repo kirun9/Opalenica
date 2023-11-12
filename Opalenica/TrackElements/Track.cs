@@ -131,7 +131,7 @@ public class Track : Element, IHasOwnData<TrackData>, IHasMenuStrip
             }
             return false;
         });
-        chainedcommand.NextCommand = command;
+        chainedcommand.NextCommand.Add(command);
         CommandProcessor.RegisterCommand(chainedcommand);
         return track;
     }

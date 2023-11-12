@@ -74,12 +74,12 @@ public class InfoTile : Tile
     {
         if (InfoLines.Count is 0) return null;
         if (id is 0) return null;
-        return InfoLines.FirstOrDefault(x => x.Id == id, null);
+        return InfoLines.FirstOrDefault(x => x.Id == id, InfoMessage.None);
     }
 
     public static InfoMessage GetMessageByTag(params string[] tags)
     {
-        return InfoLines.Where(x => tags.All(x.Tags.Contains)).FirstOrDefault();
+        return InfoLines.Where(x => tags.All(x.Tags.Contains)).FirstOrDefault(InfoMessage.None);
     }
 
     public static int CountMessagesByTag(params string[] tags)
@@ -97,51 +97,34 @@ public class InfoTile : Tile
         return InfoLines.Count;
     }
 
+    public static InfoMessage GetSelectedMessage()
+    {
+        return InfoLines.Where(e => e.Selected).FirstOrDefault(InfoMessage.None);
+    }
+
     public static bool ConfirmMessage(CommandContext context)
     {
-       var message = GetMessage(context.GetArg<int>(0));
-        if (message is null) return CommandProcessor.BreakChainCommand();
-        if (message.Severity is MessageSeverity.Error)
+        if (context.Args.Length == 0)
         {
-            SelectMessage(message.Id);
+            var message = GetSelectedMessage();
+            if (message == InfoMessage.None) return CommandProcessor.BreakChainCommand();
+            RemoveInfo(message.Id);
             return true;
         }
         else
         {
-            RemoveInfo(message.Id);
-            return true;
+            var message = GetMessage(context.GetArg<int>(0));
+            if (message == InfoMessage.None) return CommandProcessor.BreakChainCommand();
+            if (message.Severity is MessageSeverity.Error)
+            {
+                SelectMessage(message.Id);
+                return true;
+            }
+            else
+            {
+                RemoveInfo(message.Id);
+                return true;
+            }
         }
-
-        return true;
     }
-}
-
-public sealed class InfoMessage
-{
-    internal List<InfoMessage> Messages { get; set; } = new List<InfoMessage>();
-
-    public int Id { get; set; }
-    public string Message { get; set; }
-    public MessageSeverity Severity { get; internal set; }
-    public bool Selected { get; internal set; }
-    public string[] Tags { get; set; }
-
-    internal Color GetColor(bool pulse)
-    {
-        return Severity switch
-        {
-            MessageSeverity.Error when !pulse => Colors.Red,
-            MessageSeverity.Error when pulse => Colors.White,
-            MessageSeverity.Warning => Colors.Yellow,
-            MessageSeverity.Help => Colors.White,
-            _ => Colors.White
-        };
-    }
-}
-
-public enum MessageSeverity
-{
-    Help,
-    Warning,
-    Error,
 }

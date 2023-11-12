@@ -7,7 +7,7 @@ using Opalenica.Tiles;
 using System.Drawing;
 using System.Drawing.Drawing2D;
 
-public class Junction : Element, IHasOwnData<JunctionDataZ>
+public class Junction : Element, IHasOwnData<JunctionDataZ>, IHasMenuStrip
 {
     internal static List<Junction> RegisteredJunctions = new List<Junction>();
     private JunctionSet direction = JunctionSet.AB;
@@ -70,7 +70,11 @@ public class Junction : Element, IHasOwnData<JunctionDataZ>
         var j = RegisteredJunctions.FirstOrDefault(e => e?.Name == name, null);
         if (j is not null)
             return j;
-        else throw new ArgumentOutOfRangeException(nameof(name), name, "Junction with provided name does not exist");
+        else
+        {
+            InfoTile.AddInfo("Rozjazd " + name + " nie istnieje", MessageSeverity.Warning, "Junction", "Warning", "NotExist");
+            return null;
+        }
     }
 
     public static Junction GetJunction(string name, Track a, Track c) => GetJunction(name, a, a, c);
@@ -91,53 +95,26 @@ public class Junction : Element, IHasOwnData<JunctionDataZ>
         };
         RegisteredJunctions.Add(junction);
 
-        ChainedCommand chain = new ChainedCommand("zwr" + name.ToLower(), (context) =>
-        {
-            Unselect();
-            if (context.Args is null || context.Args.Length != 1) return false;
-            string junctionCommand = (context.GetArg<string>(0) ?? "").ToLower();
-            var junction = GetJunction(context.CommandName.Substring("zwr".Length));
-            if (junction is null) return false;
-            switch (junctionCommand)
+        ChainedCommand chain = new ChainedCommand("zwr", (context) => {
             {
-                case "+":
-                case "plus":
-                    junction.ThrowJunction(true, junction.GetMainDirection());
-                    SerialManager.SendCommand("zwr" + junction.Name.ToLower() + " +");
-                    return CommandProcessor.BreakChainCommand();
+                Unselect();
+                if (context.Args is null || context.Args.Length != 2) return false;
+                string junctionId = (context.GetArg<string>(0) ?? "").ToLower();
+                string junctionCommand = (context.GetArg<string>(1) ?? "").ToLower();
+                var junction = GetJunction(junctionId);
+                if (junction is null) return false;
+                return ExecJunctionCommand(junction, junctionCommand);
+            }
+        });
 
-                case "-":
-                case "minus":
-                    junction.ThrowJunction(false, junction.GetMainDirection());
-                    SerialManager.SendCommand("zwr" + junction.Name.ToLower() + " -");
-                    return CommandProcessor.BreakChainCommand();
-
-                case "lok":
-                    if (junction.Data is JunctionDataZ.StanPodstawowy)
-                        junction.Data = JunctionDataZ.NastawaLokalna;
-                    return CommandProcessor.BreakChainCommand();
-                case "olok":
-                    if (junction.Data is JunctionDataZ.NastawaLokalna)
-                        junction.Data = JunctionDataZ.StanPodstawowy;
-                    return CommandProcessor.BreakChainCommand();
-
-                case "zmk": // TODO
-                    return CommandProcessor.BreakChainCommand();
-
-                case "ozmk": // TODO
-                    return CommandProcessor.BreakChainCommand();
-
-                case "ksr":
-                case "plusbz":
-                case "minbz":
-                case "zdsp":
-                case "zdsm":
-                case "zerolo": // TODO
-                    junction.Select();
-                    return true;
-
-                default:
-                    return CommandProcessor.BreakChainCommand();
+        ChainedCommand chain2 = new ChainedCommand("zwr" + name.ToLower(), (context) => {
+            {
+                Unselect();
+                if (context.Args is null || context.Args.Length != 1) return false;
+                string junctionCommand = (context.GetArg<string>(0) ?? "").ToLower();
+                var junction = GetJunction(context.CommandName.Substring("zwr".Length));
+                if (junction is null) return false;
+                return ExecJunctionCommand(junction, junctionCommand);
             }
         });
 
@@ -151,9 +128,56 @@ public class Junction : Element, IHasOwnData<JunctionDataZ>
             return false;
         });
 
-        chain.NextCommand = command;
+        chain.NextCommand.Add(command);
+        chain2.NextCommand.Add(command);
         CommandProcessor.RegisterCommand(chain);
+        CommandProcessor.RegisterCommand(chain2);
         return junction;
+    }
+
+    public static bool ExecJunctionCommand(Junction junction, string junctionCommand)
+    {
+        switch (junctionCommand)
+        {
+            case "+":
+            case "plus":
+                junction.ThrowJunction(true, junction.GetMainDirection());
+                SerialManager.SendCommand("zwr " + junction.Name.ToLower() + " +");
+                return CommandProcessor.BreakChainCommand();
+
+            case "-":
+            case "minus":
+                junction.ThrowJunction(false, junction.GetMainDirection());
+                SerialManager.SendCommand("zwr " + junction.Name.ToLower() + " -");
+                return CommandProcessor.BreakChainCommand();
+
+            case "lok":
+                if (junction.Data is JunctionDataZ.StanPodstawowy)
+                    junction.Data = JunctionDataZ.NastawaLokalna;
+                return CommandProcessor.BreakChainCommand();
+            case "olok":
+                if (junction.Data is JunctionDataZ.NastawaLokalna)
+                    junction.Data = JunctionDataZ.StanPodstawowy;
+                return CommandProcessor.BreakChainCommand();
+
+            case "zmk": // TODO
+                return CommandProcessor.BreakChainCommand();
+
+            case "ozmk": // TODO
+                return CommandProcessor.BreakChainCommand();
+
+            case "ksr":
+            case "plusbz":
+            case "minbz":
+            case "zdsp":
+            case "zdsm":
+            case "zerolo": // TODO
+                junction.Select();
+                return true;
+
+            default:
+                return CommandProcessor.BreakChainCommand();
+        }
     }
 
     public JunctionSet GetMainDirection()
@@ -175,5 +199,20 @@ public class Junction : Element, IHasOwnData<JunctionDataZ>
             CompoundArray = CompoundArray,
             DashPattern = DashPattern
         };
+    }
+
+    public ContextMenuStrip GetMenuStrip()
+    {
+        ContextMenuStrip strip = new ContextMenuStrip();
+
+        ToolStripMenuItem title = new ToolStripMenuItem($"Rozjazd {Name}");
+        title.Enabled = false;
+        strip.Items.Add(title);
+
+        ToolStripMenuItem nastawa = new ToolStripMenuItem(Direction == JunctionSet.AB ? "Nastaw - (minus)" : "Nastaw + (plus)");
+        nastawa.Click += (_, _) => { CommandProcessor.ExecuteCommand("zwr " + Name + (Direction == JunctionSet.AB ? " -" : " +")); };
+
+        strip.Items.Add(nastawa);
+        return strip;
     }
 }

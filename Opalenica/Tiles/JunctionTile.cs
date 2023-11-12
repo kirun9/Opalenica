@@ -1,9 +1,12 @@
 ﻿namespace Opalenica.Tiles;
 
 using System.Drawing;
-using Opalenica;
+using System.Windows.Forms;
 
-public class JunctionTile : Tile
+using Opalenica;
+using Opalenica.Interfaces;
+
+public class JunctionTile : Tile, IHasMenuStrip
 {
     public Junction Junction { get; set; }
 
@@ -94,5 +97,10 @@ public class JunctionTile : Tile
                     break;
             }
         }
+    }
+
+    public ContextMenuStrip GetMenuStrip()
+    {
+        return Junction.GetMenuStrip();
     }
 }

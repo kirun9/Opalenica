@@ -3,25 +3,24 @@
 using CommandProcessor;
 
 using Opalenica.Serialization;
+using Opalenica.Tiles;
 
 using System;
 using System.IO.Ports;
 
-public sealed class SerialManager : IDisposable
+public sealed class SerialManager : Singleton<SerialManager>, IDisposable
 {
-    private static readonly SerialManager instance = new SerialManager();
-    private SerialPort serialPort;
+    private MySerialPort serialPort;
 
-    public static SerialManager Instance => instance;
-
-    private SerialManager()
+    public SerialManager() : base()
     {
-        serialPort = new SerialPort();
+        serialPort = new MySerialPort();
         serialPort.DataReceived += SerialDataReceived;
+        serialPort.WriteBufferSize = 64;
         if (PulpitSettings.Settings.SerialOptions is not null and SerialOptions serialOptions)
         {
-            serialPort.BaudRate = serialOptions.BaudRate;
-            serialPort.PortName = serialOptions.PortName;
+            SetBaudRate(serialOptions.BaudRate);
+            SetPortName(serialOptions.PortName);
         }
     }
 
@@ -34,7 +33,7 @@ public sealed class SerialManager : IDisposable
     {
         byte[] commandBytes = SerialCommands.GetCommand(command);
         if (commandBytes != null && commandBytes.Length == 8)
-            instance.SendData(commandBytes);
+            Instance.SendData(commandBytes);
     }
 
     private void SendData(byte[] data)
@@ -55,17 +54,23 @@ public sealed class SerialManager : IDisposable
         // This method will be called asynchronously when data is received
     }
 
-    public void ConfigureSerialPort(string portName, int baudRate)
+    public void StartSerialPort()
     {
-        serialPort.PortName = portName;
-        serialPort.BaudRate = baudRate;
-        try
+        if (serialPort.IsConfigured)
         {
-            serialPort.Open();
+            try
+            {
+                serialPort.Open();
+            }
+            catch (Exception ex)
+            {
+                InfoTile.AddInfo(ex.Message, MessageSeverity.Error, "Serial", "Exception");
+            }
         }
-        catch (Exception ex)
+        else
         {
-            Console.WriteLine($"Error opening serial port: {ex.Message}");
+            ShowBaudRateInfo(serialPort.IsBaudRateConfigured);
+            ShowPortNameInfo(serialPort.IsPortNameConfigured);
         }
     }
 
@@ -104,7 +109,7 @@ public sealed class SerialManager : IDisposable
         switch (subCommand)
         {
             case "start":
-                StartSerialConnection();
+                Instance.StartSerialPort();
                 break;
 
             case "stop":
@@ -167,7 +172,9 @@ public sealed class SerialManager : IDisposable
 
     private static void StartSerialConnection()
     {
-        Instance.ConfigureSerialPort(Instance.serialPort.PortName, Instance.serialPort.BaudRate);
+        Instance.SetBaudRate(Instance.serialPort.IsBaudRateConfigured ? Instance.serialPort.BaudRate : 0);
+        Instance.SetPortName(Instance.serialPort.IsPortNameConfigured ? Instance.serialPort.PortName : "");
+        Instance.serialPort.Open();
     }
 
     private static void StopSerialConnection()
@@ -181,8 +188,7 @@ public sealed class SerialManager : IDisposable
 
         if (Instance != null)
         {
-            Instance.ConfigureSerialPort(portName, Instance.serialPort.BaudRate);
-            Console.WriteLine($"Serial port name configured to: {portName}");
+            Instance.SetPortName(portName);
         }
         else
         {
@@ -196,12 +202,80 @@ public sealed class SerialManager : IDisposable
 
         if (Instance != null)
         {
-            Instance.ConfigureSerialPort(Instance.serialPort.PortName, baudRate);
-            Console.WriteLine($"Baud rate configured to: {baudRate}");
+            Instance.SetBaudRate( baudRate);
         }
         else
         {
             Console.WriteLine("SerialManager instance is null. Cannot configure baud rate.");
+        }
+    }
+
+    public static bool CheckBaudRate(int value)
+    {
+        var avaibleBaudRates = new int[] { 300, 600, 1200, 2400, 4800, 9600, 14400, 19200, 28800, 31250, 38400, 57600, 115200 };
+        return avaibleBaudRates.Contains(value);
+    }
+
+    public static bool CheckPortName(string value)
+    {
+        return MySerialPort.GetPortNames().Contains(value);
+    }
+
+    private void SetBaudRate(int baudRate)
+    {
+        if (CheckBaudRate(baudRate))
+        {
+            serialPort.BaudRate = baudRate;
+            serialPort.IsBaudRateConfigured = true;
+            ShowBaudRateInfo(false);
+        }
+        else
+        {
+            ShowBaudRateInfo(true);
+        }
+    }
+
+    private void ShowBaudRateInfo(bool show)
+    {
+        var message = InfoTile.GetMessageByTag("Serial", "Settings", "Warning", "BaudRate");
+        if (message == InfoMessage.None)
+        {
+            if (show)
+                InfoTile.AddInfo("Ustawienia portu szeregowego są niepoprawnie zdefiniowane. Błędny parametr: Baud Rate", MessageSeverity.Warning, "Serial", "Settings", "Warning", "BaudRate");
+        }
+        else
+        {
+            if (!show)
+                InfoTile.RemoveInfo(message.Id);
+        }
+    }
+
+    public void SetPortName(string portName)
+    {
+        if (MySerialPort.GetPortNames().Contains(portName?.ToUpper()))
+        {
+            serialPort.PortName = portName;
+            serialPort.IsPortNameConfigured = true;
+            ShowPortNameInfo(false);
+        }
+        else
+        {
+            ShowPortNameInfo(true);
+        }
+    }
+
+    private void ShowPortNameInfo(bool show)
+    {
+        var message = InfoTile.GetMessageByTag("Serial", "Settings", "Warning", "PortName");
+        if (message == InfoMessage.None)
+        {
+            if (show)
+                InfoTile.AddInfo("Ustawienia portu szeregowego są niepoprawnie zdefiniowane. Błędny parametr: Port Name", MessageSeverity.Warning, "Serial", "Settings", "Warning", "PortName");
+        }
+        else
+        {
+            if (!show)
+                InfoTile.RemoveInfo(message.Id);
         }
     }
 }

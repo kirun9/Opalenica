@@ -5,7 +5,7 @@
     },
     "Opalenica Debug": {
       "commandName": "Project",
-      "commandLineArgs": "debugmode"
+      "commandLineArgs": "debugmode|serial start"
     },
     "Opalenica Fullscreen": {
       "commandName": "Project",

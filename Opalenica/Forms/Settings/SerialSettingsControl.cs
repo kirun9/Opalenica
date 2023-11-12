@@ -1,5 +1,7 @@
 ﻿namespace Opalenica.Forms.Settings;
 
+using CommandProcessor;
+
 using Opalenica.Serialization;
 using Opalenica.Tiles;
 
@@ -73,5 +75,16 @@ public partial class SerialSettingsControl : UserControl
         Settings.PortName = GetSelectedPort();
         PulpitSettings.Settings.SerialOptions = Settings;
         PulpitSettings.SaveFile();
+    }
+
+    private void RestartButton_Click(Object sender, EventArgs e)
+    {
+        CommandProcessor.ExecuteCommand("serial stop");
+        CommandProcessor.ExecuteCommand("serial start");
+    }
+
+    private void StartButton_Click(Object sender, EventArgs e)
+    {
+        CommandProcessor.ExecuteCommand("serial start");
     }
 }

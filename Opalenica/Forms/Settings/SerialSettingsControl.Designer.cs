@@ -30,148 +30,145 @@ partial class SerialSettingsControl
     /// </summary>
     private void InitializeComponent()
     {
-            this.PortComboBox = new System.Windows.Forms.ComboBox();
-            this.PortLabel = new System.Windows.Forms.Label();
-            this.BaudComboBox = new System.Windows.Forms.ComboBox();
-            this.BaudLabel = new System.Windows.Forms.Label();
-            this.RestartButton = new CustomUIDesign.ButtonWithoutPadding();
-            this.StartButton = new CustomUIDesign.ButtonWithoutPadding();
-            this.SaveButton = new CustomUIDesign.ButtonWithoutPadding();
-            this.ConnectionStatusLabel = new System.Windows.Forms.Label();
-            this.ConnectionLed = new Opalenica.Forms.Settings.RoundControlLED();
-            this.SuspendLayout();
-            // 
-            // PortComboBox
-            // 
-            this.PortComboBox.AccessibleRole = System.Windows.Forms.AccessibleRole.ComboBox;
-            this.PortComboBox.BackColor = System.Drawing.Color.Black;
-            this.PortComboBox.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            this.PortComboBox.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.PortComboBox.Font = new System.Drawing.Font("Segoe UI", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
-            this.PortComboBox.ForeColor = System.Drawing.Color.White;
-            this.PortComboBox.Location = new System.Drawing.Point(217, 107);
-            this.PortComboBox.Name = "PortComboBox";
-            this.PortComboBox.Size = new System.Drawing.Size(121, 25);
-            this.PortComboBox.TabIndex = 11;
-            // 
-            // PortLabel
-            // 
-            this.PortLabel.AccessibleRole = System.Windows.Forms.AccessibleRole.StaticText;
-            this.PortLabel.AutoSize = true;
-            this.PortLabel.Font = new System.Drawing.Font("Segoe UI", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
-            this.PortLabel.Location = new System.Drawing.Point(68, 110);
-            this.PortLabel.Name = "PortLabel";
-            this.PortLabel.Size = new System.Drawing.Size(35, 19);
-            this.PortLabel.TabIndex = 10;
-            this.PortLabel.Text = "Port";
-            // 
-            // BaudComboBox
-            // 
-            this.BaudComboBox.AccessibleRole = System.Windows.Forms.AccessibleRole.ComboBox;
-            this.BaudComboBox.BackColor = System.Drawing.Color.Black;
-            this.BaudComboBox.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            this.BaudComboBox.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.BaudComboBox.Font = new System.Drawing.Font("Segoe UI", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
-            this.BaudComboBox.ForeColor = System.Drawing.Color.White;
-            this.BaudComboBox.Location = new System.Drawing.Point(217, 70);
-            this.BaudComboBox.Name = "BaudComboBox";
-            this.BaudComboBox.Size = new System.Drawing.Size(121, 25);
-            this.BaudComboBox.TabIndex = 9;
-            // 
-            // BaudLabel
-            // 
-            this.BaudLabel.AccessibleRole = System.Windows.Forms.AccessibleRole.StaticText;
-            this.BaudLabel.AutoSize = true;
-            this.BaudLabel.Font = new System.Drawing.Font("Segoe UI", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
-            this.BaudLabel.Location = new System.Drawing.Point(68, 73);
-            this.BaudLabel.Name = "BaudLabel";
-            this.BaudLabel.Size = new System.Drawing.Size(40, 19);
-            this.BaudLabel.TabIndex = 8;
-            this.BaudLabel.Text = "Szybkość";
-            // 
-            // RestartButton
-            // 
-            this.RestartButton.FlatAppearance.MouseDownBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))));
-            this.RestartButton.FlatAppearance.MouseOverBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))));
-            this.RestartButton.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.RestartButton.Location = new System.Drawing.Point(68, 175);
-            this.RestartButton.Name = "RestartButton";
-            this.RestartButton.Size = new System.Drawing.Size(118, 23);
-            this.RestartButton.TabIndex = 12;
-            this.RestartButton.Text = "Zrestartuj połączenie";
-            this.RestartButton.UseVisualStyleBackColor = true;
-            // 
-            // StartButton
-            // 
-            this.StartButton.FlatAppearance.MouseDownBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))));
-            this.StartButton.FlatAppearance.MouseOverBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))));
-            this.StartButton.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.StartButton.Location = new System.Drawing.Point(217, 175);
-            this.StartButton.Name = "StartButton";
-            this.StartButton.Size = new System.Drawing.Size(121, 23);
-            this.StartButton.TabIndex = 13;
-            this.StartButton.Text = "Uruchom połączenie";
-            this.StartButton.UseVisualStyleBackColor = true;
-            // 
-            // SaveButton
-            // 
-            this.SaveButton.FlatAppearance.MouseDownBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))));
-            this.SaveButton.FlatAppearance.MouseOverBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))));
-            this.SaveButton.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.SaveButton.Font = new System.Drawing.Font("Segoe UI", 11F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
-            this.SaveButton.Location = new System.Drawing.Point(702, 334);
-            this.SaveButton.Margin = new System.Windows.Forms.Padding(6);
-            this.SaveButton.Name = "SaveButton";
-            this.SaveButton.Size = new System.Drawing.Size(101, 29);
-            this.SaveButton.TabIndex = 14;
-            this.SaveButton.Text = "Zapisz";
-            this.SaveButton.UseVisualStyleBackColor = true;
-            this.SaveButton.Click += new System.EventHandler(this.SaveButton_Click);
-            // 
-            // ConnectionStatusLabel
-            // 
-            this.ConnectionStatusLabel.AccessibleRole = System.Windows.Forms.AccessibleRole.StaticText;
-            this.ConnectionStatusLabel.AutoSize = true;
-            this.ConnectionStatusLabel.Font = new System.Drawing.Font("Segoe UI", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
-            this.ConnectionStatusLabel.Location = new System.Drawing.Point(68, 227);
-            this.ConnectionStatusLabel.Name = "ConnectionStatusLabel";
-            this.ConnectionStatusLabel.Size = new System.Drawing.Size(121, 19);
-            this.ConnectionStatusLabel.TabIndex = 16;
-            this.ConnectionStatusLabel.Text = "Status Połączenia";
-            // 
-            // ConnectionLed
-            // 
-            this.ConnectionLed.LEDColors = new System.Drawing.Color[] {
-        System.Drawing.Color.Gray,
-        System.Drawing.Color.Red,
-        System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(192)))), ((int)(((byte)(0))))),
-        System.Drawing.Color.Blue};
-            this.ConnectionLed.Location = new System.Drawing.Point(217, 227);
-            this.ConnectionLed.Name = "ConnectionLed";
-            this.ConnectionLed.Size = new System.Drawing.Size(30, 30);
-            this.ConnectionLed.TabIndex = 17;
-            this.ConnectionLed.Text = "roundControlled1";
-            // 
-            // SerialSettingsControl
-            // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
-            this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.BackColor = System.Drawing.Color.Black;
-            this.Controls.Add(this.ConnectionLed);
-            this.Controls.Add(this.ConnectionStatusLabel);
-            this.Controls.Add(this.SaveButton);
-            this.Controls.Add(this.StartButton);
-            this.Controls.Add(this.RestartButton);
-            this.Controls.Add(this.PortComboBox);
-            this.Controls.Add(this.PortLabel);
-            this.Controls.Add(this.BaudComboBox);
-            this.Controls.Add(this.BaudLabel);
-            this.ForeColor = System.Drawing.Color.White;
-            this.Name = "SerialSettingsControl";
-            this.Size = new System.Drawing.Size(809, 369);
-            this.ResumeLayout(false);
-            this.PerformLayout();
-
+        PortComboBox = new ComboBox();
+        PortLabel = new Label();
+        BaudComboBox = new ComboBox();
+        BaudLabel = new Label();
+        RestartButton = new ButtonWithoutPadding();
+        StartButton = new ButtonWithoutPadding();
+        SaveButton = new ButtonWithoutPadding();
+        ConnectionStatusLabel = new Label();
+        ConnectionLed = new RoundControlLED();
+        SuspendLayout();
+        // 
+        // PortComboBox
+        // 
+        PortComboBox.AccessibleRole = AccessibleRole.ComboBox;
+        PortComboBox.BackColor = Color.Black;
+        PortComboBox.DropDownStyle = ComboBoxStyle.DropDownList;
+        PortComboBox.FlatStyle = FlatStyle.Flat;
+        PortComboBox.Font = new Font("Segoe UI", 10F, FontStyle.Regular, GraphicsUnit.Point);
+        PortComboBox.ForeColor = Color.White;
+        PortComboBox.Location = new Point(217, 107);
+        PortComboBox.Name = "PortComboBox";
+        PortComboBox.Size = new Size(121, 25);
+        PortComboBox.TabIndex = 11;
+        // 
+        // PortLabel
+        // 
+        PortLabel.AccessibleRole = AccessibleRole.StaticText;
+        PortLabel.AutoSize = true;
+        PortLabel.Font = new Font("Segoe UI", 10F, FontStyle.Regular, GraphicsUnit.Point);
+        PortLabel.Location = new Point(68, 110);
+        PortLabel.Name = "PortLabel";
+        PortLabel.Size = new Size(34, 19);
+        PortLabel.TabIndex = 10;
+        PortLabel.Text = "Port";
+        // 
+        // BaudComboBox
+        // 
+        BaudComboBox.AccessibleRole = AccessibleRole.ComboBox;
+        BaudComboBox.BackColor = Color.Black;
+        BaudComboBox.DropDownStyle = ComboBoxStyle.DropDownList;
+        BaudComboBox.FlatStyle = FlatStyle.Flat;
+        BaudComboBox.Font = new Font("Segoe UI", 10F, FontStyle.Regular, GraphicsUnit.Point);
+        BaudComboBox.ForeColor = Color.White;
+        BaudComboBox.Location = new Point(217, 70);
+        BaudComboBox.Name = "BaudComboBox";
+        BaudComboBox.Size = new Size(121, 25);
+        BaudComboBox.TabIndex = 9;
+        // 
+        // BaudLabel
+        // 
+        BaudLabel.AccessibleRole = AccessibleRole.StaticText;
+        BaudLabel.AutoSize = true;
+        BaudLabel.Font = new Font("Segoe UI", 10F, FontStyle.Regular, GraphicsUnit.Point);
+        BaudLabel.Location = new Point(68, 73);
+        BaudLabel.Name = "BaudLabel";
+        BaudLabel.Size = new Size(64, 19);
+        BaudLabel.TabIndex = 8;
+        BaudLabel.Text = "Szybkość";
+        // 
+        // RestartButton
+        // 
+        RestartButton.FlatAppearance.MouseDownBackColor = Color.FromArgb(64, 64, 64);
+        RestartButton.FlatAppearance.MouseOverBackColor = Color.FromArgb(64, 64, 64);
+        RestartButton.FlatStyle = FlatStyle.Flat;
+        RestartButton.Location = new Point(68, 175);
+        RestartButton.Name = "RestartButton";
+        RestartButton.Size = new Size(118, 23);
+        RestartButton.TabIndex = 12;
+        RestartButton.Text = "Zrestartuj połączenie";
+        RestartButton.UseVisualStyleBackColor = true;
+        RestartButton.Click += RestartButton_Click;
+        // 
+        // StartButton
+        // 
+        StartButton.FlatAppearance.MouseDownBackColor = Color.FromArgb(64, 64, 64);
+        StartButton.FlatAppearance.MouseOverBackColor = Color.FromArgb(64, 64, 64);
+        StartButton.FlatStyle = FlatStyle.Flat;
+        StartButton.Location = new Point(217, 175);
+        StartButton.Name = "StartButton";
+        StartButton.Size = new Size(121, 23);
+        StartButton.TabIndex = 13;
+        StartButton.Text = "Uruchom połączenie";
+        StartButton.UseVisualStyleBackColor = true;
+        StartButton.Click += StartButton_Click;
+        // 
+        // SaveButton
+        // 
+        SaveButton.FlatAppearance.MouseDownBackColor = Color.FromArgb(64, 64, 64);
+        SaveButton.FlatAppearance.MouseOverBackColor = Color.FromArgb(64, 64, 64);
+        SaveButton.FlatStyle = FlatStyle.Flat;
+        SaveButton.Font = new Font("Segoe UI", 11F, FontStyle.Bold, GraphicsUnit.Point);
+        SaveButton.Location = new Point(702, 334);
+        SaveButton.Margin = new Padding(6);
+        SaveButton.Name = "SaveButton";
+        SaveButton.Size = new Size(101, 29);
+        SaveButton.TabIndex = 14;
+        SaveButton.Text = "Zapisz";
+        SaveButton.UseVisualStyleBackColor = true;
+        SaveButton.Click += SaveButton_Click;
+        // 
+        // ConnectionStatusLabel
+        // 
+        ConnectionStatusLabel.AccessibleRole = AccessibleRole.StaticText;
+        ConnectionStatusLabel.AutoSize = true;
+        ConnectionStatusLabel.Font = new Font("Segoe UI", 10F, FontStyle.Regular, GraphicsUnit.Point);
+        ConnectionStatusLabel.Location = new Point(68, 227);
+        ConnectionStatusLabel.Name = "ConnectionStatusLabel";
+        ConnectionStatusLabel.Size = new Size(114, 19);
+        ConnectionStatusLabel.TabIndex = 16;
+        ConnectionStatusLabel.Text = "Status Połączenia";
+        // 
+        // ConnectionLed
+        // 
+        ConnectionLed.LEDColors = new Color[] { Color.Gray, Color.Red, Color.FromArgb(0, 192, 0), Color.Blue };
+        ConnectionLed.Location = new Point(217, 227);
+        ConnectionLed.Name = "ConnectionLed";
+        ConnectionLed.Size = new Size(30, 30);
+        ConnectionLed.TabIndex = 17;
+        ConnectionLed.Text = "roundControlled1";
+        // 
+        // SerialSettingsControl
+        // 
+        AutoScaleDimensions = new SizeF(7F, 15F);
+        AutoScaleMode = AutoScaleMode.Font;
+        BackColor = Color.Black;
+        Controls.Add(ConnectionLed);
+        Controls.Add(ConnectionStatusLabel);
+        Controls.Add(SaveButton);
+        Controls.Add(StartButton);
+        Controls.Add(RestartButton);
+        Controls.Add(PortComboBox);
+        Controls.Add(PortLabel);
+        Controls.Add(BaudComboBox);
+        Controls.Add(BaudLabel);
+        ForeColor = Color.White;
+        Name = "SerialSettingsControl";
+        Size = new Size(809, 369);
+        ResumeLayout(false);
+        PerformLayout();
     }
 
     #endregion

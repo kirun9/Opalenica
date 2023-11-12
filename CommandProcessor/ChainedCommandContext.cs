@@ -19,8 +19,27 @@ public class ChainedCommandContext : CommandContext
         PrevCommand = prevContext;
     }
 
+    [Obsolete("Use GetPrevArg<T> instead")]
     public T? GetPrevArgAs<T>(int argPos)
     {
         return argPos < PrevArgs.Length ? (T?)PrevArgs[argPos] : default;
+    }
+
+    public CastResult<T> GetPrevArg<T>(int argPos)
+    {
+        if (PrevArgs.Length > argPos)
+        {
+            var prevArg = PrevArgs[argPos];
+            return prevArg switch
+            {
+                var _ when prevArg is IConvertible c => new CastResult<T>((T)c.ToType(typeof(T), null), true),
+                var _ when prevArg is T castedArg => new CastResult<T>(castedArg, true),
+                _ => new CastResult<T>(default, false)
+            };
+        }
+        else
+        {
+            return new CastResult<T>(default, false);
+        }
     }
 }

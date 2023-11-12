@@ -46,10 +46,10 @@ internal static class Program
         };
 
         ChainedCommand koniecCommand = new ChainedCommand("koniec", exitFunc);
-        koniecCommand.NextCommand = new Command("koniec", closeAppFunc);
+        koniecCommand.NextCommand.Add(new Command("koniec", closeAppFunc));
 
         ChainedCommand exitCommand = new ChainedCommand("exit", exitFunc);
-        exitCommand.NextCommand = new Command("exit", closeAppFunc);
+        exitCommand.NextCommand.Add(new Command("exit", closeAppFunc));
 
         CommandProcessor.RegisterCommand(koniecCommand);
         CommandProcessor.RegisterCommand(exitCommand);
