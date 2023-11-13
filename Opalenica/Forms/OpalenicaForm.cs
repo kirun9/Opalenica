@@ -26,6 +26,10 @@ public partial class OpalenicaForm : Form
     {
         base.OnLoad(e);
         CommandProcessor.ExecuteCommand(Program.startupCommands);
+        if (SerialManager.Instance.IsConfigured)
+        {
+            CommandProcessor.ExecuteCommand("serial start");
+        }
     }
 
     private void UpdateTimer_Tick(Object? sender, EventArgs e)

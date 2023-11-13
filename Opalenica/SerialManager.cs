@@ -12,6 +12,8 @@ public sealed class SerialManager : Singleton<SerialManager>, IDisposable
 {
     private MySerialPort serialPort;
 
+    public bool IsConfigured { get => serialPort?.IsConfigured ?? false; }
+
     public SerialManager() : base()
     {
         serialPort = new MySerialPort();
