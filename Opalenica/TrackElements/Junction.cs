@@ -4,6 +4,7 @@ using CommandProcessor;
 
 using Opalenica.Interfaces;
 using Opalenica.Tiles;
+
 using System.Drawing;
 using System.Drawing.Drawing2D;
 
@@ -11,6 +12,9 @@ public class Junction : Element, IHasOwnData<JunctionDataZ>, IHasMenuStrip
 {
     internal static List<Junction> RegisteredJunctions = new List<Junction>();
     private JunctionSet direction = JunctionSet.AB;
+
+    public string[] CoupledJunctionNames { get; private set; }
+
     public string Name { get; set; } = "JunctionElement";
 
     public Track A { get; set; }
@@ -77,10 +81,10 @@ public class Junction : Element, IHasOwnData<JunctionDataZ>, IHasMenuStrip
         }
     }
 
-    public static Junction GetJunction(string name, Track a, Track c) => GetJunction(name, a, a, c);
-    public static Junction GetJunction(string name, Track a, Track b, Track c) => GetJunction(name, JunctionDirection.JunctionL_Right, a, b, c);
-    public static Junction GetJunction(string name, JunctionDirection direction, Track a, Track c) => GetJunction(name, direction, a, a, c);
-    public static Junction GetJunction(string name, JunctionDirection direction, Track a, Track b, Track c)
+    public static Junction GetJunction(string name, Track a, Track c, string[] coupledJunctionNames = null) => GetJunction(name, a, a, c, coupledJunctionNames);
+    public static Junction GetJunction(string name, Track a, Track b, Track c, string[] coupledJunctionNames = null) => GetJunction(name, JunctionDirection.JunctionL_Right, a, b, c, coupledJunctionNames);
+    public static Junction GetJunction(string name, JunctionDirection direction, Track a, Track c, string[] coupledJunctionNames = null) => GetJunction(name, direction, a, a, c, coupledJunctionNames);
+    public static Junction GetJunction(string name, JunctionDirection direction, Track a, Track b, Track c, string[] coupledJunctionNames = null)
     {
         var junction = RegisteredJunctions.FirstOrDefault(e => e?.Name == name, null);
         if (junction is not null) return junction;
@@ -92,6 +96,7 @@ public class Junction : Element, IHasOwnData<JunctionDataZ>, IHasMenuStrip
             B = b,
             C = c,
             DrawDirection = direction,
+            CoupledJunctionNames = coupledJunctionNames
         };
         RegisteredJunctions.Add(junction);
 
@@ -143,12 +148,14 @@ public class Junction : Element, IHasOwnData<JunctionDataZ>, IHasMenuStrip
             case "plus":
                 junction.ThrowJunction(true, junction.GetMainDirection());
                 SerialManager.SendCommand("zwr " + junction.Name.ToLower() + " +");
+                JunctionCoupling.ExecuteRules(junction, true);
                 return CommandProcessor.BreakChainCommand();
 
             case "-":
             case "minus":
                 junction.ThrowJunction(false, junction.GetMainDirection());
                 SerialManager.SendCommand("zwr " + junction.Name.ToLower() + " -");
+                JunctionCoupling.ExecuteRules(junction, false);
                 return CommandProcessor.BreakChainCommand();
 
             case "lok":

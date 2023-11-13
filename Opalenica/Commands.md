@@ -26,6 +26,7 @@ komenda `exit` nie zostanie wykonana ponieważ zamiast powtórzenia pojawiła si
 | Komenda | Opis |
 |:--- |:--- |
 |`Debugmode [true\|false]` |Uruchamia tryb deweloperski|
+|`Confirm <messageId>`|Potwierdza/usuwa komunikat o danym id wyświetlonym w polu komunikatów|
 |<b>Komendy Torowe:</b>|
 |`<ID Toru> Zmk`| Indywidualne zamknięcie ruchowe toru/szlaku|
 |`<ID Toru> oZmk`| Odwołanie zamknięcia ruchowego toru/szlaku|

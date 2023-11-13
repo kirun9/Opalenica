@@ -128,7 +128,7 @@ internal partial class Pulpit : Control
 
         RegisteredTiles.Add(new TrackTile(grid.CalculatePosition(17, 11), new Size(1, 1), Track.GetTrack("6b")));
         RegisteredTiles.Add(new TrackTile(grid.CalculatePosition(18, 9), new Size(1, 1), Track.GetTrack("4b")));
-        RegisteredTiles.Add(new TrackTile(grid.CalculatePosition(20, 9), new Size(1, 1), Track.GetTrack("4b")));
+        //RegisteredTiles.Add(new TrackTile(grid.CalculatePosition(20, 9), new Size(1, 1), Track.GetTrack("4b")));
         RegisteredTiles.Add(new TrackTile(grid.CalculatePosition(19, 7), new Size(3, 1), Track.GetTrack("2b")));
         RegisteredTiles.Add(new TrackTile(grid.CalculatePosition(23, 7), new Size(1, 1), Track.GetTrack("2b")));
         RegisteredTiles.Add(new TrackTile(grid.CalculatePosition(25, 7), new Size(2, 1), Track.GetTrack("2b")));
@@ -154,22 +154,38 @@ internal partial class Pulpit : Control
         RegisteredTiles.Add(new SignalTile(grid.CalculatePosition(27, 5), Signal.GetSignal("B", TriangleDirection.Left, Track.GetTrack("1b"))));
         RegisteredTiles.Add(new SignalTile(grid.CalculatePosition(27, 7), Signal.GetSignal("A", TriangleDirection.Left, Track.GetTrack("2b"), SignalType.Czerwony)));
 
-        RegisteredTiles.Add(new TrackTile(grid.CalculatePosition(28, 3), new Size(1, 1), Track.GetTrack("outC")));
-        RegisteredTiles.Add(new TrackTile(grid.CalculatePosition(31, 3), new Size(2, 1), Track.GetTrack("it102")));
-        RegisteredTiles.Add(new TrackTile(grid.CalculatePosition(31, 2), new Size(2, 1), Track.GetTrack("it103")));
-        RegisteredTiles.Add(new TrackTile(grid.CalculatePosition(31, 1), new Size(2, 1), Track.GetTrack("it104")));
+        RegisteredTiles.Add(new TrackTile(grid.CalculatePosition(28, 3), new Size(4, 1), Track.GetTrack("outC")));
+        //RegisteredTiles.Add(new TrackTile(grid.CalculatePosition(31, 3), new Size(2, 1), Track.GetTrack("it102")));
+        //RegisteredTiles.Add(new TrackTile(grid.CalculatePosition(31, 2), new Size(2, 1), Track.GetTrack("it103")));
+        //RegisteredTiles.Add(new TrackTile(grid.CalculatePosition(31, 1), new Size(2, 1), Track.GetTrack("it104")));
 
-        RegisteredTiles.Add(new TrackTile(grid.CalculatePosition(28, 5), new Size(2, 1), Track.GetTrack("outB")));
-        RegisteredTiles.Add(new TrackTile(grid.CalculatePosition(28, 7), new Size(2, 1), Track.GetTrack("outA")));
+        RegisteredTiles.Add(new TrackTile(grid.CalculatePosition(28, 5), new Size(4, 1), Track.GetTrack("outB")));
+        RegisteredTiles.Add(new TrackTile(grid.CalculatePosition(28, 7), new Size(4, 1), Track.GetTrack("outA")));
 
         RegisteredTiles.Add(new InfoTile(grid.CalculatePosition(0, 13), new Size(15, 5)));
 
         RegisteredTiles.Add(new TrackCurveTile(grid.CalculatePosition(11, 11), Track.GetTrack("6a"), CurveDirection.FromRightTurnRight45));
         RegisteredTiles.Add(new TrackCurveTile(grid.CalculatePosition(17, 11), Track.GetTrack("6b"), CurveDirection.FromLeftTurnLeft45));
+        RegisteredTiles.Add(new TrackCurveTile(grid.CalculatePosition(20, 9), Track.GetTrack("4b"), CurveDirection.FromLeftTurnLeft45));
 
-        RegisteredTiles.Add(new EacTile(grid.CalculatePosition(29, 3), new Size(2, 1), BlokadaEac.GetEac("Track3")));
+        //RegisteredTiles.Add(new EacTile(grid.CalculatePosition(29, 3), new Size(2, 1), BlokadaEac.GetEac("Track3")));
 
         RegisteredTiles.Add(debugMoveTile = new DebugMoveTile(grid.CalculatePosition(4, 0), new Size(32 - 4, 1)));
+
+        JunctionCoupling.AddRule(Junction.GetJunction("1"), Junction.GetJunction("2cd"));
+        JunctionCoupling.AddRule(Junction.GetJunction("2cd"), Junction.GetJunction("1"));
+        JunctionCoupling.AddRule(Junction.GetJunction("2ab"), Junction.GetJunction("3cd"));
+        JunctionCoupling.AddRule(Junction.GetJunction("3cd"), Junction.GetJunction("2ab"));
+        JunctionCoupling.AddRule(Junction.GetJunction("5"), Junction.GetJunction("6"));
+        JunctionCoupling.AddRule(Junction.GetJunction("6"), Junction.GetJunction("5"));
+        JunctionCoupling.AddRule(Junction.GetJunction("10ab"), Junction.GetJunction("11cd"));
+        JunctionCoupling.AddRule(Junction.GetJunction("11cd"), Junction.GetJunction("10ab"));
+        JunctionCoupling.AddRule(Junction.GetJunction("11ab"), Junction.GetJunction("12"));
+        JunctionCoupling.AddRule(Junction.GetJunction("12"), Junction.GetJunction("11ab"));
+        JunctionCoupling.AddRule(Junction.GetJunction("13"), Junction.GetJunction("14cd"));
+        JunctionCoupling.AddRule(Junction.GetJunction("14cd"), Junction.GetJunction("13"));
+        JunctionCoupling.AddRule(Junction.GetJunction("14ab"), Junction.GetJunction("15"));
+        JunctionCoupling.AddRule(Junction.GetJunction("15"), Junction.GetJunction("14ab"));
     }
 
     public void RegisterElements()
