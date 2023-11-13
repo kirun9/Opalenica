@@ -28,198 +28,196 @@ partial class GeneralSettingsControl
     /// </summary>
     private void InitializeComponent()
     {
-        this.AcceptButton = new CustomUIDesign.ButtonWithoutPadding();
-        this.MonitorComboBox = new System.Windows.Forms.ComboBox();
-        this.MonitorLabel = new System.Windows.Forms.Label();
-        this.FullScreenLabel = new System.Windows.Forms.Label();
-        this.FullScreenOnStartCheckBox = new System.Windows.Forms.CheckBox();
-        this.ApplyButton = new CustomUIDesign.ButtonWithoutPadding();
-        this.CancelButton = new CustomUIDesign.ButtonWithoutPadding();
-        this.ModeLabel = new System.Windows.Forms.Label();
-        this.ModeDropdown = new System.Windows.Forms.ComboBox();
-        this.LanguageLabel = new System.Windows.Forms.Label();
-        this.LanguageComboBox = new System.Windows.Forms.ComboBox();
-        this.RestartInfoLabel = new System.Windows.Forms.Label();
-        this.SuspendLayout();
+        AcceptButton = new CustomUIDesign.ButtonWithoutPadding();
+        MonitorComboBox = new ComboBox();
+        MonitorLabel = new Label();
+        FullScreenLabel = new Label();
+        FullScreenOnStartCheckBox = new CheckBox();
+        ApplyButton = new CustomUIDesign.ButtonWithoutPadding();
+        CancelButton = new CustomUIDesign.ButtonWithoutPadding();
+        ModeLabel = new Label();
+        ModeDropdown = new ComboBox();
+        LanguageLabel = new Label();
+        LanguageComboBox = new ComboBox();
+        RestartInfoLabel = new Label();
+        SuspendLayout();
         // 
         // AcceptButton
         // 
-        this.AcceptButton.FlatAppearance.MouseDownBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))));
-        this.AcceptButton.FlatAppearance.MouseOverBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))));
-        this.AcceptButton.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-        this.AcceptButton.Font = new System.Drawing.Font("Segoe UI", 11F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
-        this.AcceptButton.Location = new System.Drawing.Point(702, 334);
-        this.AcceptButton.Margin = new System.Windows.Forms.Padding(6);
-        this.AcceptButton.Name = "AcceptButton";
-        this.AcceptButton.Size = new System.Drawing.Size(101, 29);
-        this.AcceptButton.TabIndex = 10;
-        this.AcceptButton.Text = "Akceptuj";
-        this.AcceptButton.UseVisualStyleBackColor = true;
-        this.AcceptButton.Click += new System.EventHandler(this.AcceptButton_Click);
+        AcceptButton.FlatAppearance.MouseDownBackColor = Color.FromArgb(64, 64, 64);
+        AcceptButton.FlatAppearance.MouseOverBackColor = Color.FromArgb(64, 64, 64);
+        AcceptButton.FlatStyle = FlatStyle.Flat;
+        AcceptButton.Font = new Font("Segoe UI", 11F, FontStyle.Bold, GraphicsUnit.Point);
+        AcceptButton.Location = new Point(702, 334);
+        AcceptButton.Margin = new Padding(6);
+        AcceptButton.Name = "AcceptButton";
+        AcceptButton.Size = new Size(101, 29);
+        AcceptButton.TabIndex = 10;
+        AcceptButton.Text = "Akceptuj";
+        AcceptButton.UseVisualStyleBackColor = true;
+        AcceptButton.Click += AcceptButton_Click;
         // 
         // MonitorComboBox
         // 
-        this.MonitorComboBox.AccessibleRole = System.Windows.Forms.AccessibleRole.ComboBox;
-        this.MonitorComboBox.BackColor = System.Drawing.Color.Black;
-        this.MonitorComboBox.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-        this.MonitorComboBox.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-        this.MonitorComboBox.Font = new System.Drawing.Font("Segoe UI", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
-        this.MonitorComboBox.ForeColor = System.Drawing.Color.White;
-        this.MonitorComboBox.Location = new System.Drawing.Point(217, 70);
-        this.MonitorComboBox.Name = "MonitorComboBox";
-        this.MonitorComboBox.Size = new System.Drawing.Size(244, 25);
-        this.MonitorComboBox.TabIndex = 1;
+        MonitorComboBox.AccessibleRole = AccessibleRole.ComboBox;
+        MonitorComboBox.BackColor = Color.Black;
+        MonitorComboBox.DropDownStyle = ComboBoxStyle.DropDownList;
+        MonitorComboBox.FlatStyle = FlatStyle.Flat;
+        MonitorComboBox.Font = new Font("Segoe UI", 10F, FontStyle.Regular, GraphicsUnit.Point);
+        MonitorComboBox.ForeColor = Color.White;
+        MonitorComboBox.Location = new Point(217, 70);
+        MonitorComboBox.Name = "MonitorComboBox";
+        MonitorComboBox.Size = new Size(244, 25);
+        MonitorComboBox.TabIndex = 1;
         // 
         // MonitorLabel
         // 
-        this.MonitorLabel.AccessibleRole = System.Windows.Forms.AccessibleRole.StaticText;
-        this.MonitorLabel.AutoSize = true;
-        this.MonitorLabel.Font = new System.Drawing.Font("Segoe UI", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
-        this.MonitorLabel.Location = new System.Drawing.Point(68, 73);
-        this.MonitorLabel.Name = "MonitorLabel";
-        this.MonitorLabel.Size = new System.Drawing.Size(111, 19);
-        this.MonitorLabel.TabIndex = 0;
-        this.MonitorLabel.Text = "Wyświetlacz";
+        MonitorLabel.AccessibleRole = AccessibleRole.StaticText;
+        MonitorLabel.AutoSize = true;
+        MonitorLabel.Font = new Font("Segoe UI", 10F, FontStyle.Regular, GraphicsUnit.Point);
+        MonitorLabel.Location = new Point(68, 73);
+        MonitorLabel.Name = "MonitorLabel";
+        MonitorLabel.Size = new Size(82, 19);
+        MonitorLabel.TabIndex = 0;
+        MonitorLabel.Text = "Wyświetlacz";
         // 
         // FullScreenLabel
         // 
-        this.FullScreenLabel.AccessibleRole = System.Windows.Forms.AccessibleRole.StaticText;
-        this.FullScreenLabel.AutoSize = true;
-        this.FullScreenLabel.Font = new System.Drawing.Font("Segoe UI", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
-        this.FullScreenLabel.Location = new System.Drawing.Point(68, 184);
-        this.FullScreenLabel.Name = "FullScreenLabel";
-        this.FullScreenLabel.Size = new System.Drawing.Size(122, 19);
-        this.FullScreenLabel.TabIndex = 6;
-        this.FullScreenLabel.Text = "Pełny ekran";
+        FullScreenLabel.AccessibleRole = AccessibleRole.StaticText;
+        FullScreenLabel.AutoSize = true;
+        FullScreenLabel.Font = new Font("Segoe UI", 10F, FontStyle.Regular, GraphicsUnit.Point);
+        FullScreenLabel.Location = new Point(68, 184);
+        FullScreenLabel.Name = "FullScreenLabel";
+        FullScreenLabel.Size = new Size(80, 19);
+        FullScreenLabel.TabIndex = 6;
+        FullScreenLabel.Text = "Pełny ekran";
         // 
         // FullScreenOnStartCheckBox
         // 
-        this.FullScreenOnStartCheckBox.CheckAlign = System.Drawing.ContentAlignment.MiddleCenter;
-        this.FullScreenOnStartCheckBox.FlatAppearance.BorderSize = 0;
-        this.FullScreenOnStartCheckBox.Font = new System.Drawing.Font("Segoe UI", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
-        this.FullScreenOnStartCheckBox.Location = new System.Drawing.Point(217, 181);
-        this.FullScreenOnStartCheckBox.Name = "FullScreenOnStartCheckBox";
-        this.FullScreenOnStartCheckBox.Size = new System.Drawing.Size(24, 24);
-        this.FullScreenOnStartCheckBox.TabIndex = 7;
-        this.FullScreenOnStartCheckBox.UseVisualStyleBackColor = true;
+        FullScreenOnStartCheckBox.CheckAlign = ContentAlignment.MiddleCenter;
+        FullScreenOnStartCheckBox.FlatAppearance.BorderSize = 0;
+        FullScreenOnStartCheckBox.Font = new Font("Segoe UI", 10F, FontStyle.Regular, GraphicsUnit.Point);
+        FullScreenOnStartCheckBox.Location = new Point(217, 181);
+        FullScreenOnStartCheckBox.Name = "FullScreenOnStartCheckBox";
+        FullScreenOnStartCheckBox.Size = new Size(24, 24);
+        FullScreenOnStartCheckBox.TabIndex = 7;
+        FullScreenOnStartCheckBox.UseVisualStyleBackColor = true;
         // 
         // ApplyButton
         // 
-        this.ApplyButton.FlatAppearance.MouseDownBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))));
-        this.ApplyButton.FlatAppearance.MouseOverBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))));
-        this.ApplyButton.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-        this.ApplyButton.Font = new System.Drawing.Font("Segoe UI", 11F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
-        this.ApplyButton.Location = new System.Drawing.Point(589, 334);
-        this.ApplyButton.Margin = new System.Windows.Forms.Padding(6);
-        this.ApplyButton.Name = "ApplyButton";
-        this.ApplyButton.Size = new System.Drawing.Size(101, 29);
-        this.ApplyButton.TabIndex = 9;
-        this.ApplyButton.Text = "Zastosuj";
-        this.ApplyButton.UseVisualStyleBackColor = true;
-        this.ApplyButton.Click += new System.EventHandler(this.ApplyButton_Click);
+        ApplyButton.FlatAppearance.MouseDownBackColor = Color.FromArgb(64, 64, 64);
+        ApplyButton.FlatAppearance.MouseOverBackColor = Color.FromArgb(64, 64, 64);
+        ApplyButton.FlatStyle = FlatStyle.Flat;
+        ApplyButton.Font = new Font("Segoe UI", 11F, FontStyle.Bold, GraphicsUnit.Point);
+        ApplyButton.Location = new Point(589, 334);
+        ApplyButton.Margin = new Padding(6);
+        ApplyButton.Name = "ApplyButton";
+        ApplyButton.Size = new Size(101, 29);
+        ApplyButton.TabIndex = 9;
+        ApplyButton.Text = "Zastosuj";
+        ApplyButton.UseVisualStyleBackColor = true;
+        ApplyButton.Click += ApplyButton_Click;
         // 
         // CancelButton
         // 
-        this.CancelButton.FlatAppearance.MouseDownBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))));
-        this.CancelButton.FlatAppearance.MouseOverBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))));
-        this.CancelButton.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-        this.CancelButton.Font = new System.Drawing.Font("Segoe UI", 11F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
-        this.CancelButton.Location = new System.Drawing.Point(476, 334);
-        this.CancelButton.Margin = new System.Windows.Forms.Padding(6);
-        this.CancelButton.Name = "CancelButton";
-        this.CancelButton.Size = new System.Drawing.Size(101, 29);
-        this.CancelButton.TabIndex = 8;
-        this.CancelButton.Text = "Anuluj";
-        this.CancelButton.UseVisualStyleBackColor = true;
+        CancelButton.FlatAppearance.MouseDownBackColor = Color.FromArgb(64, 64, 64);
+        CancelButton.FlatAppearance.MouseOverBackColor = Color.FromArgb(64, 64, 64);
+        CancelButton.FlatStyle = FlatStyle.Flat;
+        CancelButton.Font = new Font("Segoe UI", 11F, FontStyle.Bold, GraphicsUnit.Point);
+        CancelButton.Location = new Point(476, 334);
+        CancelButton.Margin = new Padding(6);
+        CancelButton.Name = "CancelButton";
+        CancelButton.Size = new Size(101, 29);
+        CancelButton.TabIndex = 8;
+        CancelButton.Text = "Anuluj";
+        CancelButton.UseVisualStyleBackColor = true;
+        CancelButton.Click += CancelButton_Click;
         // 
         // ModeLabel
         // 
-        this.ModeLabel.AccessibleRole = System.Windows.Forms.AccessibleRole.StaticText;
-        this.ModeLabel.AutoSize = true;
-        this.ModeLabel.Font = new System.Drawing.Font("Segoe UI", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
-        this.ModeLabel.Location = new System.Drawing.Point(68, 110);
-        this.ModeLabel.Name = "ModeLabel";
-        this.ModeLabel.Size = new System.Drawing.Size(97, 19);
-        this.ModeLabel.TabIndex = 2;
-        this.ModeLabel.Text = "Tryb Wyświetlania";
+        ModeLabel.AccessibleRole = AccessibleRole.StaticText;
+        ModeLabel.AutoSize = true;
+        ModeLabel.Font = new Font("Segoe UI", 10F, FontStyle.Regular, GraphicsUnit.Point);
+        ModeLabel.Location = new Point(68, 110);
+        ModeLabel.Name = "ModeLabel";
+        ModeLabel.Size = new Size(118, 19);
+        ModeLabel.TabIndex = 2;
+        ModeLabel.Text = "Tryb Wyświetlania";
         // 
         // ModeDropdown
         // 
-        this.ModeDropdown.AccessibleRole = System.Windows.Forms.AccessibleRole.ComboBox;
-        this.ModeDropdown.BackColor = System.Drawing.Color.Black;
-        this.ModeDropdown.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-        this.ModeDropdown.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-        this.ModeDropdown.Font = new System.Drawing.Font("Segoe UI", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
-        this.ModeDropdown.ForeColor = System.Drawing.Color.White;
-        this.ModeDropdown.Items.AddRange(new object[] {
-            "Pełny Ekran",
-            "Okno"});
-        this.ModeDropdown.Location = new System.Drawing.Point(217, 107);
-        this.ModeDropdown.Name = "ModeDropdown";
-        this.ModeDropdown.Size = new System.Drawing.Size(139, 25);
-        this.ModeDropdown.TabIndex = 3;
+        ModeDropdown.AccessibleRole = AccessibleRole.ComboBox;
+        ModeDropdown.BackColor = Color.Black;
+        ModeDropdown.DropDownStyle = ComboBoxStyle.DropDownList;
+        ModeDropdown.FlatStyle = FlatStyle.Flat;
+        ModeDropdown.Font = new Font("Segoe UI", 10F, FontStyle.Regular, GraphicsUnit.Point);
+        ModeDropdown.ForeColor = Color.White;
+        ModeDropdown.Items.AddRange(new object[] { "Pełny Ekran", "Okno" });
+        ModeDropdown.Location = new Point(217, 107);
+        ModeDropdown.Name = "ModeDropdown";
+        ModeDropdown.Size = new Size(139, 25);
+        ModeDropdown.TabIndex = 3;
         // 
         // LanguageLabel
         // 
-        this.LanguageLabel.AccessibleRole = System.Windows.Forms.AccessibleRole.StaticText;
-        this.LanguageLabel.AutoSize = true;
-        this.LanguageLabel.Font = new System.Drawing.Font("Segoe UI", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
-        this.LanguageLabel.Location = new System.Drawing.Point(68, 147);
-        this.LanguageLabel.Name = "LanguageLabel";
-        this.LanguageLabel.Size = new System.Drawing.Size(121, 19);
-        this.LanguageLabel.TabIndex = 4;
-        this.LanguageLabel.Text = "Język (wyłączone)";
+        LanguageLabel.AccessibleRole = AccessibleRole.StaticText;
+        LanguageLabel.AutoSize = true;
+        LanguageLabel.Font = new Font("Segoe UI", 10F, FontStyle.Regular, GraphicsUnit.Point);
+        LanguageLabel.Location = new Point(68, 147);
+        LanguageLabel.Name = "LanguageLabel";
+        LanguageLabel.Size = new Size(116, 19);
+        LanguageLabel.TabIndex = 4;
+        LanguageLabel.Text = "Język (wyłączone)";
         // 
         // LanguageComboBox
         // 
-        this.LanguageComboBox.AccessibleRole = System.Windows.Forms.AccessibleRole.ComboBox;
-        this.LanguageComboBox.BackColor = System.Drawing.Color.Black;
-        this.LanguageComboBox.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-        this.LanguageComboBox.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-        this.LanguageComboBox.Font = new System.Drawing.Font("Segoe UI", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
-        this.LanguageComboBox.ForeColor = System.Drawing.Color.White;
-        this.LanguageComboBox.Location = new System.Drawing.Point(217, 144);
-        this.LanguageComboBox.Name = "LanguageComboBox";
-        this.LanguageComboBox.Size = new System.Drawing.Size(139, 25);
-        this.LanguageComboBox.TabIndex = 5;
-        this.LanguageComboBox.SelectedIndexChanged += new System.EventHandler(this.LanguageComboBox_SelectedIndexChanged);
+        LanguageComboBox.AccessibleRole = AccessibleRole.ComboBox;
+        LanguageComboBox.BackColor = Color.Black;
+        LanguageComboBox.DropDownStyle = ComboBoxStyle.DropDownList;
+        LanguageComboBox.FlatStyle = FlatStyle.Flat;
+        LanguageComboBox.Font = new Font("Segoe UI", 10F, FontStyle.Regular, GraphicsUnit.Point);
+        LanguageComboBox.ForeColor = Color.White;
+        LanguageComboBox.Location = new Point(217, 144);
+        LanguageComboBox.Name = "LanguageComboBox";
+        LanguageComboBox.Size = new Size(139, 25);
+        LanguageComboBox.TabIndex = 5;
+        LanguageComboBox.SelectedIndexChanged += LanguageComboBox_SelectedIndexChanged;
         // 
         // RestartInfoLabel
         // 
-        this.RestartInfoLabel.AccessibleRole = System.Windows.Forms.AccessibleRole.StaticText;
-        this.RestartInfoLabel.AutoSize = true;
-        this.RestartInfoLabel.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
-        this.RestartInfoLabel.ForeColor = System.Drawing.Color.Red;
-        this.RestartInfoLabel.Location = new System.Drawing.Point(68, 221);
-        this.RestartInfoLabel.Name = "RestartInfoLabel";
-        this.RestartInfoLabel.Size = new System.Drawing.Size(108, 15);
-        this.RestartInfoLabel.TabIndex = 13;
-        this.RestartInfoLabel.Text = "* Zrestartuj aplikację aby zmiany odniosły efekt.";
-        this.RestartInfoLabel.Visible = false;
+        RestartInfoLabel.AccessibleRole = AccessibleRole.StaticText;
+        RestartInfoLabel.AutoSize = true;
+        RestartInfoLabel.Font = new Font("Segoe UI", 9F, FontStyle.Regular, GraphicsUnit.Point);
+        RestartInfoLabel.ForeColor = Color.Red;
+        RestartInfoLabel.Location = new Point(68, 221);
+        RestartInfoLabel.Name = "RestartInfoLabel";
+        RestartInfoLabel.Size = new Size(257, 15);
+        RestartInfoLabel.TabIndex = 13;
+        RestartInfoLabel.Text = "* Zrestartuj aplikację aby zmiany odniosły efekt.";
+        RestartInfoLabel.Visible = false;
         // 
         // GeneralSettingsControl
         // 
-        this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
-        this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-        this.BackColor = System.Drawing.Color.Black;
-        this.Controls.Add(this.RestartInfoLabel);
-        this.Controls.Add(this.LanguageComboBox);
-        this.Controls.Add(this.LanguageLabel);
-        this.Controls.Add(this.ModeDropdown);
-        this.Controls.Add(this.ModeLabel);
-        this.Controls.Add(this.CancelButton);
-        this.Controls.Add(this.ApplyButton);
-        this.Controls.Add(this.FullScreenOnStartCheckBox);
-        this.Controls.Add(this.FullScreenLabel);
-        this.Controls.Add(this.AcceptButton);
-        this.Controls.Add(this.MonitorComboBox);
-        this.Controls.Add(this.MonitorLabel);
-        this.ForeColor = System.Drawing.Color.White;
-        this.Name = "GeneralSettingsControl";
-        this.Size = new System.Drawing.Size(809, 369);
-        this.ResumeLayout(false);
-        this.PerformLayout();
-
+        AutoScaleDimensions = new SizeF(7F, 15F);
+        AutoScaleMode = AutoScaleMode.Font;
+        BackColor = Color.Black;
+        Controls.Add(RestartInfoLabel);
+        Controls.Add(LanguageComboBox);
+        Controls.Add(LanguageLabel);
+        Controls.Add(ModeDropdown);
+        Controls.Add(ModeLabel);
+        Controls.Add(CancelButton);
+        Controls.Add(ApplyButton);
+        Controls.Add(FullScreenOnStartCheckBox);
+        Controls.Add(FullScreenLabel);
+        Controls.Add(AcceptButton);
+        Controls.Add(MonitorComboBox);
+        Controls.Add(MonitorLabel);
+        ForeColor = Color.White;
+        Name = "GeneralSettingsControl";
+        Size = new Size(809, 369);
+        ResumeLayout(false);
+        PerformLayout();
     }
 
     #endregion

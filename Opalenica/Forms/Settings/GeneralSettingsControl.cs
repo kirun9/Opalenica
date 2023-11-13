@@ -1,5 +1,7 @@
 ﻿namespace Opalenica.Forms.Settings;
 
+using Opalenica.Serialization;
+
 using System;
 using System.Data;
 using System.Linq;
@@ -16,18 +18,28 @@ public partial class GeneralSettingsControl : UserControl
 
         MonitorComboBox.Items.AddRange(Screen.AllScreens.Select((e, i) => GetScreenName(e, i)).ToArray());
         var monitor = GetScreenName(GetScreenFromSettings());
-        if (monitor is "") monitor = GetScreenName(OpalenicaForm.actualScreen);
+        if (monitor is "")
+        {
+            monitor = GetScreenName(OpalenicaForm.actualScreen);
+            PulpitSettings.Settings.General.DefaultMonitor = monitor;
+        }
         MonitorComboBox.SelectedItem = monitor;
         ModeDropdown.SelectedIndex = Form.ActiveForm.WindowState is FormWindowState.Maximized ? 0 : 1;
         //LanguageComboBox.Items.AddRange(Language.GetSupportedLanguages().Select(e => e.EnglishName).ToArray());
         //LanguageComboBox.SelectedItem = Language.LangcodeToEnglishName(Opalenica.Settings.Default.Language);
     }
 
+    private void GetScreenNameFromBox()
+    {
+        var friendlyName = Screen.AllScreens[0].DeviceFriendlyName();
+        Console.WriteLine(MonitorComboBox.SelectedItem);
+    }
+
     public static Screen GetScreenFromSettings()
     {
         foreach (var screen in Screen.AllScreens)
         {
-            //if ($"{screen.DeviceFriendlyName()}_{screen.DeviceName}" == Opalenica.Settings.Default.DefaultMonitor)
+            if ($"{screen.DeviceFriendlyName()}_{screen.DeviceName}" == PulpitSettings.Settings.General.DefaultMonitor)
             {
                 return screen;
             }
@@ -68,12 +80,25 @@ public partial class GeneralSettingsControl : UserControl
         }*/
     }
 
+    private void ApplySettings()
+    {
+        PulpitSettings.Settings.General.FullScreenOnStart = FullScreenOnStartCheckBox.Checked;
+        GetScreenNameFromBox();
+        //PulpitSettings.Settings.General.DefaultMonitor =
+        PulpitSettings.SaveFile();
+    }
+
     private void AcceptButton_Click(object sender, EventArgs e)
     {
-
+        ApplySettings();
     }
 
     private void ApplyButton_Click(object sender, EventArgs e)
+    {
+        ApplySettings();
+    }
+
+    private void CancelButton_Click(Object sender, EventArgs e)
     {
 
     }
