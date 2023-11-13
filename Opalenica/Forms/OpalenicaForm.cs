@@ -26,6 +26,7 @@ public partial class OpalenicaForm : Form
     {
         base.OnLoad(e);
         CommandProcessor.ExecuteCommand(Program.startupCommands);
+        this.WindowState = FormWindowState.Maximized;
         if (SerialManager.Instance.IsConfigured)
         {
             CommandProcessor.ExecuteCommand("serial start");

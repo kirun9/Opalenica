@@ -19,6 +19,7 @@ public sealed class SerialManager : Singleton<SerialManager>, IDisposable
         serialPort = new MySerialPort();
         serialPort.DataReceived += SerialDataReceived;
         serialPort.WriteBufferSize = 64;
+        serialPort.WriteTimeout = 20;
         if (PulpitSettings.Settings.SerialOptions is not null and SerialOptions serialOptions)
         {
             SetBaudRate(serialOptions.BaudRate);
@@ -40,14 +41,25 @@ public sealed class SerialManager : Singleton<SerialManager>, IDisposable
 
     private void SendData(byte[] data)
     {
-        if (serialPort != null && serialPort.IsOpen)
+        var thread = new Thread(() =>
         {
-            serialPort.Write(data, 0, data.Length);
-        }
-        else
-        {
-            Console.WriteLine("Serial port is not open. Cannot send data.");
-        }
+            if (serialPort != null && serialPort.IsOpen)
+            {
+                try
+                {
+                    serialPort.Write(data, 0, data.Length);
+                }
+                catch (TimeoutException ex)
+                {
+                    InfoTile.AddInfo("Upłynął limit czasu dla wysyłania danych w komunikacji szeregowej", MessageSeverity.Error, "Serial", "Error", "Timeout");
+                }
+            }
+            else
+            {
+                InfoTile.AddInfo("Serial port is not open. Cannot send data.", MessageSeverity.Error, "Serial", "Error", "NotOpen");
+            }
+        });
+        thread.Start();
     }
 
     private void SerialDataReceived(object sender, SerialDataReceivedEventArgs e)
@@ -102,7 +114,7 @@ public sealed class SerialManager : Singleton<SerialManager>, IDisposable
     {
         if (args.Length == 0)
         {
-            Console.WriteLine("Missing subcommand. Usage: serial <start|stop|settings>");
+            InfoTile.AddInfo("Missing subcommand. Usage: serial <start|stop|settings>", MessageSeverity.Help, "Serial", "Command", "HelpInfo");
             return false;
         }
 
@@ -121,7 +133,7 @@ public sealed class SerialManager : Singleton<SerialManager>, IDisposable
             case "settings":
                 if (args.Length < 2)
                 {
-                    Console.WriteLine("Missing arguments for settings. Usage: serial settings <port|baud> <value>");
+                    InfoTile.AddInfo("Missing arguments for settings. Usage: serial settings <port|baud> <value>", MessageSeverity.Help, "Serial", "Command", "HelpInfo");
                     return false;
                 }
 
@@ -132,7 +144,7 @@ public sealed class SerialManager : Singleton<SerialManager>, IDisposable
                     case "port":
                         if (args.Length < 3)
                         {
-                            Console.WriteLine("Missing argument for port name. Usage: serial settings port <portName>");
+                            InfoTile.AddInfo("Missing argument for port name. Usage: serial settings port <portName>", MessageSeverity.Help, "Serial", "Command", "HelpInfo");
                             return false;
                         }
 
@@ -143,7 +155,7 @@ public sealed class SerialManager : Singleton<SerialManager>, IDisposable
                     case "baud":
                         if (args.Length < 3)
                         {
-                            Console.WriteLine("Missing argument for baud rate. Usage: serial settings baud <baud>");
+                            InfoTile.AddInfo("Missing argument for baud rate. Usage: serial settings baud <baud>", MessageSeverity.Help, "Serial", "Command", "HelpInfo");
                             return false;
                         }
 
@@ -151,7 +163,7 @@ public sealed class SerialManager : Singleton<SerialManager>, IDisposable
 
                         if (!int.TryParse(args[2], out baudRate))
                         {
-                            Console.WriteLine("Invalid baud rate. Please provide a valid integer.");
+                            InfoTile.AddInfo("Invalid baud rate. Please provide a valid integer.", MessageSeverity.Help, "Serial", "Command", "HelpInfo");
                             return false;
                         }
 
@@ -159,13 +171,13 @@ public sealed class SerialManager : Singleton<SerialManager>, IDisposable
                         break;
 
                     default:
-                        Console.WriteLine($"Unknown setting type: {settingType}. Usage: serial settings <port|baud> <value>");
+                        InfoTile.AddInfo($"Unknown setting type: {settingType}. Usage: serial settings <port|baud> <value>", MessageSeverity.Help, "Serial", "Command", "HelpInfo");
                         return false;
                 }
                 break;
 
             default:
-                Console.WriteLine($"Unknown subcommand: {subCommand}. Usage: serial <start|stop|settings>");
+                InfoTile.AddInfo($"Unknown subcommand: {subCommand}. Usage: serial <start|stop|settings>", MessageSeverity.Help, "Serial", "Command", "HelpInfo");
                 return false;
         }
 
